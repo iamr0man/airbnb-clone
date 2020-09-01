@@ -1,12 +1,11 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-// import Home from "../views/Home.vue";
-import Home2 from "../views/Home2.vue";
+import Home from "../views/Home.vue";
 import Login from "../views/Login.vue";
 import Registration from "../views/Registration.vue";
 import Map from "../views/Map.vue";
 import Expe from "../components/Expe.vue";
-import Forum2 from "../views/Forum2.vue";
+import Forum from "../views/Forum.vue";
 import PostForm from "../views/PostForm.vue";
 import Books from "../views/Books.vue";
 import PostDetails from "../components/PostDetails.vue";
@@ -17,7 +16,7 @@ const routes = [
   {
     path: "/",
     name: "Home",
-    component: Home2,
+    component: Home,
   },
   {
     path: "/login",
@@ -44,7 +43,7 @@ const routes = [
   {
     path: "/forum",
     name: "Forum",
-    component: Forum2,
+    component: Forum,
   },
   {
     path: "/post/:id",

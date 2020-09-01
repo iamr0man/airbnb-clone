@@ -1,13 +1,10 @@
 <template>
   <div class="map-wrapper">
-    <acid class="map-background" />
     <gmap-map
-      v-for="(v,i) in 6"
       :center="center"
       :map-type-id="mapTypeId"
       :zoom="5"
       @rightclick="showNewMarker"
-      :key="i"
       >
       <gmap-marker 
         v-for="(item, i) in points"
@@ -35,13 +32,11 @@
 import { mapGetters } from 'vuex'
 import NewExpe from '../components/NewExpe.vue'
 import Expe from '../components/Expe.vue'
-import Acid from '../components/Acid.vue'
 
 export default {
   components: {
     NewExpe,
     Expe,
-    Acid
   },
   data(){
     return {
@@ -91,6 +86,8 @@ export default {
   
 <style lang="scss" scoped>
   .map-wrapper {
+    width: 100%;
+    height: 100%;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
@@ -101,13 +98,12 @@ export default {
 
     .vue-map-container {
       z-index: 7;
-      margin: 50px auto;
-      width: 500px;
-      height: 700px;
+      width: 100%;
+      height: 100%;
       box-shadow: 0px 20px 10px 10px black;
     }
-    .window {
-      width: 30%;
-    }
+    // .window {
+    //   width: 30%;
+    // }
   }
 </style>
