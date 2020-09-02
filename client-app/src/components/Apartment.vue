@@ -1,0 +1,210 @@
+<template>
+    <div class="discover__item swiper-slide" :style="itemStyles">
+        <div class="item__left" :style="itemLeftStyles">
+            <img src="https://a0.muscache.com/im/pictures/171a35ce-1f44-4e9a-9869-f8eb9c1f6de0.jpg?aki_policy=large" />
+            <div class="item__left-shadow"></div>
+            <div class="item__left-layout"></div>
+        </div>
+        <div v-show="isHorizontal" class="item__decoration">
+            <div class="item__decoration-wrapper">
+            </div>
+        </div>
+        <div class="item__right" :style="itemRightStyles">
+            <div class="item__right-apartment">
+                <p class="apartment__type">Entire Apartment</p>
+                <h6 class="apartment__name">Live on a real museum farm</h6>
+                <div class="apartment__reviews">
+                    <v-rating v-model="rating" />
+                    <p>12</p>
+                </div>
+                <div class="apartment__rooms">
+                    <p class="apartment__rooms-item">
+                        {{ rooms.join(', ') }}
+                    </p>
+                </div>
+            </div>
+            <div class="item__right-actions">
+                <div class="item__right-actions-price">180$ <span>/ per night</span></div>
+                <v-btn class="item__right-actions-button">
+                    <v-icon color="white" class="mdi mdi-arrow-right"/>
+                </v-btn>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+export default {
+    props: ['isHorizontal'],
+    name: "Apartment",
+    data() {
+        return {
+            rating: 5,
+            rooms: ['4 guests', '1 bedroom', '2 beds', '1 bath', 'kitchen', 'elevator']
+        }
+    },
+    computed: {
+        itemStyles: function() {
+            if(!this.isHorizontal) {
+                return {
+                    minWidth: '370px',
+                    maxWidth: '370px',
+                    flexDirection: 'column'
+                }
+            }
+            return {}
+        },
+        itemLeftStyles: function() {
+            if(!this.isHorizontal) {
+                return {
+                    borderBottomLeftRadius: this.isHorizontal ? '30px' : '0px',
+                    borderBottomRightRadius: this.isHorizontal ? '10px' : '0px',
+                }
+            }
+            return {}
+        },
+        itemRightStyles: function() {
+            if(!this.isHorizontal) {
+                return {
+                    borderTopLeftRadius: this.isHorizontal ? '10px' : '0px',
+                    borderTopRightRadius: this.isHorizontal ? '30px' : '0px',
+                }
+            }
+            return {}
+        }
+    }
+};
+</script>
+
+<style lang="scss" scoped>
+    .discover__item {
+        display: flex;
+        min-width: 800px;
+        height: 350px;
+        padding: 10px;
+
+        .item__left {
+            width: 47%;
+            height: 100%;
+            background-color: white;
+            position: relative;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 30px;
+            border-bottom-left-radius: 10px;
+
+            img {
+                position: relative;
+                width: 100%;
+                height: 100%;
+                padding: 20px;
+                border-radius: 35px;
+                object-fit: cover;
+                z-index: 2;
+            }
+
+            &-shadow {
+                position: absolute;
+                right: 38px;
+                bottom: 19px;
+                width: 80%;
+                height: 80%;
+                background-color: white;
+                border-radius: 10px;
+                z-index: 1;
+                box-shadow: -1px 3px 12px 14px;
+            }
+
+            &-layout {
+                position: absolute;
+                right: 38px;
+                bottom: 4px;
+                width: 80%;
+                height: 90%;
+                background-color: teal;
+                border-radius: 10px;
+                z-index: 0;
+            }
+        }
+
+        .item__decoration {
+            width: 3%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            clip-path: polygon(0% 0%, 0% 100%, 45% 100%, 45% 0, 55% 0, 55% 100%, 100% 100%, 100% 0%);
+
+            &-wrapper {
+                width: 100%;
+                height: 80%;
+                background-color: white;
+            }
+        }
+        .item__right {
+            width: 47%;
+            height: 100%;
+            background-color: #fff;
+            padding: 10px;
+            border-top-left-radius: 30px;
+            border-top-right-radius: 10px;
+            border-bottom-right-radius: 10px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+
+            &-apartment {
+                .apartment__type {
+                    font-size: 20px;
+                    font-weight: 500;
+                }
+                .apartment__name {
+                    font-size: 22px;
+                    font-weight: 700;
+                }
+                .apartment__reviews {
+                    display: flex;
+                    align-items: center;
+
+                    .v-rating .v-icon:nth-child(1) {
+                        padding-left: 0 !important;
+                    }
+                }
+                .apartment__rooms {
+                    display: flex;
+                    flex-wrap: wrap;
+                    color: #ccc;
+
+                    &-item {
+                        font-size: 19px;
+                    }
+                }
+            }
+
+            &-actions {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+
+                &-price {
+                    font-size: 33px;
+                    font-weight: 700;
+
+                    span {
+                        color: #ccc;
+                        font-size: 14px;
+                    }
+                }
+
+                &-button {
+                    background-color: teal !important;
+                    border-radius: 40%;
+                    font-size: 33px;
+
+                    .v-icon {
+                        color: white !important;
+                    }
+                }
+            }
+        }
+    }
+</style>

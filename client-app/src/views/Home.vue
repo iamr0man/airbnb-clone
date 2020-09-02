@@ -6,40 +6,51 @@
         <h2 class="title">The Shipwreck Beach</h2>
         <h5 class="subtitle">Find the place to stay near the Shipwreck Beach in Greece  </h5>
       </div>
-      <div class="discover__wrapper">
-        <div class="wrapper__items">
-          <div class="discover__item">
-            <div class="item__left">
-              <img src="../assets/img/background.jpg" />
-            </div>
-            <div class="item__decoration">
-              <div class="child child--center"></div>
-            </div>
-            <div class="item__right"></div>
+        <div class="discover__wrapper swiper-container">
+          <div class="wrapper__items swiper-wrapper">
+            <Apartment v-for="(v, i) in 5" :key="i" :is-horizontal="true"/>
           </div>
         </div>
-      </div>
+      <div class="swiper-scrollbar"></div>
     </div>
+    <Homes />
   </div>
 </template>
 
 <script>
+// import Swiper bundle with all modules installed
+import Swiper from 'swiper';
+
+import Apartment from '../components/Apartment.vue'
+import Homes from '../views/Homes.vue'
 export default {
-  name: "Home"
+  name: "Home",
+  components: {
+    Apartment,
+    Homes
+  },
+  data() {
+    return {
+      rating: 5,
+      rooms: ['4 guests', '1 bedroom', '2 beds', '1 bath', 'kitchen', 'elevator']
+    }
+  },
+  mounted() {
+    // eslint-disable-next-line
+    const swiper = new Swiper('.swiper-container', {
+      scrollbar: {
+        el: '.swiper-scrollbar',
+      },
+    });
+  }
 };
 </script>
 
 <style lang="scss" scoped>
 
-$black-gradient: linear-gradient(-30deg, black, transparent);
-
-body {
-  overflow: hidden;
-}
-
 .home__discover {
   width: 100vw;
-  height: 100vh;  
+  height: 100vh;
   background: url('../assets/img/slide-2.jpg') no-repeat;
   background-size: cover;
 
@@ -72,77 +83,19 @@ body {
   }
 
   .discover__wrapper {
+    width: 100%;
     flex: 1;
     display: flex;
     justify-content: flex-end;
     align-items: flex-end;
-    
+
     .wrapper__items {
       width: 94%;
       border-radius: 10px;
-      background: url('../assets/img/slide-3.jpg') no-repeat;
+      /*background: url('../assets/img/slide-3.jpg') no-repeat;*/
       background-size: cover;
-
-      .discover__item {
-        display: flex;
-        padding: 10px;
-        height: 350px;
-
-        .item__left {
-          width: 400px;
-          height: 100%;
-          background-color: white;
-
-          img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            padding: 10px;
-          }
-        }
-        .item__decoration {
-          height: 100%;
-
-          .child {
-            width: 35px;
-            height: 100%;
-            position: relative;
-
-            &::before {
-              content: '';
-              position: absolute;
-              background-color: #7482af9e;
-              top: 0;
-              width: 100%;
-              height: 10%;
-              border-bottom-left-radius: 15px;
-              border-bottom-right-radius: 15px;
-            }
-
-            &--center {
-              // background-color: #fff;
-            }
-
-            &::after {
-              content: '';
-              position: absolute;
-              background-color: #7482af9e;
-              bottom: 0;
-              width: 100%;
-              height: 10%;
-              border-top-left-radius: 15px;
-              border-top-right-radius: 15px;
-            }
-          }
-          .item__right {
-            width: 295px;
-            height: 100%;
-            background-color: #fff;
-            padding: 10px;
-          }
-        }
-      }
-      
+      position: relative;
+      display: flex;
     }
   }
 }

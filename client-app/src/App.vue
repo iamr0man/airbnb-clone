@@ -15,13 +15,14 @@ export default {
 };
 </script>
 
-<style>
-  @font-face {
-    font-family: 'Hagrid';
-    src: url('./assets/fonts/Hagrid-Text-Extrabold-trial.ttf');
-    font-weight: bolder;
-  }
+<style lang="scss">
   #app {
     font-family: 'Montserrat', sans-serif;
   }
+
+  .v-application p {
+    margin-bottom: 0;
+  }
+
+
 </style>
