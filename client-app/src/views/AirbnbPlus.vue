@@ -1,44 +1,13 @@
 <template>
-  <div class="homes">
-    <div class="homes__headline">
-      <h1 class="homes__headline-title">
-        Venice
-      </h1>
-      <h5 v-if="!isRowReverse" class="homes__headline-subtitle">Live like locals in</h5>
-      <img v-else class="homes__headline-logo" src="../assets/img/airbnbplus.svg" alt="">
-    </div>
-    <div class="homes__container">
-      <div class="homes__container-header">
-        <h4 class="container-header__headline">
-          Homes In Venice
-        </h4>
-        <div class="container-header__button">
-          Show All (369)
-        </div>
-      </div>
-      <div class="homes__container-content">
-        <Apartment class="homes__container-content-item" :is-horizontal="false" />
-        <Apartment class="homes__container-content-item" :is-horizontal="false" />
-        <Apartment class="homes__container-content-item" :is-horizontal="true" />
-        <Apartment class="homes__container-content-item" :is-horizontal="true" />
-        <Apartment class="homes__container-content-item" :is-horizontal="false" />
-        <Apartment class="homes__container-content-item" :is-horizontal="false" />
-      </div>
-      <div class="homes__container-action">
-        <v-btn>Find Homes in Venice</v-btn>
-      </div>
-    </div>
-  </div>  
+  <Homes :is-row-reverse="true" />
 </template>
 
 <script>
-import Apartment from '../components/Apartment.vue'
-
+import Homes from '../views/Homes.vue'
 export default {
-  props: ['isRowReverse'],
   components: {
-    Apartment,
-  },
+    Homes
+  }
 }
 </script>
 
@@ -49,6 +18,7 @@ export default {
     width: 100vw;
     height: 100vh;
     display: flex;
+    flex-direction: row-reverse;
     justify-content: space-between;
     background: url('../assets/img/venice.jpeg');
 
@@ -58,29 +28,23 @@ export default {
       display: flex;
       justify-content: center;
       align-items: center;
-      position: relative; 
 
       &-title {
+        position: relative;
         font-size: 150px;
         font-weight: 800;
         transform: rotate(-90deg);
         color: white;
-      }
-      &-subtitle {
-        position: absolute;
-        bottom: 459px;
-        left: 70px;
-        font-size: 34px;
-        font-weight: 600;
-        transform: rotate(-90deg);
-        color: #fff;
-      }
-      &-logo {
-        position: absolute;
-        bottom: 205px;
-        left: 75px;
-        font-size: 34px;
-        font-weight: 600;
+
+        // &::before {
+          // content: url('../assets/img/airbnbplus.svg');
+          // position: absolute;
+          // bottom: -30px;
+          // left: -10px;
+          // font-size: 34px;
+          // font-weight: 600;
+          // transform: rotate(90deg);
+        // }
       }
     }
 

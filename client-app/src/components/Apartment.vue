@@ -47,8 +47,7 @@ export default {
         itemStyles: function() {
             if(!this.isHorizontal) {
                 return {
-                    minWidth: '370px',
-                    maxWidth: '370px',
+                    Width: '100%',
                     flexDirection: 'column'
                 }
             }
@@ -105,7 +104,7 @@ export default {
             &-shadow {
                 position: absolute;
                 right: 38px;
-                bottom: 19px;
+                bottom: 28px;
                 width: 80%;
                 height: 80%;
                 background-color: white;

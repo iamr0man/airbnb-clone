@@ -14,6 +14,8 @@
       <div class="swiper-scrollbar"></div>
     </div>
     <Homes />
+    <Museum />
+    <AirbnbPlus />
   </div>
 </template>
 
@@ -23,11 +25,15 @@ import Swiper from 'swiper';
 
 import Apartment from '../components/Apartment.vue'
 import Homes from '../views/Homes.vue'
+import Museum from '../views/Museum.vue'
+import AirbnbPlus from '../views/AirbnbPlus.vue'
 export default {
   name: "Home",
   components: {
     Apartment,
-    Homes
+    Homes,
+    Museum,
+    AirbnbPlus
   },
   data() {
     return {
