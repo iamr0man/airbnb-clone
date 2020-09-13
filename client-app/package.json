@@ -1,7 +1,8 @@
 {
-  "name": "polica",
+  "name": "airbnb-plus",
   "version": "0.1.0",
   "private": true,
+  "license": "ES2020/09",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -14,6 +15,8 @@
     "swiper": "5.4.5",
     "vue": "^2.6.11",
     "vue-router": "^3.1.5",
+    "vue-select": "^3.10.8",
+    "vue2-datepicker": "^3.6.2",
     "vue2-google-maps": "^0.10.7",
     "vuetify": "^2.2.11",
     "vuex": "^3.1.2"

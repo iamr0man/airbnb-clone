@@ -1,0 +1,24 @@
+/* KosticSerif */
+@font-face {
+    font-family: 'KS';
+    src: local('KosticSerif Regular'), local('KosticSerif-Regular'),
+    url('../fonts/KosticSerif-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'KS';
+    src: local('KosticSerif Medium'), local('KosticSerif-Medium'),
+    url('../fonts/KosticSerif-Medium.woff2') format('woff2');
+    font-weight: 600;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'KS';
+    src: local('KosticSerif Bold'), local('KosticSerif-Bold'),
+    url('../fonts/KosticSerif-Bold.woff2') format('woff2');
+    font-weight: 900;
+    font-style: normal;
+}

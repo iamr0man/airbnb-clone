@@ -1,9 +1,11 @@
 <template>
-  <div class="homes">
+  <div class="homes" :style="homesStyles">
     <div class="homes__headline">
-      <h1 class="homes__headline-item">
+      <h1 class="homes__headline-title">
         Venice
       </h1>
+      <h5 v-if="!isRowReverse" class="homes__headline-subtitle">Live like locals in</h5>
+      <img v-else class="homes__headline-logo" src="../assets/img/airbnbplus.svg" alt="">
     </div>
     <div class="homes__container">
       <div class="homes__container-header">
@@ -14,37 +16,54 @@
           Show All (369)
         </div>
       </div>
-      <div class="homes__container-content">
-        <Apartment :is-horizontal="false" />
-        <Apartment :is-horizontal="false" />
-        <Apartment :is-horizontal="true" />
-        <Apartment :is-horizontal="true" />
-        <!-- <Apartment :is-horizontal="true" /> -->
-        <!-- <Apartment :is-horizontal="false" /> -->
+      <div class="homes__container-content" :style="isRowReverse ? containerContentStyles : {}">
+        <Apartment class="homes__container-content-item" :is-horizontal="false" />
+        <Apartment class="homes__container-content-item" :is-horizontal="false" />
+        <Apartment class="homes__container-content-item" :is-horizontal="true" />
+        <Apartment class="homes__container-content-item" :is-horizontal="true" />
+        <Apartment class="homes__container-content-item" :is-horizontal="false" />
+        <Apartment class="homes__container-content-item" :is-horizontal="false" />
       </div>
       <div class="homes__container-action">
-        <v-btn placeholder="Find Homes in Venice" />
+        <v-btn>Find Homes in Venice</v-btn>
       </div>
     </div>
-  </div>  
+  </div>
 </template>
 
 <script>
 import Apartment from '../components/Apartment.vue'
 
 export default {
+  props: ['isRowReverse'],
   components: {
     Apartment,
   },
+  computed: {
+    homesStyles: function() {
+      return this.isRowReverse ? { 'flexDirection': 'row-reverse' } : {}
+    },
+    containerContentStyles: function() {
+      return { 'marginRight': '-320px' }
+    },
+    // containerHeaderStyles: function() {
+    //   return {
+    //     'display': 'flex',
+    //     'flexDirection': 'column',
+    //     'alignItems': 'flexEnd'
+    //   }
+    // },
+  }
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+  $primary--text: #fc8589;
+
   .homes {
     width: 100vw;
-    height: 130vh;
+    height: 100vh;
     display: flex;
-    align-items: center;
     justify-content: space-between;
     background: url('../assets/img/venice.jpeg');
 
@@ -54,32 +73,39 @@ export default {
       display: flex;
       justify-content: center;
       align-items: center;
+      position: relative;
 
-      &-item {
-        position: relative;
+      &-title {
         font-size: 150px;
         font-weight: 800;
         transform: rotate(-90deg);
         color: white;
-
-        &::before {
-          content: 'Live like locals in';
-          position: absolute;
-          top: 22px;
-          left: 0px;
-          font-size: 34px;
-          font-weight: 600;
-        }
+      }
+      &-subtitle {
+        position: absolute;
+        bottom: 459px;
+        left: 70px;
+        font-size: 34px;
+        font-weight: 600;
+        transform: rotate(-90deg);
+        color: #fff;
+      }
+      &-logo {
+        position: absolute;
+        bottom: 125px;
+        left: 25px;
+        font-size: 34px;
+        font-weight: 600;
       }
     }
 
     &__container {
       flex: 3;
-      height: 90%;
-      background-color: white;
+      height: 100%;
+      background-color: #ffffffb5;
       display: flex;
       flex-direction: column;
-      justify-content: space-around;
+      justify-content: space-between;
       padding: 25px;
 
       &-header {
@@ -93,36 +119,44 @@ export default {
       }
       &-content {
         display: grid;
-        grid-template-areas: 
+        grid-template-areas:
         "a b c c"
-        "a b . ."
-        "d d . .";
-        grid-template-columns: 17% 17% 34% 34%;
-        grid-template-rows: repeat(3, auto);
+        "a b e f"
+        "d d e f";
+        grid-template-columns: repeat(4, 400px);
+        grid-template-rows: 315px 190px 315px;
 
-        &:nth-child(1) {
+        &-item:nth-child(1) {
           grid-area: a;
         }
-        &:nth-child(2) {
+        &-item:nth-child(2) {
           grid-area: b;
         }
-        &:nth-child(3) {
+        &-item:nth-child(3) {
           grid-area: c;
+          margin: 5px 0 0 -60px;
         }
-        &:nth-child(4) {
+        &-item:nth-child(4) {
           grid-area: d;
+          margin: 0 0 0px -15px;
         }
-        // &:nth-child(4) {
-        //   grid-area: e;
-        // }
-        // &:nth-child(5) {
-        //   grid-area: f;
-        // }
+        &-item:nth-child(5) {
+          grid-area: e;
+          margin: -10px 0px 0px -60px;
+        }
+        &-item:nth-child(6) {
+          grid-area: f;
+          margin: -10px 0px 0px -125px;
+        }
       }
 
       &-action {
         display: flex;
         justify-content: space-between;
+
+        button {
+          background-color: $primary--text !important;
+        }
       }
     }
   }

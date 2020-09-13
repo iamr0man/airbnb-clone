@@ -4,17 +4,14 @@ import router from "./router";
 import store from "./store";
 import vuetify from "./plugins/vuetify";
 
-import ArrowBack from './components/ArrowBack.vue';
-import './utils/utils.js'
+import './assets/styles/fonts.css'
 
-Vue.component('arrow-back', ArrowBack)
+// require("dotenv").config();
 
-require("dotenv").config();
-
-import * as VueGoogleMaps from "vue2-google-maps";
-Vue.use(VueGoogleMaps, {
-  load: { key: '' }
-});
+// import * as VueGoogleMaps from "vue2-google-maps";
+// Vue.use(VueGoogleMaps, {
+//   load: { key: '' }
+// });
 
 Vue.config.productionTip = false;
 
@@ -26,5 +23,5 @@ Vue.config.productionTip = false;
     vuetify,
     render: h => h(App)
   }).$mount("#app");
-  
+
 })();

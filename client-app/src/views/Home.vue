@@ -8,26 +8,32 @@
       </div>
         <div class="discover__wrapper swiper-container">
           <div class="wrapper__items swiper-wrapper">
-            <Apartment v-for="(v, i) in 5" :key="i" :is-horizontal="true"/>
+            <Apartment v-for="(v, i) in 7" :key="i" :is-horizontal="true"/>
           </div>
+        <div class="swiper-pagination"></div>
         </div>
-      <div class="swiper-scrollbar"></div>
     </div>
-    <Homes />
+    <AirbnbPlus />
+    <Museum />
+<!--    <Homes />-->
   </div>
 </template>
 
 <script>
-// import Swiper bundle with all modules installed
 import Swiper from 'swiper';
+import 'swiper/swiper-bundle.css';
 
 import Apartment from '../components/Apartment.vue'
-import Homes from '../views/Homes.vue'
+// import Homes from '../views/Homes.vue'
+import Museum from '../views/Museum.vue'
+import AirbnbPlus from '../views/AirbnbPlus.vue'
 export default {
   name: "Home",
   components: {
     Apartment,
-    Homes
+    // Homes,
+    Museum,
+    AirbnbPlus,
   },
   data() {
     return {
@@ -38,8 +44,11 @@ export default {
   mounted() {
     // eslint-disable-next-line
     const swiper = new Swiper('.swiper-container', {
-      scrollbar: {
-        el: '.swiper-scrollbar',
+      slidesPerView: 2,
+      spaceBetween: 0,
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
       },
     });
   }
@@ -58,11 +67,11 @@ export default {
   flex-direction: column;
 
   .discover__headlines {
-    margin-left: 150px;
-    flex: 1;
+    margin: 80px 0 0 225px;
+    flex: 2;
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
+    justify-content: center;
     color: white;
 
     .headline {
@@ -83,19 +92,23 @@ export default {
   }
 
   .discover__wrapper {
+    position: relative;
+    bottom: 210px;
     width: 100%;
+    margin-bottom: -210px;
     flex: 1;
     display: flex;
     justify-content: flex-end;
     align-items: flex-end;
 
     .wrapper__items {
-      width: 94%;
-      border-radius: 10px;
+      position: relative;
+      width: 88%;
+      display: flex;
+      margin: 15px;
       /*background: url('../assets/img/slide-3.jpg') no-repeat;*/
       background-size: cover;
-      position: relative;
-      display: flex;
+      border-radius: 10px;
     }
   }
 }

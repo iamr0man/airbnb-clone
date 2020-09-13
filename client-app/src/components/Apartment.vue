@@ -1,5 +1,5 @@
 <template>
-    <div class="discover__item swiper-slide" :style="itemStyles">
+    <router-link to="rooms" class="discover__item swiper-slide" :style="itemStyles">
         <div class="item__left" :style="itemLeftStyles">
             <img src="https://a0.muscache.com/im/pictures/171a35ce-1f44-4e9a-9869-f8eb9c1f6de0.jpg?aki_policy=large" />
             <div class="item__left-shadow"></div>
@@ -30,7 +30,7 @@
                 </v-btn>
             </div>
         </div>
-    </div>
+    </router-link>
 </template>
 
 <script>
@@ -47,8 +47,7 @@ export default {
         itemStyles: function() {
             if(!this.isHorizontal) {
                 return {
-                    minWidth: '370px',
-                    maxWidth: '370px',
+                    width: '750px',
                     flexDirection: 'column'
                 }
             }
@@ -79,9 +78,12 @@ export default {
 <style lang="scss" scoped>
     .discover__item {
         display: flex;
-        min-width: 800px;
-        height: 350px;
+        min-width: 620px;
+        max-width: 620px;
+        height: 290px !important;
         padding: 10px;
+        color: black;
+        text-decoration: none;
 
         .item__left {
             width: 47%;
@@ -105,7 +107,7 @@ export default {
             &-shadow {
                 position: absolute;
                 right: 38px;
-                bottom: 19px;
+                bottom: 28px;
                 width: 80%;
                 height: 80%;
                 background-color: white;

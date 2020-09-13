@@ -1,7 +1,7 @@
 <template>
   <header class="header">
     <div class="header__logo">
-      <svg 
+      <svg
         xmlns="http://www.w3.org/2000/svg"
         xmlns:xlink="http://www.w3.org/1999/xlink"
         width="0.833in" height="0.903in">
@@ -32,7 +32,7 @@
       </div>
       <img src="../assets/img/background.jpg" class="account-info__avatar"/>
     </div>
-  </header>  
+  </header>
 </template>
 
 <script>
@@ -41,26 +41,23 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .header {
     position: absolute;
     width: 95%;
-    margin: 0px 60px;
+    margin: 20px 60px;
     display: flex;
     align-items: center;
     height: 10%;
     color: white;
 
-    .v-input { 
+    .v-input {
       flex: none;
     }
 
-    &__search {
-      .v-text-field {
-        input {
-          width: 250px;
-        }
-      }
+    .v-text-field.v-text-field--solo .v-input__control input {
+      font-size: 17px !important;
+      width: 250px;
     }
 
     &__navigation {
@@ -70,6 +67,8 @@ export default {
 
         .navigation__item {
           margin: 0 20px;
+          font-size: 17px;
+          cursor: pointer;
         }
     }
 
@@ -84,6 +83,8 @@ export default {
 
         .account-info__item {
           margin: 0 10px;
+          font-size: 17px;
+          cursor: pointer;
         }
       }
 
