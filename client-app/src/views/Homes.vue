@@ -59,7 +59,6 @@ export default {
 
 <style lang="scss" scoped>
   $primary--text: #fc8589;
-
   .homes {
     width: 100vw;
     height: 100vh;
