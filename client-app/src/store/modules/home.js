@@ -14,7 +14,7 @@ export default {
     async getHome({ commit }, { id }) {
       const { data } = await HomeApi.getHome(id);
       if(data){
-        commit('SET_HOMES', data)
+        commit('SET_HOME', data)
       }
     },
     // eslint-disable-next-line
@@ -29,6 +29,6 @@ export default {
     },
   },
   getters: {
-    currentHome: state => state.home,
+    home: state => state.home,
   }
 }

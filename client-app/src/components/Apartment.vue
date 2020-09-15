@@ -1,7 +1,7 @@
 <template>
-    <router-link to="rooms" class="discover__item swiper-slide" :style="itemStyles">
+    <router-link :to="{ name: 'ProductPage', params: { id: pageId } }" class="discover__item swiper-slide" :style="itemStyles">
         <div class="item__left" :style="itemLeftStyles">
-            <img src="https://a0.muscache.com/im/pictures/171a35ce-1f44-4e9a-9869-f8eb9c1f6de0.jpg?aki_policy=large" />
+            <img :src="home.photos[0]" />
             <div class="item__left-shadow"></div>
             <div class="item__left-layout"></div>
         </div>
@@ -11,20 +11,20 @@
         </div>
         <div class="item__right" :style="itemRightStyles">
             <div class="item__right-apartment">
-                <p class="apartment__type">Entire Apartment</p>
-                <h6 class="apartment__name">Live on a real museum farm</h6>
+                <p class="apartment__type">{{ home.apartmentType }}</p>
+                <h6 class="apartment__name">{{ home.name }}</h6>
                 <div class="apartment__reviews">
-                    <v-rating v-model="rating" />
-                    <p>12</p>
+                    <v-rating :value="home.reviews.stars" />
+                    <p>{{ home.reviews.array.length }}</p>
                 </div>
                 <div class="apartment__rooms">
                     <p class="apartment__rooms-item">
-                        {{ rooms.join(', ') }}
+                        {{ getRooms }}
                     </p>
                 </div>
             </div>
             <div class="item__right-actions">
-                <div class="item__right-actions-price">180$ <span>/ per night</span></div>
+                <div class="item__right-actions-price">${{ home.pricePerNight }} <span>/ per night</span></div>
                 <v-btn class="item__right-actions-button">
                     <v-icon color="white" class="mdi mdi-arrow-right"/>
                 </v-btn>
@@ -45,6 +45,10 @@ export default {
         }
     },
     computed: {
+        getRooms: function() {
+            const { maxGuests, bedRooms, amountOfBeds, bathRooms } = this.home.apartmentRoomsDetails
+            return `${maxGuests} guests, ${bedRooms} bedrooms, ${amountOfBeds} beds, ${bathRooms} bath`
+        },
         itemStyles: function() {
             if(!this.isHorizontal) {
                 return {
@@ -72,11 +76,10 @@ export default {
             }
             return {}
         },
-        ...mapGetters('home', ['currentHome'])
+        ...mapGetters('home', ['home'])
     },
     async mounted() {
-        await this.$store.dispatch('home/getHome', { id: this.pageId })
-        console.log(this.currentHome)
+        await this.$store.dispatch('home/getHome', {id: this.pageId})
     }
 };
 </script>

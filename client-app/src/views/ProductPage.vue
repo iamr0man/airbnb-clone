@@ -3,31 +3,34 @@
         <div class="product-page__image">
             <div class="product-page__image-wrapper">
                 <v-carousel
-                        cycle
-                        hide-delimiter-background
-                        show-arrows-on-hover
+                    cycle
+                    hide-delimiter-background
+                    show-arrows-on-hover
                 >
                     <v-carousel-item
-                            v-for="(v, i) in 6"
-                            :key="i"
+                        v-for="(v, i) in home.photos"
+                        :key="i"
                     >
-                        <img class="product-page__wrapper-item" :src="getSliderPhoto(v)" alt="">
+                        <img class="product-page__wrapper-item" :src="v" alt="">
                     </v-carousel-item>
                 </v-carousel>
+            </div>
+            <div class="product-page__image-text">
+                {{ home.textDetails.general }}
             </div>
         </div>
         <div class="product-page__info">
             <div class="product-page__header">
                 <div class="product-page__details">
-                    <p class="details__apartment-type">Entire Apartment</p>
+                    <p class="details__apartment-type">{{ home.apartmentType }}</p>
                     <p class="details__reviews">
                         <v-icon color="#FF5A5F" class="mdi mdi-star"/>
-                        4.69 <span>(267)</span>
+                        {{ home.reviews.start }} <span>({{ home.reviews.array.length }})</span>
                     </p>
-                    <p class="details__location">Kyiv, Ukraine</p>
+                    <p class="details__location">{{ home.location.city }}</p>
                 </div>
                 <div class="product-page__name">
-                    <h2>Live on a real museum farm</h2>
+                    <h2>{{ home.name }}</h2>
                 </div>
             </div>
             <div class="product-page__content">
@@ -39,17 +42,17 @@
                         <p class="rooms-details__item">Number of bathrooms:</p>
                     </div>
                     <div class="rooms-details__answer">
-                        <p class="rooms-details__item">3 guests</p>
-                        <p class="rooms-details__item">1 bedroom</p>
-                        <p class="rooms-details__item">1 bed</p>
-                        <p class="rooms-details__item">1 bathroom</p>
+                        <p class="rooms-details__item">{{ home.apartmentRoomsDetails.maxGuests }} guests</p>
+                        <p class="rooms-details__item">{{ home.apartmentRoomsDetails.bedRooms }} bedroom</p>
+                        <p class="rooms-details__item">{{ home.apartmentRoomsDetails.amountOfBeds }} bed</p>
+                        <p class="rooms-details__item">{{ home.apartmentRoomsDetails.bathRooms }} bathroom</p>
                     </div>
                     <div class="product-page__rooms-date">
                         <div class="rooms-date__header">
-                            <p class="price">$71 <span>/night</span></p>
+                            <p class="price">${{ home.pricePerNight }} <span>/night</span></p>
                             <p class="details__reviews">
                                 <v-icon color="#FF5A5F" class="mdi mdi-star"/>
-                                4.69 <span>(267)</span>
+                                {{ home.reviews.start }} <span>({{ home.reviews.array.length }})</span>
                             </p>
                         </div>
                         <date-picker
@@ -164,15 +167,19 @@
                 </v-tabs>
 
                 <v-tabs-items v-model="tab">
-                    <v-tab-item
-                            v-for="(text, i) in texts"
-                            :key="i"
-                    >
-                        <v-card
-                                color="basil"
-                                flat
-                        >
-                            <v-card-text>{{ text }}</v-card-text>
+                    <v-tab-item>
+                        <v-card color="basil" flat>
+                            <v-card-text>{{ home.textDetails.house }}</v-card-text>
+                        </v-card>
+                    </v-tab-item>
+                    <v-tab-item>
+                        <v-card color="basil" flat>
+                            <v-card-text>{{ home.textDetails.availableForGuest }}</v-card-text>
+                        </v-card>
+                    </v-tab-item>
+                    <v-tab-item>
+                        <v-card color="basil" flat>
+                            <v-card-text>{{ home.textDetails.importantInfo }}</v-card-text>
                         </v-card>
                     </v-tab-item>
                 </v-tabs-items>
@@ -185,8 +192,9 @@
 import DatePicker from 'vue2-datepicker';
 import 'vue2-datepicker/index.css';
 
+import { mapGetters } from 'vuex'
+
 export default {
-    props: ['page'],
     components: {
         DatePicker
     },
@@ -205,40 +213,12 @@ export default {
                 new Date('2020-10-19').setHours(0, 0, 0),
                 new Date('2020-10-20').setHours(0, 0, 0),
             ],
-            options: [
-                {
-                    title: 'Adults',
-                    icon: ''
-                },
-                {
-                    title: 'Children',
-                    icon: 'mdi-human-child'
-                },
-            ],
             items: [
-                'G', 'House', 'What available for guest', 'Important Information',
+                'House', 'What available for guest', 'Important Information',
             ],
-            texts: [
-                'Garden Guest House, almost all the walls are big windows, you can feel yourself just in the middle of the nature.\n' +
-            '\n' +
-            'Decorated with a modern style respecting the rustic origin of the building and al the comfort.\n' +
-            '\n' +
-            'The lodge counts with private dinning terrace, outdoor solarium with sun beds, outdoor chill out as private areas. Also BBQ and a big pool and jacuzzi at the common shared areas.\n' +
-            '\n' +
-            'Access with the car up to the door of the apartment, to your own parking.',
-            'The views underneath comprises from the top of the hills where we are placed, up to the sea in Palma Bay.\n' +
-            'Totally equipped for both winter and summer holidays , counting with a big pool with a waterfall Upper jacuzzi (jacuzzi available every day with an extra cost of 10€\\day for the whole stay not being possible booking it for single days) and bbq area for the hot days in the Summer and also Chimney for cozy the house during colder days, and for those who don’t like the fire at home we also count with 2 electric heaters and A/C .',
-            'The finca is integrated by 3 independent houses within independent and private spaces for itself and each one, also common areas as the pool, jacuzzi (available every day with an extra cost 10€/day), solarium, BBQ, playground and gardens.\n' +
-            'Our Pets, Ganon and Tokyo (our lovely dogs) and 2 Kats run free around the finca, they will be happy if you pay attention to them but be sure if you are not in the mood for pets they will respect the private spaces of each house and quietness .\n' +
-            'Please take into account that as per the Balearic Touristic Rental guidelines we can’t allow any extra guest at the property.',
-            'Our lodges are settled and clean for our guest by one of the most experienced company in the island, Brillosa bring us for every checkin a fabulous cleaning team to make the house cozy for the following guest.\n' +
-            'please if you see anything at the house on your checkin day, let us know in order to let the team know and always improve our service.']
         }
     },
     methods: {
-        getSliderPhoto: function(v) {
-            return require(`../assets/img/es/${v}.jpg`)
-        },
         checkDateRange() {
             for(let i = 1; i <= 3; i++) {
                 const current = new Date(this.date[0].getTime() + i * 24 * 3600 * 1000).getTime();
@@ -257,11 +237,10 @@ export default {
             }
 
             return date < today || date > new Date(today.getTime() + 365 * 24 * 3600 * 1000)
-
         },
     },
-    async mounted() {
-          await this.$store.dispatch('home/getHome', {id: this.page._id})
+    computed: {
+        ...mapGetters('home', ['home'])
     }
 }
 </script>
@@ -310,6 +289,15 @@ export default {
                     top: 0;
                     left: 0;
                 }
+            }
+            &-text {
+                position: absolute;
+                min-width: 200px;
+                max-width: 300px;
+                left: 14px;
+                bottom: 300px;
+                font-size: 16px;
+                font-family: "Montserrat", sans-serif;
             }
         }
         &__info {
