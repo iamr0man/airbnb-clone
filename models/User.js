@@ -28,7 +28,7 @@ const UserSchema = new Schema({
                 {
                     user: {
                         type: Schema.Types.ObjectId,
-                        ref: 'users'
+                        ref: 'user'
                     },
                     review: {
                         type: String,
@@ -40,7 +40,7 @@ const UserSchema = new Schema({
                 {
                     user: {
                         type: Schema.Types.ObjectId,
-                        ref: 'users'
+                        ref: 'user'
                     },
                     review: {
                         type: String,
@@ -60,4 +60,4 @@ const UserSchema = new Schema({
     }
 });
 
-module.exports = User = mongoose.model('users', UserSchema)
+module.exports = User = mongoose.model('user', UserSchema)

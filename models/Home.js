@@ -15,7 +15,7 @@ const requiredString = {
 const HomeSchema = new Schema({
     user: {
         type: Schema.Types.ObjectId,
-        ref: 'users'
+        ref: 'user'
     },
     name: {
         type: String,
@@ -52,7 +52,7 @@ const HomeSchema = new Schema({
             {
                 user: {
                     type: Schema.Types.ObjectId,
-                    ref: 'users'
+                    ref: 'user'
                 },
                 review: {
                     type: String,
@@ -100,7 +100,7 @@ const HomeSchema = new Schema({
         {
             user: {
                 type: Schema.Types.ObjectId,
-                ref: 'users'
+                ref: 'user'
             },
             value: {
                 type: Array,

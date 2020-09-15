@@ -5,7 +5,7 @@ const { check } = require('express-validator')
 
 const { createUser } =  require('../../controllers/user')
 
-//@route    POST api/users
+//@route    POST api/user
 //@desc     Create user
 //@access   Public
 
