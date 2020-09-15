@@ -1,35 +1,30 @@
-import { BookApi } from '../../services/index'
+import { PickApi } from '../../services/index'
 
 export default {
   namespaced: true,
   state: {
-    book: {},
-    books: [],
+    pick: {},
   },
   mutations: {
-    SET_BOOKS(state, payload) {
-      state.books = payload
-    },
-    SET_BOOK(state, payload) {
-      state.book = payload
+    SET_PICK(state, payload) {
+      state.pick = payload
     },
   },
   actions:{
-    async getBooks({ commit }) {
-      const { data } = await BookApi.getBooks();
+    async getPick({ commit }) {
+      const { data } = await PickApi.getPicks();
       if(data){
-        commit('SET_BOOKS', data)
+        commit('SET_PICK', data)
       }
     },
-    async createBook({ commit }, {title, shortDescription, description, preview}) {
-      const { data } = await BookApi.createBook(title, shortDescription, description, preview);
+    async createPick({ commit }, {title, shortDescription, description, preview}) {
+      const { data } = await PickApi.createPick(title, shortDescription, description, preview);
       if(data){
-        commit('SET_BOOK', data)
+        commit('SET_PICK', data)
       }
     },
   },
   getters: {
-    books: state => state.books,
-    book: state => state.book,
+    pick: state => state.pick,
   }
 }

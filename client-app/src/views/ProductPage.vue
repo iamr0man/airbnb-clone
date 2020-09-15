@@ -144,7 +144,7 @@
                         </div>
                     </div>
                     <div class="product-page__rooms-order">
-                        <p>Book</p>
+                        <p>Reserved</p>
                     </div>
                 </div>
             </div>
@@ -186,6 +186,7 @@ import DatePicker from 'vue2-datepicker';
 import 'vue2-datepicker/index.css';
 
 export default {
+    props: ['page'],
     components: {
         DatePicker
     },
@@ -259,6 +260,9 @@ export default {
 
         },
     },
+    async mounted() {
+          await this.$store.dispatch('home/getHome', {id: this.page._id})
+    }
 }
 </script>
 

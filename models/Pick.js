@@ -9,16 +9,28 @@ const requiredString = {
 const PickSchema = new Schema({
     admin: {
       type: Schema.Types.ObjectId,
-      ref: 'user'  
+      ref: 'user'
     },
     discover: {
       backgroundUrl: requiredString,
       name: requiredString,
-      country: requiredString
+      country: requiredString,
+      items: [
+          {
+              type: Schema.Types.ObjectId,
+              ref: 'home'
+          }
+      ]
     },
     city: {
       backgroundUrl: requiredString,
-      name: requiredString
+      name: requiredString,
+      items: [
+          {
+              type: Schema.Types.ObjectId,
+              ref: 'home'
+          }
+      ]
     },
     museum: {
       backgroundUrl: requiredString,
