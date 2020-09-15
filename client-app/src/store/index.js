@@ -5,14 +5,14 @@ Vue.use(Vuex);
 
 import user from './modules/user'
 import data from './modules/data'
-import forum from './modules/forum'
-import book from './modules/book'
+import home from './modules/home'
+import pick from './modules/pick'
 
 export default new Vuex.Store({
   modules: {
     user,
     data,
-    forum,
-    book
+    home,
+    pick
   }
 });

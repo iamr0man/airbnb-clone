@@ -12,13 +12,13 @@ export default {
   },
   actions:{
     async getPick({ commit }) {
-      const { data } = await PickApi.getPicks();
+      const { data } = await PickApi.getPick();
       if(data){
         commit('SET_PICK', data)
       }
     },
-    async createPick({ commit }, {title, shortDescription, description, preview}) {
-      const { data } = await PickApi.createPick(title, shortDescription, description, preview);
+    async createPick({ commit }, {discover, city, museum}) {
+      const { data } = await PickApi.createPick(discover, city, museum);
       if(data){
         commit('SET_PICK', data)
       }
@@ -26,5 +26,8 @@ export default {
   },
   getters: {
     pick: state => state.pick,
+    discover: state => state.pick.discover,
+    city: state => state.pick.city,
+    museum: state => state.pick.museum,
   }
 }

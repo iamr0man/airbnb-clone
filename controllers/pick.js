@@ -4,8 +4,8 @@ const { validationResult } = require('express-validator')
 
 exports.getPick = async(req, res) => {
   try {
-    const pick = await Pick.findById(req.params.id);
-    res.status(201).json(pick)
+    const pick = await Pick.find({}).sort({ regDate: -1 });
+    res.status(201).json(pick[0])
   } catch (err) {
     console.error(err.message)
     res.status(500).send('Server error')
@@ -59,7 +59,7 @@ exports.updatePick = async (req, res) => {
     // }
 
     // if (!pick) {
-    //   return res.status(404).json({ msg: 'Pick not found' }) 
+    //   return res.status(404).json({ msg: 'Pick not found' })
     // }
 
     // TODO req.user.id
@@ -70,7 +70,7 @@ exports.updatePick = async (req, res) => {
     // );
 
     res.json(pick)
-    
+
   } catch (err) {
     console.error(err.message)
     res.status(500).send('Server Error')

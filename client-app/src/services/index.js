@@ -1,6 +1,6 @@
 import UserApi from "./user";
 import DataApi from "./data";
-import ForumApi from "./forum";
-import BookApi from "./book";
+import HomeApi from "./home";
+import PickApi from "./pick";
 
-export { UserApi, DataApi, ForumApi, BookApi };
+export { UserApi, DataApi, HomeApi, PickApi };

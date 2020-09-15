@@ -1,8 +1,8 @@
-import axios from "axios";
+import axios from "./instance";
 
 export default {
-  async getPosts () {
-    return await axios.get('/post/all')
+  async getHome (id) {
+    return await axios.get(`/pick/${id}`)
   },
   async getPhoto(formData){
     const url = 'https://api.cloudinary.com/v1_1/dd1zwnjkj/image/upload';

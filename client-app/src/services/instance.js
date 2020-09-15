@@ -1,15 +1,9 @@
-// import axios from "axios";
+import axios from "axios";
 // import router from '../router/index'
 
-// debugger
-// const apiClient = axios.create({
-//   baseURL: `http://localhost:5001/api`,
-//   headers: {
-//     "Content-Type": "application/json",
-//     'Access-Control-Allow-Origin': '*',
-//     'x-auth-token': localStorage.token || ''
-//   }
-// });
+const apiClient = axios.create({
+  baseURL: `http://localhost:5000/api`,
+});
 
 // apiClient.interceptors.response.use(response => {
 //   debugger
@@ -21,4 +15,4 @@
 //   return error;
 // });
 
-// export default apiClient;
+export default apiClient;

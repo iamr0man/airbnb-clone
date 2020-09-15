@@ -30,7 +30,11 @@ const PickSchema = new Schema({
               type: Schema.Types.ObjectId,
               ref: 'home'
           }
-      ]
+      ],
+      isPlus: {
+          type: Boolean,
+          default: true
+      }
     },
     museum: {
       backgroundUrl: requiredString,
