@@ -3,7 +3,7 @@ const router = express.Router();
 
 const { check } = require('express-validator')
 
-const { createUser } =  require('../../controllers/users') 
+const { createUser } =  require('../../controllers/user')
 
 //@route    POST api/users
 //@desc     Create user
@@ -14,9 +14,10 @@ router.post('/', [
         .not()
         .isEmpty(),
     check('email', 'Please include valid email').isEmail(),
-    check(
-        'password',
-        'Please enter a password with 6 or more characters').isLength({ min: 6 })
+    check('information', 'Information is required').not().isEmpty(),
+    // check(
+    //     'password',
+    //     'Please enter a password with 6 or more characters').isLength({ min: 6 })
     ],
     createUser
 )
