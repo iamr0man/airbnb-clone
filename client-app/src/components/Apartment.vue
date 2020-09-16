@@ -34,14 +34,12 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 export default {
     props: ['pageId', 'isHorizontal'],
     name: "Apartment",
     data() {
         return {
-            rating: 5,
-            rooms: ['4 guests', '1 bedroom', '2 beds', '1 bath', 'kitchen', 'elevator']
+            home: null
         }
     },
     computed: {
@@ -76,10 +74,9 @@ export default {
             }
             return {}
         },
-        ...mapGetters('home', ['home'])
     },
     async mounted() {
-        await this.$store.dispatch('home/getHome', {id: this.pageId})
+        this.home = await this.$store.dispatch('home/getHome', {id: this.pageId})
     }
 };
 </script>

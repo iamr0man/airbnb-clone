@@ -16,6 +16,7 @@ export default {
       if(data){
         commit('SET_HOME', data)
       }
+      return data;
     },
     // eslint-disable-next-line
     async getPhoto({ commit }, {formData}) {

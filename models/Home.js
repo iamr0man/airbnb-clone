@@ -22,7 +22,7 @@ const HomeSchema = new Schema({
         required: true
     },
     location: {
-        country: {
+        city: {
             ...requiredString
         },
         address: {
