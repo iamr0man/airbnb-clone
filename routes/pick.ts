@@ -2,9 +2,8 @@ const express = require('express')
 const router = express.Router();
 
 // const auth = require('../../middleware/auth')
-const { check } = require('express-validator')
 
-const { getPick, createPick, updatePick, deletePick } =  require('../../controllers/pick')
+const { getPick, createPick, updatePick, deletePick } =  require('../controllers')
 
 //@route    GET api/pick/
 //@desc     Get pick for main page
@@ -16,9 +15,9 @@ router.get('/', getPick)
 //@access   Private
 router.post('/', [
   // auth,
-  check("discover", "Discover field is required").not().isEmpty(),
-  check("city", "City field is required").not().isEmpty(),
-  check("museum", "Museum field is required").not().isEmpty(),
+  // check("discover", "Discover field is required").not().isEmpty(),
+  // check("city", "City field is required").not().isEmpty(),
+  // check("museum", "Museum field is required").not().isEmpty(),
 ], createPick)
 
 //@route    PUT api/pick/:id
@@ -35,4 +34,5 @@ router.delete('/:id', [
   // auth,
 ], deletePick)
 
-module.exports = router;
+export { router as pick }
+

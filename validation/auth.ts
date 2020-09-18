@@ -1,4 +1,4 @@
-import { Joi } from './joi'
+import { CustomJoi as Joi } from './joi'
 import {
     BCRYPT_MAX_BYTES, EMAIL_VERIFICATION_TOKEN_BYTES, EMAIL_VERIFICATION_SIGNATURE_BYTES, PASSWORD_RESET_BYTES
 } from '../config'

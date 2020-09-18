@@ -1,6 +1,9 @@
 import { Router } from 'express'
-import { catchAsync } from '../middleware/'
-import { validate, registerSchema } from '../validation'
-import { User } from '../models'
-import { BadRequest } from '../errors'
-import { logIn } from '../services'
+import { guest, catchAsync } from '../middleware/'
+import { register } from '../controllers'
+
+const router = Router()
+
+router.post('/register', guest, catchAsync(register))
+
+export { router as register }

@@ -1,8 +1,7 @@
 const Home = require('../models/Home');
 const User = require('../models/user');
-const { validationResult } = require('express-validator')
 
-exports.getHome = async(req, res) => {
+export const getHome = async(req, res) => {
   try {
     const home = await Home.findById(req.params.id);
     res.status(201).json(home)
@@ -12,12 +11,7 @@ exports.getHome = async(req, res) => {
   }
 }
 
-exports.createHome = async(req, res) => {
-
-  const errors = validationResult(req);
-  if(!errors.isEmpty()){
-    return res.status(400).json({ errors: errors.array() })
-  }
+export const createHome = async(req, res) => {
 
   const { apartmentType, apartmentRoomsDetails, location, photos, textDetails, name, pricePerNight } = req.body;
   try{
@@ -39,16 +33,10 @@ exports.createHome = async(req, res) => {
     }
 }
 
-exports.updateHome = async (req, res) => {
-  const errors = validationResult(req)
-
-  if (!errors.isEmpty()) {
-    return res.status(400).json({errors: errors.array()})
-  }
-
+export const updateHome = async (req, res) => {
   const { apartmentType, apartmentRoomsDetails, location, photos, textDetails, name, pricePerNight } = req.body;
 
-  const homeFields = {};
+  const homeFields: any = {};
   // homeFields.user = req.user.id;
   if (name) homeFields.name = req.body.name;
   if (location) homeFields.location = req.body.location;
@@ -80,12 +68,7 @@ exports.updateHome = async (req, res) => {
   }
 }
 
-exports.deleteHome = async(req, res) =>{
-
-  const errors = validationResult(req);
-  if(!errors.isEmpty()){
-    return res.status(400).json({ errors: errors.array() })
-  }
+export const deleteHome = async(req, res) =>{
 
   try{
     const home = await Home.findById(req.params.id)

@@ -1,8 +1,7 @@
 const Pick = require('../models/Pick');
 const User = require('../models/user');
-const { validationResult } = require('express-validator')
 
-exports.getPick = async(req, res) => {
+export const getPick = async(req, res) => {
   try {
     const pick = await Pick.find({}).sort({ regDate: -1 });
     res.status(201).json(pick[0])
@@ -12,12 +11,7 @@ exports.getPick = async(req, res) => {
   }
 }
 
-exports.createPick = async(req, res) => {
-
-  const errors = validationResult(req);
-  if(!errors.isEmpty()){
-    return res.status(400).json({ errors: errors.array() })
-  }
+export const createPick = async(req, res) => {
 
   const { discover, city, museum } = req.body;
   try{
@@ -34,16 +28,11 @@ exports.createPick = async(req, res) => {
     }
 }
 
-exports.updatePick = async (req, res) => {
-  const errors = validationResult(req)
-
-  if (!errors.isEmpty()) {
-    return res.status(400).json({errors: errors.array()})
-  }
+export const updatePick = async (req, res) => {
 
   const { discover, city, museum } = req.body;
 
-  const pickFields = {};
+  const pickFields: any = {};
   // pickFields.user = req.user.id;
   if (discover) pickFields.discover = req.body.discover;
   if (city) pickFields.city = req.body.city;
@@ -77,12 +66,7 @@ exports.updatePick = async (req, res) => {
   }
 }
 
-exports.deletePick = async(req, res) =>{
-
-  const errors = validationResult(req);
-  if(!errors.isEmpty()){
-    return res.status(400).json({ errors: errors.array() })
-  }
+export const deletePick = async(req, res) =>{
 
   try{
     const pick = await Pick.findById(req.params.id)

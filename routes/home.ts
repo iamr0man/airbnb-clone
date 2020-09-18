@@ -2,9 +2,8 @@ const express = require('express')
 const router = express.Router();
 
 // const auth = require('../../middleware/auth')
-const { check } = require('express-validator')
 
-const { getHome, createHome, updateHome, deleteHome } =  require('../../controllers/home')
+const { getHome, createHome, updateHome, deleteHome } =  require('../controllers')
 
 //@route    GET api/home/:id/
 //@desc     Get home
@@ -16,13 +15,13 @@ router.get('/:id', getHome)
 //@access   Private
 router.post('/', [
   // auth,
-  check("name", "").not().isEmpty(),
-  check("location", "").not().isEmpty(),
-  check("photos", "").not().isEmpty(),
-  check("apartmentType", "").not().isEmpty(),
-  check("apartmentRoomsDetails", "").not().isEmpty(),
-  check("textDetails", "").not().isEmpty(),
-  check("pricePerNight", "").not().isEmpty(),
+  // check("name", "").not().isEmpty(),
+  // check("location", "").not().isEmpty(),
+  // check("photos", "").not().isEmpty(),
+  // check("apartmentType", "").not().isEmpty(),
+  // check("apartmentRoomsDetails", "").not().isEmpty(),
+  // check("textDetails", "").not().isEmpty(),
+  // check("pricePerNight", "").not().isEmpty(),
 ], createHome)
 
 //@route    PUT api/home/:id
@@ -39,4 +38,4 @@ router.delete('/:id', [
   // auth,
 ], deleteHome)
 
-module.exports = router;
+export { router as home }

@@ -1,11 +1,12 @@
 import mongoose from 'mongoose'
-import joi, { ExtensionFactory, Root, StringSchema, ObjectSchema } from '@hapi/joi'
+import * as Joi from 'joi'
+import { ExtensionFactory, Root, StringSchema, ObjectSchema } from 'joi'
 import { BadRequest } from '../errors'
 
 // Override validation of objectId
-const objectId: ExtensionFactory = joi => ({
+const objectId: ExtensionFactory = Joi => ({
     type: 'objectId',
-    base: joi.string(),
+    base: Joi.string(),
     messages: {
         objectId: '"{#label}" is not a valid ID'
     },
@@ -21,7 +22,7 @@ interface ExtendRoot extends Root {
 }
 
 // create new instance
-export const Joi: ExtendRoot = joi.extend(objectId)
+export const CustomJoi: ExtendRoot = Joi.extend(objectId)
 
 export const validate = async (schema: ObjectSchema, payload: any) => {
     try{
