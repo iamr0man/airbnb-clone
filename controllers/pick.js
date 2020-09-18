@@ -1,5 +1,5 @@
 const Pick = require('../models/Pick');
-const User = require('../models/User');
+const User = require('../models/user');
 const { validationResult } = require('express-validator')
 
 exports.getPick = async(req, res) => {

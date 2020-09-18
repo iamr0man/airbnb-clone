@@ -1,5 +1,5 @@
 const Home = require('../models/Home');
-const User = require('../models/User');
+const User = require('../models/user');
 const { validationResult } = require('express-validator')
 
 exports.getHome = async(req, res) => {
@@ -63,7 +63,7 @@ exports.updateHome = async (req, res) => {
     let home = await Home.findOne({ user: req.body.user })
 
     if (!home) {
-      return res.status(404).json({ msg: 'Home not found' }) 
+      return res.status(404).json({ msg: 'Home not found' })
     }
 
     home = await Home.findOneAndUpdate(

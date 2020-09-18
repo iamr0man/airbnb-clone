@@ -1,5 +1,5 @@
 const Expe = require('../models/ExpeEntry');
-const User = require('../models/User');
+const User = require('../models/user');
 const { validationResult } = require('express-validator')
 
 exports.getAllPoints = async(req, res) => {
@@ -20,7 +20,7 @@ exports.createPoint = async(req, res) => {
   console.log("work in ready");
   const { latitude, longitude, title, description, emoji } = req.body;
   try{
-      const user = await User.findById(req.user.id).select('-password') 
+      const user = await User.findById(req.user.id).select('-password')
       console.log(user);
       const newExpe = await Expe.create({
         user: user.id,
