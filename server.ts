@@ -1,24 +1,20 @@
-const express = require('express')
-const cors = require('cors')
-const {register, home, pick } = require('./routes/index')
-const connectDB = require('./config/db')
+import * as mongoose from 'mongoose'
+import * as session from 'express-session'
+import * as connectRedis from 'connect-redis'
+import * as Redis from 'ioredis'
+import { MONGO_URI, MONGO_OPTIONS, REDIS_OPTIONS, APP_PORT } from './config'
+import { createApp } from './app'
 
-const app = express();
+;(async () => {
+    await mongoose.connect(MONGO_URI, MONGO_OPTIONS)
 
-//Connect Database
-connectDB();
+    const RedisStore = connectRedis(session)
 
-//Init Middleware
-app.use(cors())
+    const client = new Redis(REDIS_OPTIONS)
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+    const store = new RedisStore({ client })
 
+    const app = createApp(store)
 
-app.use('/api/register', register)
-app.use('/api/home', home)
-app.use('/api/pick', pick)
-
-const PORT = process.env.PORT || 5000;
-
-app.listen(PORT, () => console.log(`Server started in port ${PORT}`))
+    app.listen(APP_PORT, () => console.log(`http://localhost:${APP_PORT}`))
+})()

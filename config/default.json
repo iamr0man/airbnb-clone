@@ -1,4 +1,0 @@
-{
-    "mongoURI": "mongodb+srv://iamr0man:danit0@cluster0-51kl1.mongodb.net/airbnb-plus?retryWrites=true&w=majority",
-    "jwtSecret": "mysecrettoken"
-}

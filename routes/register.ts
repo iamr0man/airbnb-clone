@@ -4,6 +4,6 @@ import { register } from '../controllers'
 
 const router = Router()
 
-router.post('/register', guest, catchAsync(register))
+router.post('/', guest, catchAsync(register))
 
 export { router as register }

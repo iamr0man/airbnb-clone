@@ -16,10 +16,7 @@ export interface UserDocument extends Document {
         required: true,
         unique: true
     },
-    information: {
-        type: String,
-        required: true
-    },
+    information: String,
     password: {
         type: String,
         required: true
@@ -79,10 +76,7 @@ const userSchema = new Schema(
             required: true,
             unique: true
         },
-        information: {
-            type: String,
-            required: true
-        },
+        information: String,
         password: {
             type: String,
             required: true
@@ -115,15 +109,22 @@ const userSchema = new Schema(
                 ],
             }
         ],
-        verifiedAt: {
-            type: Boolean,
-            default: false
-        }
+        verifiedAt: Date
     },
     {
         timestamps: true
     }
 );
+
+userSchema.methods.verificationUrl = function () {
+    const token = createHash('sha1').update(this.email).digest('hex')
+    const expires = Date.now() + EMAIL_VERIFICATION_TIMEOUT
+
+    const url = `${APP_ORIGIN}/email/verify?id=${this.id}&token=${token}&expires=${expires}`
+    const signature = User.signVerificationUrl(url)
+
+    return `${url}&signature=${signature}`
+}
 
 userSchema.set('toJSON', {
     transform: (doc, { __v, password, ...rest }, options) => rest
