@@ -14,14 +14,10 @@ export default {
     },
   },
   actions: {
-    async getUser({ commit, getters }){
-      if(Object.entries(getters.user).length){
-        return getters.user;
-      }
-
-      const data = localStorage.getItem('user') || null;
-      if(data){
-        commit('SET_USER', JSON.parse(data))
+    async getUser({ commit}){
+      const data = await UserApi.getUser()
+      if(data) {
+        commit('SET_USER', data)
       }
     },
     // eslint-disable-next-line
@@ -36,14 +32,11 @@ export default {
       }
     },
     // eslint-disable-next-line
-    async doLogin({ commit }, { email, password }) {
-      const { data } = await UserApi.doLogin(email, password);
-      
+    async logIn({ commit }, { email, password}){
+      const data = await UserApi.logIn(email, password)
       if(data){
-        // commit('SET_USER', JSON.stringify(data.user))
-        localStorage.setItem('user', JSON.stringify(data.user))
-        setAuthToken(data.token)
-        router.push({ path: '/' })
+        // commit('SET_USER', data)
+        // TODO request to get user
       }
     },
     // eslint-disable-next-line

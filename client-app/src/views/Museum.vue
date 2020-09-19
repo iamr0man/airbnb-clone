@@ -3,6 +3,7 @@
     <div class="museum__image">
       <div class="museum__decoration">
         <div class="museum__decoration-text">
+          <login />
           Must see in vienna
         </div>
       </div>
@@ -36,8 +37,12 @@
 </template>
 
 <script>
+import Login from './Login.vue'
 export default {
-  name:"Museum"
+  name:"Museum",
+  components: {
+    Login
+  }
 }
 </script>
 

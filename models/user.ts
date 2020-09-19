@@ -49,10 +49,7 @@ export interface UserDocument extends Document {
             ],
         }
     ],
-    verifiedAt: {
-        type: Boolean,
-        default: false
-    },
+    verifiedAt: Date,
     matchesPassword: (password: string) => Promise<boolean>,
     verificationUrl: () => string
 }
@@ -116,6 +113,17 @@ const userSchema = new Schema(
     }
 );
 
+userSchema.pre<UserDocument>('save', async function() {
+    if(this.isModified('password')) {
+        // @ts-ignore
+        this.password = await hash(this.password, BCRYPT_WORK_FACTOR)
+    }
+})
+
+userSchema.methods.matchesPassword = function (password) {
+    return compare(this.password, password)
+}
+
 userSchema.methods.verificationUrl = function () {
     const token = createHash('sha1').update(this.email).digest('hex')
     const expires = Date.now() + EMAIL_VERIFICATION_TIMEOUT
@@ -125,6 +133,10 @@ userSchema.methods.verificationUrl = function () {
 
     return `${url}&signature=${signature}`
 }
+
+userSchema.statics.signVerificationUrl = (url: string) =>
+    createHmac('sha256', APP_SECRET).update(url).digest('hex')
+
 
 userSchema.set('toJSON', {
     transform: (doc, { __v, password, ...rest }, options) => rest
