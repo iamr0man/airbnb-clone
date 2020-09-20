@@ -7,7 +7,6 @@ import '../utils/utils.js'
 import Ball from '../utils/ball.js'
 export default {
     mounted(){
-        debugger
         let canvas = document.getElementById('canvas'),
             mouse = window.utils.captureMouse(canvas),
             context = canvas.getContext('2d'),

@@ -7,12 +7,14 @@ import auth from './modules/auth'
 import data from './modules/data'
 import home from './modules/home'
 import pick from './modules/pick'
+import loading from './modules/loading'
 
 export default new Vuex.Store({
   modules: {
     auth,
     data,
     home,
-    pick
+    pick,
+    loading
   }
 });

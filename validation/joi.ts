@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+import * as mongoose from 'mongoose'
 import * as Joi from 'joi'
 import { ExtensionFactory, Root, StringSchema, ObjectSchema } from 'joi'
 import { BadRequest } from '../errors'

@@ -8,6 +8,6 @@ export default {
     return await axios.post('/pick', { discover, city, museum })
   },
   async deletePick (id) {
-    return await axios.delete(`/api/pick/${id}`)
+    return await axios.delete(`/pick/${id}`)
   },
 }

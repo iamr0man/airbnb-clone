@@ -12,7 +12,6 @@ function Ball(x, y, radius, color) {
     this.rotation = 0;
     this.scaleX = 1;
     this.scaleY = 1;
-    debugger
     this.color = window.utils.parseColor(color);
     this.lineWidth = 1;
 }

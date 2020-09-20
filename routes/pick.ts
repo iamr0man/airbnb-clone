@@ -1,38 +1,35 @@
-const express = require('express')
-const router = express.Router();
+import { Router } from 'express'
+import {auth, guest, catchAsync} from "../middleware";
 
-// const auth = require('../../middleware/auth')
+const router = Router()
 
-const { getPick, createPick, updatePick, deletePick } =  require('../controllers')
+import { getPick, createPick, updatePick, deletePick } from '../controllers'
 
 //@route    GET api/pick/
 //@desc     Get pick for main page
 //@access   Public
-router.get('/', getPick)
+router.get('/', catchAsync(getPick))
 
 //@route    POST api/pick
 //@desc     Create pick
 //@access   Private
-router.post('/', [
-  // auth,
+router.post('/', auth, [
   // check("discover", "Discover field is required").not().isEmpty(),
   // check("city", "City field is required").not().isEmpty(),
   // check("museum", "Museum field is required").not().isEmpty(),
-], createPick)
+], catchAsync(createPick))
 
 //@route    PUT api/pick/:id
 //@desc     Update pick
 //@access   Private
-router.put('/:id', [
-  // auth,
-], updatePick)
+router.put('/:id', auth, [
+], catchAsync(updatePick))
 
 //@route    DELETE api/pick/:id
 //@desc     Delete pick
 //@access   Private
-router.delete('/:id', [
-  // auth,
-], deletePick)
+router.delete('/:id', auth, [
+], catchAsync(deletePick))
 
 export { router as pick }
 

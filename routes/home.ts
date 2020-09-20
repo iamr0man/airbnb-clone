@@ -7,12 +7,6 @@ const {auth, catchAsync } = require('../middleware/')
 
 const { getHome, createHome, updateHome, deleteHome } =  require('../controllers')
 
-// TODO deleted, for test only
-router.get('/', auth, catchAsync(async (req, res) => {
-    const user = await User.findById(req.session!.userId)
-    res.json(user)
-}))
-
 //@route    GET api/home/:id/
 //@desc     Get home
 //@access   Public

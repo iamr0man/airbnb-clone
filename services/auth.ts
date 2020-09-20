@@ -6,12 +6,12 @@ export const isLoggedIn = (req: Request) => {
     return !!req.session!.userId
 }
 
-export const logIn = (req: Request, userId) => {
+export const setParamsInSession = (req: Request, userId) => {
     req.session!.userId = userId
     req.session!.createdAt = Date.now()
 }
 
-export const logOut = (req: Request, res: Response, ) =>
+export const destroySession = (req: Request, res: Response, ) =>
     new Promise((resolve, reject) => {
         req.session!.destroy((err: Error) => {
             if(err) reject(err)

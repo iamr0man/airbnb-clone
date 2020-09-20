@@ -1,6 +1,9 @@
 <template>
   <div class="home">
-    <Discover />
+    <Discover v-if="loading" />
+    <div v-else class="loading">
+      Loading
+    </div>
 <!--    <AirbnbPlus v-if="true"/>-->
 <!--    <Homes v-else/>-->
     <Museum />
@@ -12,6 +15,7 @@
 import Discover from '../views/Discover.vue'
 import Museum from '../views/Museum.vue'
 // import AirbnbPlus from '../views/AirbnbPlus.vue'
+import { mapGetters } from 'vuex'
 export default {
   name: "Home",
   components: {
@@ -20,9 +24,19 @@ export default {
     Museum,
     // AirbnbPlus,
   },
+  computed: {
+    ...mapGetters('loading', ['loading'])
+  },
   async mounted() {
     await this.$store.dispatch('pick/getPick')
   }
 };
 </script>
 
+<style scoped>
+  .loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+</style>

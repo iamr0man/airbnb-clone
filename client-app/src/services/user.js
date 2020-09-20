@@ -2,12 +2,15 @@ import axios from "../services/instance";
 
 export default {
   async getUser () {
-    return await axios.get('/home')
+    return await axios.get('/me')
   },
   async logIn (email, password){
-    return await axios.post('/login', { email, password})
+    return await axios.post('/login', { email, password}, {
+        withCredentials: true
+      }
+    )
   },
-  async registration (email, name, password) {
-    return await axios.post('/', { email, name, password})
+  async registration (email, name, password, passwordConfirmation) {
+    return await axios.post('/registration', { email, name, password, passwordConfirmation })
   }
 }

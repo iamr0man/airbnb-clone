@@ -11,7 +11,7 @@ const { env } = process
 
 export const {
     SESSION_SECRET = 'please keep this secret, mate',
-    SESSION_NAME = 'rid',
+    SESSION_NAME = 'session_id',
     SESSION_IDLE_TIMEOUT = THIRTY_MINUTES
 } = env
 
@@ -20,12 +20,13 @@ export const SESSION_ABSOLUTE_TIMEOUT = +(env.SESSION_ABSOLUTE_TIMEOUT || SIX_HO
 export const SESSION_OPTIONS: SessionOptions = {
     secret: SESSION_SECRET,
     name: SESSION_NAME,
+    resave: false,
+    saveUninitialized: true,
     cookie: {
         maxAge: +SESSION_IDLE_TIMEOUT,
         secure: IN_PROD,
-        sameSite: true
+        sameSite: true,
+        httpOnly: false
     },
     rolling: true,
-    resave: false,
-    saveUninitialized: false
 }

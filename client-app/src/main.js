@@ -16,7 +16,7 @@ import './assets/styles/fonts.css'
 Vue.config.productionTip = false;
 
 (async () => {
-  await store.dispatch('user/getUser')
+  await store.dispatch('auth/getUser')
   new Vue({
     router,
     store,

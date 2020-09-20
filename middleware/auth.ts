@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express'
-import {isLoggedIn, logOut} from '../services'
+import {isLoggedIn, destroySession} from '../services'
 import {BadRequest, Unauthorized} from "../errors";
 import {catchAsync} from "./errors";
 import {SESSION_ABSOLUTE_TIMEOUT} from "../config";
@@ -24,7 +24,7 @@ export const active = catchAsync(async (req: Request, res: Response, next: NextF
         const { createdAt } = req.session as Express.Session
 
         if(now > createdAt + SESSION_ABSOLUTE_TIMEOUT) {
-            await logOut(req, res)
+            await destroySession(req, res)
 
             return next(new Unauthorized('Session expired'))
         }

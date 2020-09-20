@@ -1,7 +1,7 @@
 import { validate, registerSchema } from '../validation'
 import { User } from '../models/user'
 import { BadRequest } from '../errors'
-import { logIn, sendMail } from '../services'
+import { setParamsInSession, sendMail } from '../services'
 
 export const register = async (req, res) => {
   await validate(registerSchema, req.body)
@@ -14,9 +14,10 @@ export const register = async (req, res) => {
     throw new BadRequest('User already exist')
   }
 
+  // @ts-ignore
   const user = await User.create({ email, name, password })
 
-  logIn(req, user.id)
+  setParamsInSession(req, user.id)
 
   const link = user.verificationUrl()
 
