@@ -1,13 +1,12 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
+import store from '../store/'
 import Home from "../views/Home.vue";
 import Login from "../views/Login.vue";
 import Registration from "../views/Registration.vue";
-// import Rooms from "../views/Rooms.vue";
 import ProductPage from "../views/ProductPage.vue";
 import Map from "../views/Map.vue";
 import Expe from "../components/Expe.vue";
-import Forum from "../views/Forum.vue";
 
 import Cookie from 'js-cookie'
 
@@ -28,11 +27,23 @@ const routes = [
     path: "/",
     name: "Home",
     component: Home,
+    async beforeEnter(to, from, next) {
+      await store.dispatch('pick/getPick')
+      next()
+    }
   },
   {
     path: "/rooms/:id",
     name: "ProductPage",
     component: ProductPage,
+    async beforeEnter(to, from, next) {
+      const storeHome = store.getters['home/home']
+      if(storeHome._id !== to.params.id) {
+        const home = await store.dispatch('home/getHome', { id: to.params.id})
+        await store.dispatch('home/setHome', { home })
+      }
+      next()
+    }
   },
   {
     path: "/map",
@@ -45,11 +56,6 @@ const routes = [
         name: "Expe"
       },
     ]
-  },
-  {
-    path: "/forum",
-    name: "Forum",
-    component: Forum,
   }
 ];
 
@@ -61,8 +67,8 @@ const router = new VueRouter({
 
 // eslint-disable-next-line
 router.beforeEach((to, from, next) => {
-  const publicPages = ['/login', '/registration']
-  const authRequired = !publicPages.includes(to.path);
+  const publicPages = ['Login', 'Registration', 'Home', 'ProductPage', 'Map']
+  const authRequired = !publicPages.includes(to.name);
   const loggedIn = Cookie.get('session_id')
 
   if(authRequired && !loggedIn) {

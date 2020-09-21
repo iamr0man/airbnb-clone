@@ -11,16 +11,17 @@ export default {
     },
   },
   actions:{
-    // async getPick({ commit, dispatch, getters }) {
-    async getPick({ dispatch, commit }) {
-      dispatch('loading/setLoading')
+    async getPick({ dispatch, commit, getters }) {
+      if(Object.keys(getters.pick).length === 0) {
+        dispatch('loading/setLoading', {}, {root: true})
 
-      const { data } = await PickApi.getPick();
-      if(data){
-        commit('SET_PICK', data)
+        const { data } = await PickApi.getPick();
+        if(data){
+          commit('SET_PICK', data)
+        }
+
+        dispatch('loading/setLoading', {}, {root: true})
       }
-
-      dispatch('loading/setLoading')
     },
     async createPick({ commit }, {discover, city, museum}) {
       const { data } = await PickApi.createPick(discover, city, museum);

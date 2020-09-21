@@ -1,5 +1,9 @@
 <template>
-    <div class="home__discover" :style="{ background: `url(${discover.backgroundUrl})`}">
+    <div
+        v-if="!!discover"
+         class="home__discover"
+         :style="{ background: `url(${discover.backgroundUrl})`}"
+    >
         <div class="discover__headlines">
             <h1 class="headline">Discover</h1>
             <h2 class="title">{{ discover.name }}</h2>
@@ -16,7 +20,6 @@
 
 <script>
 import Swiper from 'swiper';
-// import 'swiper/swiper-bundle.css';
 
 import { mapGetters } from 'vuex'
 

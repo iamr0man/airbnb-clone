@@ -276,7 +276,7 @@ export default {
                     right: 0;
                     width: 90%;
                     height: 90%;
-                    object-fit: none;
+                    object-fit: scale-down;
                 }
 
                 &:before {
@@ -292,10 +292,10 @@ export default {
             }
             &-text {
                 position: absolute;
-                min-width: 200px;
-                max-width: 300px;
-                left: 14px;
-                bottom: 300px;
+                min-width: 350px;
+                max-width: 450px;
+                left: 1%;
+                bottom: 17%;
                 font-size: 16px;
                 font-family: "Montserrat", sans-serif;
             }

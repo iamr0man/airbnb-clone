@@ -1,5 +1,5 @@
 <template>
-    <router-link :to="{ name: 'ProductPage', params: { id: pageId } }" class="discover__item swiper-slide" :style="itemStyles">
+    <div v-if="!!home" @click="showHome" class="discover__item swiper-slide" :style="itemStyles">
         <div class="item__left" :style="itemLeftStyles">
             <img :src="home.photos[0]" />
             <div class="item__left-shadow"></div>
@@ -30,7 +30,7 @@
                 </v-btn>
             </div>
         </div>
-    </router-link>
+    </div>
 </template>
 
 <script>
@@ -40,6 +40,12 @@ export default {
     data() {
         return {
             home: null
+        }
+    },
+    methods: {
+        showHome: async function() {
+            await this.$store.dispatch('home/setHome', { home: this.home })
+            await this.$router.push({ name: 'ProductPage', params: { id: this.pageId } })
         }
     },
     computed: {
@@ -90,6 +96,7 @@ export default {
         padding: 10px;
         color: black;
         text-decoration: none;
+        cursor: pointer;
 
         .item__left {
             width: 47%;

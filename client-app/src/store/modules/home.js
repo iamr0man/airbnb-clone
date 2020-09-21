@@ -11,12 +11,15 @@ export default {
     },
   },
   actions:{
-    async getHome({ commit }, { id }) {
+    // eslint-disable-next-line
+    async getHome({}, { id }) {
       const { data } = await HomeApi.getHome(id);
-      if(data){
-        commit('SET_HOME', data)
-      }
       return data;
+    },
+    setHome({ commit }, { home }) {
+      if(home) {
+        commit('SET_HOME', home)
+      }
     },
     // eslint-disable-next-line
     async getPhoto({ commit }, {formData}) {

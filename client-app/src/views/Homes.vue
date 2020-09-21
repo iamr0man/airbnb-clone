@@ -2,7 +2,7 @@
   <div class="homes" :style="homesStyles">
     <div class="homes__headline">
       <h1 class="homes__headline-title">
-        Venice
+        {{ city.name }}
       </h1>
       <h5 v-if="!isRowReverse" class="homes__headline-subtitle">Live like locals in</h5>
       <img v-else class="homes__headline-logo" src="../assets/img/airbnbplus.svg" alt="">
@@ -10,22 +10,22 @@
     <div class="homes__container">
       <div class="homes__container-header">
         <h4 class="container-header__headline">
-          Homes In Venice
+          Homes In {{ city.name }}
         </h4>
         <div class="container-header__button">
           Show All (369)
         </div>
       </div>
       <div class="homes__container-content" :style="isRowReverse ? containerContentStyles : {}">
-        <Apartment class="homes__container-content-item" :is-horizontal="false" />
-        <Apartment class="homes__container-content-item" :is-horizontal="false" />
-        <Apartment class="homes__container-content-item" :is-horizontal="true" />
-        <Apartment class="homes__container-content-item" :is-horizontal="true" />
-        <Apartment class="homes__container-content-item" :is-horizontal="false" />
-        <Apartment class="homes__container-content-item" :is-horizontal="false" />
+        <Apartment class="homes__container-content-item" :pageId="city.items[0]" :is-horizontal="false" />
+        <Apartment class="homes__container-content-item" :pageId="city.items[1]" :is-horizontal="false" />
+        <Apartment class="homes__container-content-item" :pageId="city.items[2]" :is-horizontal="true" />
+        <Apartment class="homes__container-content-item" :pageId="city.items[3]" :is-horizontal="true" />
+        <Apartment class="homes__container-content-item" :pageId="city.items[4]" :is-horizontal="false" />
+        <Apartment class="homes__container-content-item" :pageId="city.items[5]" :is-horizontal="false" />
       </div>
       <div class="homes__container-action">
-        <v-btn>Find Homes in Venice</v-btn>
+        <v-btn>Find Homes in {{ city.name }}</v-btn>
       </div>
     </div>
   </div>
@@ -35,13 +35,16 @@
 import Apartment from '../components/Apartment.vue'
 
 export default {
-  props: ['isRowReverse'],
+  props: ['city', 'isRowReverse'],
   components: {
     Apartment,
   },
   computed: {
     homesStyles: function() {
-      return this.isRowReverse ? { 'flexDirection': 'row-reverse' } : {}
+      return this.isRowReverse ? {
+        'flexDirection': 'row-reverse',
+        'background': `url(${this.city.backgroundUrl})`
+      } : {}
     },
     containerContentStyles: function() {
       return { 'marginRight': '-320px' }
@@ -65,8 +68,8 @@ export default {
     height: 100vh;
     display: flex;
     justify-content: space-between;
-    background: url('../assets/img/venice.jpeg');
-
+    background-repeat: no-repeat;
+    background-size: cover;
 
     &__headline {
       flex: 1;
