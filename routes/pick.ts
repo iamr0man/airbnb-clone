@@ -13,7 +13,7 @@ router.get('/', catchAsync(getPick))
 //@route    POST api/pick
 //@desc     Create pick
 //@access   Private
-router.post('/', auth, [
+router.post('/', [
   // check("discover", "Discover field is required").not().isEmpty(),
   // check("city", "City field is required").not().isEmpty(),
   // check("museum", "Museum field is required").not().isEmpty(),

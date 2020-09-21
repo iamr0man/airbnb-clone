@@ -38,11 +38,11 @@ export interface PickDocument extends Document {
     museum: {
         backgroundUrl: string,
         name: {
-            type: [String],
+            type: Array<String>,
             required: true
         },
         textInformation: {
-            type: [String],
+            type: Array<String>,
             required: true
         }
     },

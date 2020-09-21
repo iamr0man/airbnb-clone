@@ -10,7 +10,7 @@ const { getHome, createHome, updateHome, deleteHome } =  require('../controllers
 //@route    GET api/home/:id/
 //@desc     Get home
 //@access   Public
-router.get('/:id', getHome)
+router.get('/:id', catchAsync(getHome))
 
 //@route    POST api/home
 //@desc     Create home
@@ -24,20 +24,20 @@ router.post('/', [
   // check("apartmentRoomsDetails", "").not().isEmpty(),
   // check("textDetails", "").not().isEmpty(),
   // check("pricePerNight", "").not().isEmpty(),
-], createHome)
+], catchAsync(createHome))
 
 //@route    PUT api/home/:id
 //@desc     Update home
 //@access   Private
 router.put('/:id', [
   // auth,
-], updateHome)
+], catchAsync(updateHome))
 
 //@route    DELETE api/home/:id
 //@desc     Delete home
 //@access   Private
 router.delete('/:id', [
   // auth,
-], deleteHome)
+], catchAsync(deleteHome))
 
 export { router as home }

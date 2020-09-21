@@ -1,36 +1,26 @@
-const Home = require('../models/Home');
-const User = require('../models/user');
+import { Home, User } from '../models'
 
 export const getHome = async(req, res) => {
-  try {
-    const home = await Home.findById(req.params.id);
-    res.status(201).json(home)
-  } catch (err) {
-    console.error(err.message)
-    res.status(500).send('Server error')
-  }
+  const home = await Home.findById(req.params.id);
+  res.status(201).json(home)
 }
 
 export const createHome = async(req, res) => {
-
   const { apartmentType, apartmentRoomsDetails, location, photos, textDetails, name, pricePerNight } = req.body;
-  try{
-    const user = await User.findById(req.body.user).select('-password')
-    const newHome = await Home.create({
-      user: user.id,
-      name,
-      pricePerNight,
-      apartmentType,
-      apartmentRoomsDetails,
-      location,
-      photos,
-      textDetails,
-    });
-    res.status(201).json({ newHome });
-    } catch (err) {
-      console.error(err.message)
-      res.status(500).send('Server error')
-    }
+  // TODO req.session!.userId
+  const user = await User.findById(req.body.user).select('-password')
+  //@ts-ignore
+  const newHome = await Home.create({
+    user: user.id,
+    name,
+    pricePerNight,
+    apartmentType,
+    apartmentRoomsDetails,
+    location,
+    photos,
+    textDetails,
+  });
+  res.status(201).json(newHome);
 }
 
 export const updateHome = async (req, res) => {
@@ -46,45 +36,33 @@ export const updateHome = async (req, res) => {
   if (textDetails) homeFields.textDetails = req.body.textDetails;
   if (pricePerNight) homeFields.pricePerNight = req.body.pricePerNight;
 
-  try {
-    // TODO req.user.id
-    let home = await Home.findOne({ user: req.body.user })
+  let home = await Home.findOne({ user: req.session!.userId })
 
-    if (!home) {
-      return res.status(404).json({ msg: 'Home not found' })
-    }
-
-    home = await Home.findOneAndUpdate(
-      {user: req.body.user},
-      {$set: homeFields},
-      {new: true}
-    );
-
-    res.json(home)
-
-  } catch (err) {
-    console.error(err.message)
-    res.status(500).send('Server Error')
+  if (!home) {
+    return res.status(404).json({ msg: 'Home not found' })
   }
+
+  home = await Home.findOneAndUpdate(
+    {user: req.session.userId},
+    {$set: homeFields},
+    {new: true}
+  );
+
+  res.json(home)
 }
 
 export const deleteHome = async(req, res) =>{
 
-  try{
-    const home = await Home.findById(req.params.id)
+  const home = await Home.findById(req.params.id)
 
-    if (!home) {
-        return res.status(404).json({ msg: 'Home not found' })
-    }
-    if (home.user.toString() !== req.user.id) {
-        return res.status(401).json({ msg: 'User not authorized' })
-    }
-
-    await home.remove()
-
-    res.json({ msg: 'Home removed' })
-  } catch (err) {
-    console.error(err.message)
-    res.status(500).send('Server error')
+  if (!home) {
+      return res.status(404).json({ msg: 'Home not found' })
   }
+  if (home.user.toString() !== req.user.id) {
+      return res.status(401).json({ msg: 'User not authorized' })
+  }
+
+  await home.remove()
+
+  res.json({ msg: 'Home removed' })
 }

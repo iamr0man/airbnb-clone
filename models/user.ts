@@ -113,7 +113,7 @@ const userSchema = new Schema(
     }
 );
 
-userSchema.pre<UserDocument>('save', async function() {
+userSchema.pre<UserDocument>('save',async function () {
     if(this.isModified('password')) {
         // @ts-ignore
         this.password = await hash(this.password, BCRYPT_WORK_FACTOR)
