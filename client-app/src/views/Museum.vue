@@ -1,9 +1,9 @@
 <template>
   <div class="museum">
-    <div class="museum__image">
+    <div class="museum__image" :style="{ background: `url(${museum.backgroundUrl})` }">
       <div class="museum__decoration">
         <div class="museum__decoration-text">
-          Must see in vienna
+          Must see in {{ museum.city }}
         </div>
       </div>
     </div>
@@ -15,18 +15,18 @@
               <img src="../assets/img/3.svg" alt="three">
             </div>
             <div class="header__museum-name">
-              <h3 class="museum-name__item heading-1">KARLSKIRCHE</h3>
-              <h4 class="museum-name__item heading-2">St. Charles Church</h4>
-              <p class="museum-name__item subtitle-1">Must seen in Vienna</p>
+              <h3 class="museum-name__item heading-1">{{ museum.name[0] }}</h3>
+              <h4 class="museum-name__item heading-2">{{ museum.name[1] }}</h4>
+              <p class="museum-name__item subtitle-1">Must seen in {{ museum.city }}</p>
             </div>
           </div>
           <div class="content">
-            <p class="content__text">In 1713, one year after the last great plague epidemic, Charles VI, Holy Roman Emperor, pledged to build a church for his namesake patron saint, Charles Borromeo, who was revered as a healer for plague sufferers. An architectural competition was announced, in which Johann Bernhard Fischer von Erlach prevailed over, among others, Ferdinando Galli-Bibiena and Johann Lukas von Hildebrandt.</p>
-            <p class="content__text">Construction began in 1716 under the supervision of Anton Erhard Martinelli. After J.B. Fischer's death in 1723, his son, Joseph Emanuel Fischer von Erlach, completed the construction in 1737 using partially altered plans. The church originally possessed a direct line of sight to the Hofburg. <span>Learn more</span></p>
+            <p class="content__text">{{ museum.textInformation[0] }}</p>
+            <p class="content__text">{{ museum.textInformation[1] }}<span>Learn more</span></p>
           </div>
           <div class="footer">
             <div class="footer_btn">
-              <v-btn>Find homes in Vienna</v-btn>
+              <v-btn>Find homes in {{ museum.city }}</v-btn>
             </div>
           </div>
         </div>
@@ -36,9 +36,13 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   name:"Museum",
   components: {
+  },
+  computed: {
+    ...mapGetters('pick', ['museum'])
   }
 }
 </script>
@@ -51,7 +55,6 @@ export default {
 
     &__image {
       flex: 1;
-      background-image: url('../assets/img/museum.jpg');
       background-size: cover;
 
       display: flex;

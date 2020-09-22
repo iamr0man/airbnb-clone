@@ -44,7 +44,8 @@ export interface PickDocument extends Document {
         textInformation: {
             type: Array<String>,
             required: true
-        }
+        },
+        city: String
     },
     regDate: Date
 }
@@ -90,7 +91,8 @@ const PickSchema = new Schema({
       textInformation: {
         type: [String],
         required: true
-      }
+      },
+      city: String
     },
     regDate: {
       type: Date,

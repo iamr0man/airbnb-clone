@@ -126,7 +126,8 @@ export default {
                 background-color: white;
                 border-radius: 10px;
                 z-index: 1;
-                box-shadow: -1px 3px 12px 14px;
+                box-shadow: 20px 20px 60px #000000,
+                -20px -20px 60px #b1b1b1;
             }
 
             &-layout {

@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import store from '../store/'
 import Home from "../views/Home.vue";
+import CreateHome from "../views/CreateHome.vue";
 import Login from "../views/Login.vue";
 import Registration from "../views/Registration.vue";
 import ProductPage from "../views/ProductPage.vue";
@@ -31,6 +32,11 @@ const routes = [
       await store.dispatch('pick/getPick')
       next()
     }
+  },
+  {
+    path: "/create-home",
+    name: "CreateHome",
+    component: CreateHome
   },
   {
     path: "/rooms/:id",

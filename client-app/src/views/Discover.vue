@@ -38,7 +38,7 @@ export default {
     },
     mounted() {
         // eslint-disable-next-line
-        const swiper = new Swiper('.swiper-container', {
+        new Swiper('.swiper-container', {
             slidesPerView: 2,
             spaceBetween: 0,
             pagination: {

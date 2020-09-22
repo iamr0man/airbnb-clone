@@ -25,10 +25,10 @@
     </div>
     <div class="header__account-info">
       <div class="account-info__buttons">
+        <router-link tag="p" to="{ name: 'CreateHome' }" class="account-info__item">Become a host <v-icon color="white" class="mdi mdi-account-multiple-outline "/></router-link>
         <p class="account-info__item">Saved</p>
         <p class="account-info__item">Trips</p>
         <p class="account-info__item">Messages</p>
-        <p class="account-info__item">Help</p>
       </div>
       <img src="../assets/img/background.jpg" class="account-info__avatar"/>
     </div>
@@ -50,6 +50,7 @@ export default {
     align-items: center;
     height: 10%;
     color: white;
+    font-family: 'Montserrat',serif;
 
     .v-input {
       flex: none;
@@ -83,8 +84,18 @@ export default {
 
         .account-info__item {
           margin: 0 10px;
+          padding: 10px;
+          border-radius: 30px;
           font-size: 17px;
           cursor: pointer;
+
+          &:first-child {
+            border: 1px solid;
+          }
+
+          &:hover {
+            background: #ffffff73;
+          }
         }
       }
 
