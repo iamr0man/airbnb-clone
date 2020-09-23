@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import store from '../store/'
 import Home from "../views/Home.vue";
+import GetStarted from "../views/GetStarted.vue";
 import CreateHome from "../views/CreateHome.vue";
 import Login from "../views/Login.vue";
 import Registration from "../views/Registration.vue";
@@ -34,7 +35,12 @@ const routes = [
     }
   },
   {
-    path: "/create-home",
+    path: "/get-started",
+    name: "GetStarted",
+    component: GetStarted
+  },
+  {
+    path: "/become-a-host",
     name: "CreateHome",
     component: CreateHome
   },
@@ -73,7 +79,8 @@ const router = new VueRouter({
 
 // eslint-disable-next-line
 router.beforeEach((to, from, next) => {
-  const publicPages = ['Login', 'Registration', 'Home', 'ProductPage', 'Map']
+  // TODO removed 2 last from publicPages
+  const publicPages = ['Login', 'Registration', 'Home', 'ProductPage', 'Map', 'GetStarted', 'CreateHome']
   const authRequired = !publicPages.includes(to.name);
   const loggedIn = Cookie.get('session_id')
 
