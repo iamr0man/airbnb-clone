@@ -8,10 +8,10 @@ import './assets/styles/fonts.css'
 
 // require("dotenv").config();
 
-// import * as VueGoogleMaps from "vue2-google-maps";
-// Vue.use(VueGoogleMaps, {
-//   load: { key: '' }
-// });
+import * as VueGoogleMaps from "vue2-google-maps";
+Vue.use(VueGoogleMaps, {
+  load: { key: 'AIzaSyDqWF9Um9RT5DD3xcloy7_5W3Nw3UuASWM' }
+});
 
 Vue.config.productionTip = false;
 

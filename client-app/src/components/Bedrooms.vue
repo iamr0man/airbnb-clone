@@ -8,7 +8,7 @@
                 <div class="minus circle">
                     <v-icon color="teal" class="mdi mdi-minus-circle-outline " />
                 </div>
-                <p class="bedrooms__model">{{ maxGuests }}</p>
+                <p class="bedrooms__model model">{{ maxGuests }}</p>
                 <div class="add circle">
                     <v-icon color="teal" class="mdi mdi-plus-circle-outline " />
                 </div>
@@ -27,7 +27,7 @@
                 <div class="minus circle">
                     <v-icon color="teal" class="mdi mdi-minus-circle-outline " />
                 </div>
-                <p class="bedrooms__model">{{ amountOfBads }}</p>
+                <p class="bedrooms__model model">{{ amountOfBads }}</p>
                 <div class="add circle">
                     <v-icon color="teal" class="mdi mdi-plus-circle-outline " />
                 </div>

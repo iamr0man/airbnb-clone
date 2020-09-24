@@ -1,6 +1,6 @@
 <template>
   <div class="create">
-    <v-stepper v-model="e6">
+    <v-stepper v-model="e6" :vertical="false">
 
       <v-stepper-step :complete="e6 > 1" step="1">
         Rooms
@@ -13,7 +13,7 @@
 
 
       <v-stepper-step :complete="e6 > 2" step="2">
-        Badrooms
+        Bedrooms
       </v-stepper-step>
       <v-stepper-content step="2">
         <Bedrooms class="container"/>
@@ -22,17 +22,30 @@
       </v-stepper-content>
 
 
-      <v-stepper-step :complete="e6 > 3" step="3">Select an ad format and name ad unit</v-stepper-step>
+      <v-stepper-step :complete="e6 > 3" step="3">
+        Bathrooms
+      </v-stepper-step>
       <v-stepper-content step="3">
-        <v-card color="grey lighten-1" class="mb-12" height="200px"></v-card>
+        <Bathrooms class="container"/>
         <v-btn color="primary" @click="e6 = 4">Continue</v-btn>
+        <v-btn @click="e6 = 2" text>Cancel</v-btn>
+      </v-stepper-content>
+
+      <v-stepper-step :complete="e6 > 4" step="4">
+        Location
+      </v-stepper-step>
+      <v-stepper-content step="4">
+        <Location class="container"/>
+        <v-btn color="primary" @click="e6 = 5">Continue</v-btn>
         <v-btn text>Cancel</v-btn>
       </v-stepper-content>
 
-      <v-stepper-step step="4">View setup instructions</v-stepper-step>
-      <v-stepper-content step="4">
-        <v-card color="grey lighten-1" class="mb-12" height="200px"></v-card>
-        <v-btn color="primary" @click="e6 = 1">Continue</v-btn>
+      <v-stepper-step :complete="e6 > 5" step="5">
+        Spaces
+      </v-stepper-step>
+      <v-stepper-content step="5">
+        <Spaces class="container"/>
+        <v-btn color="primary" @click="e6 = 5">Continue</v-btn>
         <v-btn text>Cancel</v-btn>
       </v-stepper-content>
     </v-stepper>
@@ -42,10 +55,17 @@
 <script>
 import Room from '../components/Room.vue'
 import Bedrooms from '../components/Bedrooms.vue'
+import Bathrooms from '../components/Bathrooms.vue'
+import Location from '../components/Location.vue'
+import Spaces from '../components/Spaces.vue'
+
 export default {
   components: {
     Room,
-    Bedrooms
+    Bedrooms,
+    Bathrooms,
+    Location,
+    Spaces
   },
   data () {
     return {
@@ -66,7 +86,8 @@ export default {
     justify-content: center;
 
     &:first-child {
-      width: 75%;
+      width: 45%;
+      min-height: 400px;
       display: flex;
       flex-direction: column;
 
@@ -76,13 +97,34 @@ export default {
         font-size: 25px;
       }
 
+      .attention {
+        margin: 16px 0;
+        padding: 10px;
+
+        background: linear-gradient(145deg, #e3787b, #ff8e93);
+        box-shadow: 10px 10px 60px #d67174, -10px -10px 60px #ff999e;
+
+        text-align: center;
+        border-radius: 50px;
+        font-weight: 700;
+      }
+
       .field-label {
         color: #c4c4c4;
         font-weight: 600;
       }
 
       .input-row {
-        width: 23%;
+        width: 40%;
+
+        // hint
+        .v-text-field__details {
+          width: 165% !important;
+
+          .v-messages__message {
+            font-size: 13px !important;
+          }
+        }
       }
 
       .radio__hint {
@@ -92,7 +134,7 @@ export default {
       }
 
       .counter-row {
-        width: 23%;
+        width: 40%;
         display: flex;
         justify-content: space-between;
 
@@ -100,6 +142,10 @@ export default {
           display: flex;
           justify-content: center;
           align-items: baseline;
+
+          .model {
+            margin: 0 10px;
+          }
         }
       }
     }
