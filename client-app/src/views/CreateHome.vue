@@ -11,7 +11,6 @@
         <v-btn text>Cancel</v-btn>
       </v-stepper-content>
 
-
       <v-stepper-step :complete="e6 > 2" step="2">
         Bedrooms
       </v-stepper-step>
@@ -45,7 +44,16 @@
       </v-stepper-step>
       <v-stepper-content step="5">
         <Spaces class="container"/>
-        <v-btn color="primary" @click="e6 = 5">Continue</v-btn>
+        <v-btn color="primary" @click="e6 = 6">Continue</v-btn>
+        <v-btn text>Cancel</v-btn>
+      </v-stepper-content>
+
+      <v-stepper-step :complete="e6 > 5" step="5">
+        Photos
+      </v-stepper-step>
+      <v-stepper-content step="6">
+        <Photos class="container"/>
+        <v-btn color="primary" @click="e6 = 6">Continue</v-btn>
         <v-btn text>Cancel</v-btn>
       </v-stepper-content>
     </v-stepper>
@@ -58,6 +66,7 @@ import Bedrooms from '../components/Bedrooms.vue'
 import Bathrooms from '../components/Bathrooms.vue'
 import Location from '../components/Location.vue'
 import Spaces from '../components/Spaces.vue'
+import Photos from '../components/Photos.vue'
 
 export default {
   components: {
@@ -65,11 +74,13 @@ export default {
     Bedrooms,
     Bathrooms,
     Location,
-    Spaces
+    Spaces,
+    Photos
   },
   data () {
     return {
       e6: 1,
+      obj: { component: Bathrooms}
     }
   },
 }
@@ -148,6 +159,32 @@ export default {
           }
         }
       }
+
+      .file-input {
+        width: 95%;
+        padding: 80px;
+        border: 1px dashed;
+
+        .v-input__prepend-outer {
+          margin-bottom: 20px;
+        }
+
+        .v-label {
+          left: 90px !important;
+        }
+      }
     }
+  }
+
+  // Overwrite vuetify styles
+  .v-text-field {
+     padding-top: 0 !important;
+     margin-top: 0 !important;
+  }
+
+  .v-file-input {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
 </style>
