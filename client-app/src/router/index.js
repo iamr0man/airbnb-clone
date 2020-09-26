@@ -44,7 +44,7 @@ const routes = [
       if(storeHome._id !== to.params.id) {
         const home = await store.dispatch('home/getHome', { id: to.params.id})
         await store.dispatch('home/setHome', { home })
-        to.params.home = home
+        // to.params.home = home
       }
       next()
     }

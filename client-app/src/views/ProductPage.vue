@@ -64,91 +64,22 @@
                             placeholder="Arrival - Departure"
                         />
                         <v-row class="rooms-date__guests my-2" justify="center">
-                            <v-dialog v-model="dialog" persistent max-width="400px">
-                                <template v-slot:activator="{ on, attrs }">
-                                    <v-btn
-                                        color="primary"
-                                        dark
-                                        v-bind="attrs"
-                                        v-on="on"
-                                    >
-                                        Select Guests
-                                    </v-btn>
-                                </template>
-                                <v-card cl>
-                                    <v-card-title>
-                                        <span class="headline">Guests</span>
-                                    </v-card-title>
-                                    <v-card-text>
-                                        <v-container>
-                                            <v-row>
-                                                <v-col class="guests__select" cols="12">
-                                                    <div class="title">
-                                                        <v-icon class="mdi mdi-human-male-female" />
-                                                        <p>Adults</p>
-                                                    </div>
-                                                    <div class="counter">
-                                                        <v-icon @click="adutls -= 1" class="mdi mdi-minus-circle-outline" />
-                                                        <p>{{ adults }}</p>
-                                                        <v-icon @click="adults += 1" class="mdi mdi-plus-circle-outline" />
-                                                    </div>
-                                                </v-col>
-                                                <v-col class="guests__select" cols="12">
-                                                    <div class="title">
-                                                        <v-icon class="mdi mdi-human-child" />
-                                                        <p>Children</p>
-                                                    </div>
-                                                    <div class="counter">
-                                                        <v-icon @click="children -= 1" class="mdi mdi-minus-circle-outline" />
-                                                        <p>{{ children }}</p>
-                                                        <v-icon @click="children += 1" class="mdi mdi-plus-circle-outline" />
-                                                    </div>
-                                                </v-col>
-                                                <v-col class="guests__select" cols="12">
-                                                    <div class="title">
-                                                        <v-icon class="mdi mdi-baby-carriage" />
-                                                        <p>Baby</p>
-                                                    </div>
-                                                    <div class="counter">
-                                                        <v-icon @click="babies -= 1" class="mdi mdi-minus-circle-outline" />
-                                                        <p>{{ babies }}</p>
-                                                        <v-icon @click="babies += 1" class="mdi mdi-plus-circle-outline" />
-                                                    </div>
-                                                </v-col>
-                                            </v-row>
-                                        </v-container>
-                                    </v-card-text>
-                                    <v-card-actions>
-                                        <v-spacer />
-                                        <v-btn color="blue darken-1" text @click="dialog = false">Close</v-btn>
-                                    </v-card-actions>
-                                </v-card>
-                            </v-dialog>
+                            <GuestsPicker
+                                :adults="adults"
+                                :children="children"
+                                :babies="babies"
+                                @changeAdults="updateAdults"
+                                @changeChildren="updateChildren"
+                                @changeBabies="updateBabies"
+                                buttonName="Select Guests"
+                            />
                         </v-row>
                         <p class="rooms-date__warning-text text-center">Until you pay for nothing</p>
-                        <div v-if="isDatePick" class="rooms-date__prices">
-                            <div class="prices__item">
-                                <p>${{ home.pricePerNight }} x {{ this.nights }} nights</p>
-                                <p>${{ priceOfPickedDate }}</p>
-                            </div>
-                            <div class="prices__item">
-                                <p>Cleaning fee</p>
-                                <p>${{ cleaningFee }}</p>
-                            </div>
-                            <div class="prices__item">
-                                <p>Service fee</p>
-                                <p>${{ serviceFee }}</p>
-                            </div>
-                            <hr />
-                            <div class="prices__item">
-                                <p>Total</p>
-                                <p>${{ total }}</p>
-                            </div>
-                        </div>
+                        <Prices v-if="isDatePick"/>
                     </div>
-                    <v-btn @click="booking" class="product-page__rooms-order">
+                    <button @click="booking" class="product-page__rooms-order">
                         <p>Reserved</p>
-                    </v-btn>
+                    </button>
 <!--                    <router-link tag="div" :to="{ name: 'Booking', params: { id: home._id } }" class="product-page__rooms-order">-->
 <!--                        <p>Reserve</p>-->
 <!--                    </router-link>-->
@@ -165,6 +96,7 @@
 import DatePicker from 'vue2-datepicker';
 import 'vue2-datepicker/index.css';
 
+import GuestsPicker from '../components/GuestsPicker.vue'
 import TabsText from '../components/TabsText.vue'
 
 import { mapGetters } from 'vuex'
@@ -172,12 +104,12 @@ import { mapGetters } from 'vuex'
 export default {
     components: {
         DatePicker,
+        GuestsPicker,
         TabsText
     },
     data() {
         return {
             date: null,
-            dialog: false,
             adults: 0,
             children: 0,
             babies: 0,
@@ -195,6 +127,15 @@ export default {
         }
     },
     methods: {
+        updateAdults(newValue) {
+            this.adults = newValue
+        },
+        updateChildren(newValue) {
+            this.children = newValue
+        },
+        updateBabies(newValue) {
+            this.babies = newValue
+        },
         datePick(){
             if(this.date) {
                 this.checkDateRange();
@@ -232,16 +173,24 @@ export default {
             return date < today || date > new Date(today.getTime() + 365 * 24 * 3600 * 1000)
         },
         async booking() {
-          await this.$store.dispatch('home/setBookingData', {
-            date: this.date,
-            guests: {
-              adults :this.adults,
-              children :this.children,
-              babies :this.babies
-            }
-          })
-          await this.$router.push({ name: 'Booking', params: { id: this.home._id } })
+          const data = {
+              date: this.date,
+              guests: {
+                  adults :this.adults,
+                  children :this.children,
+                  babies :this.babies
+              },
+              prices: {
+                  night: this.nights,
+                  priceOfPickedDate: this.priceOfPickedDate,
+                  cleaningFee: this.cleaningFee,
+                  serviceFee: this.serviceFee,
+                  total: this.total
 
+              }
+          }
+          await this.$store.dispatch('home/setBookingData', { data })
+          await this.$router.push({ name: 'Booking', params: { id: this.home._id } })
         }
     },
     computed: {
@@ -266,7 +215,7 @@ export default {
 <!--    @import '../../node_modules/vue2-datepicker/scss/index.scss'-->
 <!--</style>-->
 
-<style lang="scss" scoped>
+<style lang="scss">
     .product-page {
         width: 100vw;
         height: 100vh;
@@ -379,26 +328,6 @@ export default {
                             }
                         }
 
-                        .rooms-date__prices {
-                            margin-top: 10px;
-                            & > .prices__item {
-                                display: flex;
-                                justify-content: space-between;
-
-                                p:first-child {
-                                    text-decoration: underline;
-                                }
-                            }
-
-                            & > .prices__item:nth-child(5) {
-                                font-size: 20px;
-                                font-weight: 800;
-
-                                p:first-child {
-                                    text-decoration: none;
-                                }
-                            }
-                        }
 
                         .mx-datepicker-range {
                             width: 240px !important;

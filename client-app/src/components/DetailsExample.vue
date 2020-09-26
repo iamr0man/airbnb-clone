@@ -1,4 +1,5 @@
 <template>
+<!--  TODO random choice -->
   <div class="details__example">
     <div class="details__subtitle">Example for inspiration: Housing with the highest ratings</div>
     <div class="details__decoration"></div>
@@ -7,7 +8,7 @@
         <img class="review__img" src="../assets/img/review.webp" alt="">
         <div class="review__info">
           <p class="review__location">Kyiv, Ukraine</p>
-          <p class="review__apartment-type">Entire apartment · 1 badroom</p>
+          <p class="review__apartment-type">Entire apartment · 1 bedroom</p>
           <p class="review__stars">
             <v-icon class="mdi mdi-star-circle" />4.67 out of 5
           </p>
@@ -22,7 +23,15 @@
 
 <script>
 export default {
-
+  methods: {
+    apartmentRooms() {
+      const aob = this.home.apartmentRoomsDetails.amountOfBeds
+      const br = this.home.apartmentRoomsDetails.bathRooms
+      return [
+        aob > 1 ? `${aob} beds` : `${aob} bed`,
+        br > 1 ? `${br} bathrooms` : `${br} bathroom`,].join(' · ')
+    }
+  }
 }
 </script>
 

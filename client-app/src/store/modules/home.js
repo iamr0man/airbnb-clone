@@ -25,23 +25,24 @@ export default {
         commit('SET_HOME', home)
       }
     },
-    setBookingData({ commit }, { bookingData }) {
-      if(bookingData) {
-        commit('SET_BOOKING_DATA', bookingData)
+    setBookingData({ commit }, { data }) {
+      if(data) {
+        commit('SET_BOOKING_DATA', { ...data })
       }
     },
     // eslint-disable-next-line
-    async getPhoto({ commit }, {formData}) {
-      return await HomeApi.getPhoto(formData);
-    },
-    async createHome({ commit }, {title, shortDescription, description, preview}) {
-      const { data } = await HomeApi.createHome(title, shortDescription, description, preview);
-      if(data){
-        commit('SET_HOME', data)
-      }
-    },
+    // async getPhoto({ commit }, {formData}) {
+    //   return await HomeApi.getPhoto(formData);
+    // },
+    // async createHome({ commit }, {title, shortDescription, description, preview}) {
+    //   const { data } = await HomeApi.createHome(title, shortDescription, description, preview);
+    //   if(data){
+    //     commit('SET_HOME', data)
+    //   }
+    // },
   },
   getters: {
     home: state => state.home,
+    bookingData: state => state.bookingData
   }
 }

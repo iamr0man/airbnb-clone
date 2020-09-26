@@ -151,20 +151,4 @@ export default {
       }
     }
   }
-
-  // Overwrite vuetify styles
-  .v-application p {
-    margin-bottom: 5px !important;
-  }
-
-  .v-text-field {
-     padding-top: 0 !important;
-     margin-top: 0 !important;
-  }
-
-  .v-file-input {
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
 </style>
