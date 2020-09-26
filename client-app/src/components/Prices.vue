@@ -12,9 +12,9 @@
             <p>Service fee</p>
             <p>${{ serviceFee }}</p>
         </div>
-        <hr />
+        <hr v-if="isLineExist"/>
         <div class="prices__item">
-            <p>Total</p>
+            <p>Total<span v-if="!isLineExist">(USD)</span></p>
             <p>${{ total }}</p>
         </div>
     </div>
@@ -22,11 +22,23 @@
 
 <script>
 export default {
-    props: ['pricePe'],
+    props: ['home', 'nights', 'isLineExist'],
     data() {
         return {
-
+          cleaningFee: '',
+          serviceFee: '',
+          total: ''
         }
+    },
+    mounted() {
+      this.cleaningFee = Math.round(this.priceOfPickedDate * 0.0868)
+      this.serviceFee = Math.round(this.priceOfPickedDate * 0.0559)
+      this.total = this.priceOfPickedDate + this.cleaningFee + this.serviceFee
+    },
+    computed: {
+      priceOfPickedDate() {
+        return this.home.pricePerNight * this.nights
+      }
     }
 }
 </script>
@@ -49,6 +61,10 @@ export default {
 
             p:first-child {
                 text-decoration: none;
+
+                span {
+                  text-decoration: underline;
+                }
             }
         }
     }

@@ -1,38 +1,8 @@
 <template>
     <div class="product-page">
-        <div class="product-page__image">
-            <div class="product-page__image-wrapper">
-                <v-carousel
-                    cycle
-                    hide-delimiter-background
-                    show-arrows-on-hover
-                >
-                    <v-carousel-item
-                        v-for="(v, i) in home.photos"
-                        :key="i"
-                    >
-                        <img class="product-page__wrapper-item" :src="v" alt="">
-                    </v-carousel-item>
-                </v-carousel>
-            </div>
-            <div class="product-page__image-text">
-                {{ home.textDetails.general }}
-            </div>
-        </div>
+        <ProductPageImage :home="home" />
         <div class="product-page__info">
-            <div class="product-page__header">
-                <div class="product-page__details">
-                    <p class="details__apartment-type">{{ home.apartmentType }}</p>
-                    <p class="details__reviews">
-                        <v-icon color="#FF5A5F" class="mdi mdi-star"/>
-                        {{ home.reviews.start }} <span>({{ home.reviews.array.length }})</span>
-                    </p>
-                    <p class="details__location">{{ home.location.city }}</p>
-                </div>
-                <div class="product-page__name">
-                    <h2>{{ home.name }}</h2>
-                </div>
-            </div>
+            <ProductPageHeader :home="home"/>
             <div class="product-page__content">
                 <div class="product-page__rooms-details">
                     <div class="rooms-details__questions">
@@ -75,7 +45,12 @@
                             />
                         </v-row>
                         <p class="rooms-date__warning-text text-center">Until you pay for nothing</p>
-                        <Prices v-if="isDatePick"/>
+                        <Prices
+                          v-if="isDatePick"
+                          :home="home"
+                          :nights="nights"
+                          :isLineExist="true"
+                        />
                     </div>
                     <button @click="booking" class="product-page__rooms-order">
                         <p>Reserved</p>
@@ -93,6 +68,9 @@
 import DatePicker from 'vue2-datepicker';
 import 'vue2-datepicker/index.css';
 
+import ProductPageImage from '../components/ProductPageImage.vue'
+import ProductPageHeader from '../components/ProductPageHeader.vue'
+import Prices from '../components/Prices.vue'
 import GuestsPicker from '../components/GuestsPicker.vue'
 import TabsText from '../components/TabsText.vue'
 
@@ -100,7 +78,10 @@ import { mapGetters } from 'vuex'
 
 export default {
     components: {
+        ProductPageImage,
+        ProductPageHeader,
         DatePicker,
+        Prices,
         GuestsPicker,
         TabsText
     },
@@ -135,8 +116,8 @@ export default {
         },
         datePick(){
             if(this.date) {
-                this.checkDateRange();
-                this.countPrices()
+                this.checkDateRange()
+                this.countNights()
             }
         },
         checkDateRange() {
@@ -149,16 +130,12 @@ export default {
                 }
             }
         },
-        countPrices() {
-            const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
-            const firstDate = new Date(this.date[0]);
-            const secondDate = new Date(this.date[1]);
+        countNights() {
+          const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
+          const firstDate = new Date(this.date[0]);
+          const secondDate = new Date(this.date[1]);
 
-            this.nights = Math.round(Math.abs((firstDate - secondDate) / oneDay));
-            
-            this.cleaningFee = Math.round(this.priceOfPickedDate * 0.0868)
-            this.serviceFee = Math.round(this.priceOfPickedDate * 0.0559)            
-            this.total = this.priceOfPickedDate + this.cleaningFee + this.serviceFee
+          this.nights = Math.round(Math.abs((firstDate - secondDate) / oneDay));
         },
         disabledBeforeTodayAndAfterAWeek(date) {
             const today = new Date()
@@ -178,7 +155,7 @@ export default {
                   babies :this.babies
               },
               prices: {
-                  night: this.nights,
+                  nights: this.nights,
                   priceOfPickedDate: this.priceOfPickedDate,
                   cleaningFee: this.cleaningFee,
                   serviceFee: this.serviceFee,
@@ -198,9 +175,6 @@ export default {
                 return !isItemsNull
             }
             return false;
-        },
-        priceOfPickedDate() {
-            return this.home.pricePerNight * this.nights
         }
     }
 }
@@ -336,7 +310,7 @@ export default {
                     }
 
                     .product-page__rooms-order {
-                        height: 270px;
+                        height: 190px;
 
                         display: flex;
                         justify-content: center;
@@ -354,6 +328,7 @@ export default {
                         cursor: pointer;
                         text-decoration: none;
                         color: #fff;
+                        outline: none;
 
                         p {
                             font-weight: 900;
@@ -380,6 +355,7 @@ export default {
     .guests__select {
         display: flex;
         justify-content: space-between;
+        align-items: center;
 
         .title {
             display: flex;
@@ -388,6 +364,11 @@ export default {
         .counter {
             display: flex;
             align-items: center;
+            font-size: 20px;
+
+            .v-icon.v-icon.v-icon--link {
+              font-size: 28px !important;
+            }
         }
     }
 

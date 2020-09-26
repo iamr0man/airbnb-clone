@@ -6,7 +6,7 @@
             <p class="bathrooms__field-label field-label">Bathrooms</p>
             <div class="bathrooms__counter-actions counter-actions">
                 <div class="minus circle">
-                    <v-icon color="teal" class="mdi mdi-minus-circle-outline " />
+                    <v-icon color="teal" class="mdi mdi-minus-circle-outline" />
                 </div>
                 <p class="bathrooms__model model">{{ amountOfBath }}</p>
                 <div class="add circle">

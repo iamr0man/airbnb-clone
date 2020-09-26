@@ -1,5 +1,5 @@
 <template>
-    <v-dialog v-model="dialog" persistent max-width="400px">
+    <v-dialog v-model="dialog" persistent max-width="500px">
         <template v-slot:activator="{ on, attrs }">
             <v-btn
                 color="primary"
@@ -19,7 +19,7 @@
                     <v-row>
                         <v-col class="guests__select" cols="12">
                             <div class="title">
-                                <v-icon class="mdi mdi-human-male-female" />
+                                <v-icon color="#ee7752" class="mdi mdi-human-male-female" />
                                 <p>Adults</p>
                             </div>
                             <div class="counter">
@@ -30,7 +30,7 @@
                         </v-col>
                         <v-col class="guests__select" cols="12">
                             <div class="title">
-                                <v-icon class="mdi mdi-human-child" />
+                                <v-icon color="#23d5ab" class="mdi mdi-human-child" />
                                 <p>Children</p>
                             </div>
                             <div class="counter">
@@ -41,7 +41,7 @@
                         </v-col>
                         <v-col class="guests__select" cols="12">
                             <div class="title">
-                                <v-icon class="mdi mdi-baby-carriage" />
+                                <v-icon color="#23a6d5" class="mdi mdi-baby-carriage" />
                                 <p>Baby</p>
                             </div>
                             <div class="counter">
