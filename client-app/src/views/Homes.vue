@@ -17,12 +17,12 @@
         </div>
       </div>
       <div class="homes__container-content" :style="isRowReverse ? containerContentStyles : {}">
-        <Apartment class="homes__container-content-item" :pageId="city.items[0]" :is-horizontal="false" />
-        <Apartment class="homes__container-content-item" :pageId="city.items[1]" :is-horizontal="false" />
-        <Apartment class="homes__container-content-item" :pageId="city.items[2]" :is-horizontal="true" />
-        <Apartment class="homes__container-content-item" :pageId="city.items[3]" :is-horizontal="true" />
-        <Apartment class="homes__container-content-item" :pageId="city.items[4]" :is-horizontal="false" />
-        <Apartment class="homes__container-content-item" :pageId="city.items[5]" :is-horizontal="false" />
+        <HomeCard class="homes__container-content-item" :pageId="city.items[0]" :is-horizontal="false" />
+        <HomeCard class="homes__container-content-item" :pageId="city.items[1]" :is-horizontal="false" />
+        <HomeCard class="homes__container-content-item" :pageId="city.items[2]" :is-horizontal="true" />
+        <HomeCard class="homes__container-content-item" :pageId="city.items[3]" :is-horizontal="true" />
+        <HomeCard class="homes__container-content-item" :pageId="city.items[4]" :is-horizontal="false" />
+        <HomeCard class="homes__container-content-item" :pageId="city.items[5]" :is-horizontal="false" />
       </div>
       <div class="homes__container-action">
         <v-btn>Find Homes in {{ city.name }}</v-btn>
@@ -32,12 +32,12 @@
 </template>
 
 <script>
-import Apartment from '../components/Apartment.vue'
+import HomeCard from '../components/HomeCard.vue'
 
 export default {
   props: ['city', 'isRowReverse'],
   components: {
-    Apartment,
+    HomeCard,
   },
   computed: {
     homesStyles: function() {

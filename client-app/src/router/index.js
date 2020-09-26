@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import store from '../store/'
 import Home from "../views/Home.vue";
+import Booking from "../views/Booking.vue";
 import GetStarted from "../views/GetStarted.vue";
 import CreateHome from "../views/CreateHome.vue";
 import Login from "../views/Login.vue";
@@ -31,6 +32,20 @@ const routes = [
     component: Home,
     async beforeEnter(to, from, next) {
       await store.dispatch('pick/getPick')
+      next()
+    }
+  },
+  {
+    path: "/booking/:id",
+    name: "Booking",
+    component: Booking,
+    async beforeEnter(to, from, next) {
+      const storeHome = store.getters['home/home']
+      if(storeHome._id !== to.params.id) {
+        const home = await store.dispatch('home/getHome', { id: to.params.id})
+        await store.dispatch('home/setHome', { home })
+        to.params.home = home
+      }
       next()
     }
   },

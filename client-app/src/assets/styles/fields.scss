@@ -1,0 +1,52 @@
+.field-label {
+  color: #c4c4c4;
+  font-weight: 600;
+}
+
+.input-row {
+  width: 40%;
+
+  .v-text-field__details {
+    width: 165% !important;
+
+    .v-messages__message {
+      font-size: 13px !important;
+    }
+  }
+}
+
+.radio__hint {
+  margin-left: 33px;
+  color: #c4c4c4;
+  font-size: 14px;
+}
+
+.counter-row {
+  width: 40%;
+  display: flex;
+  justify-content: space-between;
+
+  .counter-actions {
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+
+    .model {
+      margin: 0 10px;
+    }
+  }
+}
+
+.file-input {
+  width: 95%;
+  padding: 80px;
+  border: 1px dashed;
+
+  .v-input__prepend-outer {
+    margin-bottom: 20px;
+  }
+
+  .v-label {
+    left: 90px !important;
+  }
+}

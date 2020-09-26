@@ -3,11 +3,15 @@ import { HomeApi } from '../../services/index'
 export default {
   namespaced: true,
   state: {
-    home: {}
+    home: {},
+    bookingData: {}
   },
   mutations: {
     SET_HOME(state, payload) {
       state.home = payload
+    },
+    SET_BOOKING_DATA(state, payload) {
+      state.bookingData = payload
     },
   },
   actions:{
@@ -19,6 +23,11 @@ export default {
     setHome({ commit }, { home }) {
       if(home) {
         commit('SET_HOME', home)
+      }
+    },
+    setBookingData({ commit }, { bookingData }) {
+      if(bookingData) {
+        commit('SET_BOOKING_DATA', bookingData)
       }
     },
     // eslint-disable-next-line

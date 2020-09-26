@@ -5,8 +5,7 @@ import store from "./store";
 import vuetify from "./plugins/vuetify";
 
 import './assets/styles/fonts.css'
-
-// require("dotenv").config();
+import './assets/styles/fields.scss'
 
 import * as VueGoogleMaps from "vue2-google-maps";
 Vue.use(VueGoogleMaps, {

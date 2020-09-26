@@ -58,7 +58,7 @@
                         <date-picker
                             v-model="date"
                             :range="true"
-                            @pick="checkDateRange"
+                            @pick="datePick"
                             range-separator=" | "
                             :disabled-date="disabledBeforeTodayAndAfterAWeek"
                             placeholder="Arrival - Departure"
@@ -88,9 +88,9 @@
                                                         <p>Adults</p>
                                                     </div>
                                                     <div class="counter">
-                                                        <v-icon @click="maleFemale -= 1" class="mdi mdi-minus-circle-outline" />
-                                                        <p>{{ maleFemale }}</p>
-                                                        <v-icon @click="maleFemale += 1" class="mdi mdi-plus-circle-outline" />
+                                                        <v-icon @click="adutls -= 1" class="mdi mdi-minus-circle-outline" />
+                                                        <p>{{ adults }}</p>
+                                                        <v-icon @click="adults += 1" class="mdi mdi-plus-circle-outline" />
                                                     </div>
                                                 </v-col>
                                                 <v-col class="guests__select" cols="12">
@@ -126,63 +126,36 @@
                             </v-dialog>
                         </v-row>
                         <p class="rooms-date__warning-text text-center">Until you pay for nothing</p>
-                        <div v-show="date !== null" class="rooms-date__prices">
+                        <div v-if="isDatePick" class="rooms-date__prices">
                             <div class="prices__item">
-                                <p>$71 x 11 noches</p>
-                                <p>$782</p>
+                                <p>${{ home.pricePerNight }} x {{ this.nights }} nights</p>
+                                <p>${{ priceOfPickedDate }}</p>
                             </div>
                             <div class="prices__item">
                                 <p>Cleaning fee</p>
-                                <p>$59</p>
+                                <p>${{ cleaningFee }}</p>
                             </div>
                             <div class="prices__item">
                                 <p>Service fee</p>
-                                <p>$145</p>
+                                <p>${{ serviceFee }}</p>
                             </div>
                             <hr />
                             <div class="prices__item">
                                 <p>Total</p>
-                                <p>$969</p>
+                                <p>${{ total }}</p>
                             </div>
                         </div>
                     </div>
-                    <div class="product-page__rooms-order">
+                    <v-btn @click="booking" class="product-page__rooms-order">
                         <p>Reserved</p>
-                    </div>
+                    </v-btn>
+<!--                    <router-link tag="div" :to="{ name: 'Booking', params: { id: home._id } }" class="product-page__rooms-order">-->
+<!--                        <p>Reserve</p>-->
+<!--                    </router-link>-->
                 </div>
             </div>
             <div class="product-page__text-general">
-                <v-tabs
-                        v-model="tab"
-                        background-color="transparent"
-                        color="basil"
-                        grow
-                >
-                    <v-tab
-                            v-for="item in items"
-                            :key="item"
-                    >
-                        {{ item }}
-                    </v-tab>
-                </v-tabs>
-
-                <v-tabs-items v-model="tab">
-                    <v-tab-item>
-                        <v-card color="basil" flat>
-                            <v-card-text>{{ home.textDetails.house }}</v-card-text>
-                        </v-card>
-                    </v-tab-item>
-                    <v-tab-item>
-                        <v-card color="basil" flat>
-                            <v-card-text>{{ home.textDetails.availableForGuest }}</v-card-text>
-                        </v-card>
-                    </v-tab-item>
-                    <v-tab-item>
-                        <v-card color="basil" flat>
-                            <v-card-text>{{ home.textDetails.importantInfo }}</v-card-text>
-                        </v-card>
-                    </v-tab-item>
-                </v-tabs-items>
+                <TabsText :home="home" />
             </div>
         </div>
     </div>
@@ -192,42 +165,62 @@
 import DatePicker from 'vue2-datepicker';
 import 'vue2-datepicker/index.css';
 
+import TabsText from '../components/TabsText.vue'
+
 import { mapGetters } from 'vuex'
 
 export default {
     components: {
-        DatePicker
+        DatePicker,
+        TabsText
     },
     data() {
         return {
             date: null,
-            tab: null,
             dialog: false,
-            maleFemale: 0,
+            adults: 0,
             children: 0,
             babies: 0,
+            nights: -1,
+            cleaningFee: 0,
+            serviceFee: 0, 
+            total: 0,
             bookedDate: [
-                new Date('2020-10-16').setHours(0, 0, 0),
-                new Date('2020-10-17').setHours(0, 0, 0),
-                new Date('2020-10-18').setHours(0, 0, 0),
-                new Date('2020-10-19').setHours(0, 0, 0),
-                new Date('2020-10-20').setHours(0, 0, 0),
-            ],
-            items: [
-                'House', 'What available for guest', 'Important Information',
+                // new Date('2020-10-16').setHours(0, 0, 0),
+                // new Date('2020-10-17').setHours(0, 0, 0),
+                // new Date('2020-10-18').setHours(0, 0, 0),
+                // new Date('2020-10-19').setHours(0, 0, 0),
+                // new Date('2020-10-20').setHours(0, 0, 0),
             ],
         }
     },
     methods: {
+        datePick(){
+            if(this.date) {
+                this.checkDateRange();
+                this.countPrices()
+            }
+        },
         checkDateRange() {
             for(let i = 1; i <= 3; i++) {
-                const current = new Date(this.date[0].getTime() + i * 24 * 3600 * 1000).getTime();
+            const current = new Date(this.date[0].getTime() + i * 24 * 3600 * 1000).getTime();
                 if(this.bookedDate.includes(current)) {
                     alert("Please choose minimum 3 days!");
                     this.date = null
                     return;
                 }
             }
+        },
+        countPrices() {
+            const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
+            const firstDate = new Date(this.date[0]);
+            const secondDate = new Date(this.date[1]);
+
+            this.nights = Math.round(Math.abs((firstDate - secondDate) / oneDay));
+            
+            this.cleaningFee = Math.round(this.priceOfPickedDate * 0.0868)
+            this.serviceFee = Math.round(this.priceOfPickedDate * 0.0559)            
+            this.total = this.priceOfPickedDate + this.cleaningFee + this.serviceFee
         },
         disabledBeforeTodayAndAfterAWeek(date) {
             const today = new Date()
@@ -238,9 +231,31 @@ export default {
 
             return date < today || date > new Date(today.getTime() + 365 * 24 * 3600 * 1000)
         },
+        async booking() {
+          await this.$store.dispatch('home/setBookingData', {
+            date: this.date,
+            guests: {
+              adults :this.adults,
+              children :this.children,
+              babies :this.babies
+            }
+          })
+          await this.$router.push({ name: 'Booking', params: { id: this.home._id } })
+
+        }
     },
     computed: {
-        ...mapGetters('home', ['home'])
+        ...mapGetters('home', ['home']),
+        isDatePick() {
+            if(this.date) {
+                const isItemsNull = this.date.every(v => v === null) 
+                return !isItemsNull
+            }
+            return false;
+        },
+        priceOfPickedDate() {
+            return this.home.pricePerNight * this.nights
+        }
     }
 }
 </script>
@@ -405,6 +420,20 @@ export default {
                         border: 1px solid black;
                         border-radius: 50%;
                         margin: 0 25px;
+
+                        background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+                        background-size: 400% 400%;
+                        animation: gradient 15s ease infinite;
+
+                        cursor: pointer;
+                        text-decoration: none;
+                        color: #fff;
+
+                        p {
+                            font-weight: 900;
+                            font-size: 20px;
+                            font-style: italic;
+                        }
                     }
                 }
                 .product-page__text-general {
@@ -435,4 +464,17 @@ export default {
             align-items: center;
         }
     }
+
+    @keyframes gradient {
+        0% {
+            background-position: 0% 50%;
+        }
+        50% {
+            background-position: 100% 50%;
+        }
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+
 </style>

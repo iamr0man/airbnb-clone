@@ -11,7 +11,7 @@
         </div>
         <div class="discover__wrapper swiper-container">
             <div class="wrapper__items swiper-wrapper">
-                <Apartment v-for="(v, i) in discover.items" :pageId="v" :key="i" :is-horizontal="true"/>
+                <HomeCard v-for="(v, i) in discover.items" :pageId="v" :key="i" :is-horizontal="true"/>
             </div>
             <div class="swiper-pagination"></div>
         </div>
@@ -23,11 +23,11 @@ import Swiper from 'swiper';
 
 import { mapGetters } from 'vuex'
 
-import Apartment from '../components/Apartment.vue'
+import HomeCard from '../components/HomeCard.vue'
 export default {
     name: "Discover",
     components: {
-        Apartment,
+        HomeCard,
     },
     data() {
         return {
