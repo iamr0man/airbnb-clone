@@ -80,9 +80,6 @@
                     <button @click="booking" class="product-page__rooms-order">
                         <p>Reserved</p>
                     </button>
-<!--                    <router-link tag="div" :to="{ name: 'Booking', params: { id: home._id } }" class="product-page__rooms-order">-->
-<!--                        <p>Reserve</p>-->
-<!--                    </router-link>-->
                 </div>
             </div>
             <div class="product-page__text-general">
