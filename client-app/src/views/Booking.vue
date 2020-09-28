@@ -87,6 +87,29 @@
               />
             </div>
           </div>
+          <p class="booking__promocode">Enter a coupon</p>
+          <div class="booking__subtitle">Required for your trip</div>
+          <div class="booking__input-row input-row">
+            <div class="booking__field-label field-label">
+              <p class="booking__label">Message the host</p>
+              <span class="booking__dates">Let the host know why you're travelling and when you'll check in.</span>
+            </div>
+            <button>Add</button>
+          </div>
+          <div class="booking__input-row input-row">
+            <div class="booking__field-label field-label">
+              <p class="booking__label">Phone number</p>
+              <span class="booking__dates">Add and confirm your phone number to get trip updates.</span>
+            </div>
+            <button>Add</button>
+          </div>
+          <div class="booking__cancellation-policy">
+            <div class="booking__subtitle">Cancellation policy</div>
+            <p class="booking__description">Free cancellation until 1:00 PM on 8 Oct. <span class="more">Learn more</span></p>
+            <p class="booking__description"><span class="covid">Make sure this host’s cancellation policy works for you.</span> For reservations made after March 14, COVID-19 will not qualify as an extenuating circumstance. <span class="more">Learn more</span></p>
+          </div>
+          <p class="booking__condition">By selecting the button below, I agree to the House Rules, Safety Disclosures, Cancellation Policy, and the Guest Refund Policy. I also agree to pay the total amount shown, which includes Service Fees. Payment Terms between you and Airbnb Payments UK Ltd.</p>
+          <button class="booking__submit">Confirm and pay</button>
         </form>
       </div>
       <HomeDetailsCard :home="home" />
@@ -180,7 +203,6 @@ export default {
 <style lang="scss">
   .booking {
     width: 100vw;
-    height: 100vh;;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -256,6 +278,50 @@ export default {
             &:nth-child(2) {
               display: flex;
             }
+          }
+
+          .booking__promocode {
+            font-size: 15px;
+            font-weight: 600;
+            text-decoration: underline;
+          }
+
+          .booking__cancellation-policy {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            margin: 30px 0 20px 20px;
+
+            .booking__description .more {
+              font-weight: 600;
+              text-decoration: underline;
+            }
+
+            .booking__description .covid {
+              font-weight: 600;
+            }
+
+            &:before {
+              content: '';
+              position: absolute;
+              left: -20px;
+              width: 5px;
+              height: 100%;
+              background-color: #fdaf1f;
+            }
+          }
+
+          .booking__condition {
+            font-size: 10px;
+          }
+
+          .booking__submit {
+            padding: 10px 15px;
+            font-weight: 600;
+            background-image: radial-gradient(circle at center center, rgb(255, 56, 92) 0%, rgb(230, 30, 77) 27.5%, rgb(227, 28, 95) 40%, rgb(215, 4, 102) 57.5%, rgb(189, 30, 89) 75%, rgb(189, 30, 89) 100%);
+            border-radius: 12px;
+            color: white;
+            outline: none;
           }
         }
       }
