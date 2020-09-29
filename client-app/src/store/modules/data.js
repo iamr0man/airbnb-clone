@@ -1,42 +1,30 @@
 import { DataApi} from '../../services/index'
-import router from '../../router/index'
 
 export default {
   namespaced: true,
   state: {
-    points: [],
+    requests: [],
   },
   mutations: {
-    SET_POINTS(state, payload) {
-      state.points = payload
+    SET_REQUESTS(state, payload) {
+      state.requests = payload
     }  
   },
   actions: {
-    async getPoints({ commit }) {
-      const { data } = await DataApi.getPoints();
+    async getRequests({ commit }) {
+      const { data } = await DataApi.getRequests();
       if(data){
-        commit('SET_POINTS', data)
+        commit('SET_REQUESTS', data)
       }
     },
-    // eslint-disable-next-line
-    async createPoint({ commit }, {latitude, longitude, title, describe, emoji}) {
-      await DataApi.createPoint(latitude, longitude, title, describe, emoji)
-    },
-    // eslint-disable-next-line
-    async likePoint({ commit }, {id}) {
-      await DataApi.likePoint(id);
-    },
-    // eslint-disable-next-line
-    async unlikePoint({ commit }, {id}) {
-      await DataApi.unlikePoint(id);
-    },
-    // eslint-disable-next-line
-    async deletePoint({ commit }, {id}) {
-      await DataApi.deletePoint(id);
-      router.push({name: "Map"})
-    }, 
+    async createRequest({ commit }, {host_id, home, date, guests, money}) {
+      const { data } = await DataApi.createRequest(host_id, home, date, guests, money)
+      if(data){
+        commit('SET_REQUESTS', data)
+      }
+    }
   },
   getters: {
-    points: state => state.points,
+    requests: state => state.requests,
   }
 }

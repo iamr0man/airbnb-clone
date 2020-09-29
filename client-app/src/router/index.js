@@ -4,6 +4,7 @@ import store from '../store/'
 import Home from "../views/Home.vue";
 import Booking from "../views/Booking.vue";
 import GetStarted from "../views/GetStarted.vue";
+import Dashboard from "../views/Dashboard";
 import CreateHome from "../views/CreateHome.vue";
 import Login from "../views/Login.vue";
 import Registration from "../views/Registration.vue";
@@ -71,6 +72,11 @@ const routes = [
       }
       next()
     }
+  },
+  {
+    path: "/dashboard",
+    name: "Dashboard",
+    component: Dashboard
   },
   {
     path: "/map",

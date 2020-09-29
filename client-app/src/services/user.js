@@ -11,6 +11,6 @@ export default {
     )
   },
   async registration (email, name, password, passwordConfirmation) {
-    return await axios.post('/registration', { email, name, password, passwordConfirmation })
+    return await axios.post('/register', { email, name, password, passwordConfirmation })
   }
 }

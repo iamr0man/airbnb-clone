@@ -101,7 +101,7 @@
               <p class="booking__label">Phone number</p>
               <span class="booking__dates">Add and confirm your phone number to get trip updates.</span>
             </div>
-            <button>Add</button>
+            <PhoneCodesModal />
           </div>
           <div class="booking__cancellation-policy">
             <div class="booking__subtitle">Cancellation policy</div>
@@ -109,7 +109,10 @@
             <p class="booking__description"><span class="covid">Make sure this host’s cancellation policy works for you.</span> For reservations made after March 14, COVID-19 will not qualify as an extenuating circumstance. <span class="more">Learn more</span></p>
           </div>
           <p class="booking__condition">By selecting the button below, I agree to the House Rules, Safety Disclosures, Cancellation Policy, and the Guest Refund Policy. I also agree to pay the total amount shown, which includes Service Fees. Payment Terms between you and Airbnb Payments UK Ltd.</p>
-          <button class="booking__submit">Confirm and pay</button>
+          <button
+            class="booking__submit"
+            @submit.prevent="confirmAndPay"
+          >Confirm and pay</button>
         </form>
       </div>
       <HomeDetailsCard :home="home" />
@@ -122,11 +125,13 @@ import { mapGetters } from 'vuex'
 import GuestsPicker from '../components/GuestsPicker'
 import HomeDetailsCard from '../components/HomeDetailsCard'
 import ModelDataPicker from "../components/ModelDataPicker";
+import PhoneCodesModal from "../components/PhoneCodesModal";
 export default {
   components: {
     ModelDataPicker,
     HomeDetailsCard,
-    GuestsPicker
+    GuestsPicker,
+    PhoneCodesModal
   },
   data() {
     return {
@@ -184,6 +189,9 @@ export default {
         (mm>9 ? '' : '0') + mm,
         (dd>9 ? '' : '0') + dd
       ].join('-');
+    },
+    confirmAndPay() {
+
     }
   },
   computed: {

@@ -7,3 +7,5 @@ export * from './home'
 export * from './me'
 
 export * from './pick'
+
+export * from './request'
