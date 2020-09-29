@@ -94,7 +94,7 @@
               <p class="booking__label">Message the host</p>
               <span class="booking__dates">Let the host know why you're travelling and when you'll check in.</span>
             </div>
-            <button>Add</button>
+            <MessageModal />
           </div>
           <div class="booking__input-row input-row">
             <div class="booking__field-label field-label">
@@ -126,12 +126,14 @@ import GuestsPicker from '../components/GuestsPicker'
 import HomeDetailsCard from '../components/HomeDetailsCard'
 import ModelDataPicker from "../components/ModelDataPicker";
 import PhoneCodesModal from "../components/PhoneCodesModal";
+import MessageModal from '../components/MessageModal'
 export default {
   components: {
     ModelDataPicker,
     HomeDetailsCard,
     GuestsPicker,
-    PhoneCodesModal
+    PhoneCodesModal,
+    MessageModal,
   },
   data() {
     return {
@@ -214,6 +216,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 50px 0;
 
     &__wrapper {
       width: 60%;
@@ -326,7 +329,7 @@ export default {
           .booking__submit {
             padding: 10px 15px;
             font-weight: 600;
-            background-image: radial-gradient(circle at center center, rgb(255, 56, 92) 0%, rgb(230, 30, 77) 27.5%, rgb(227, 28, 95) 40%, rgb(215, 4, 102) 57.5%, rgb(189, 30, 89) 75%, rgb(189, 30, 89) 100%);
+            background-image: radial-gradient(rgb(255, 56, 92) 0%, rgb(230, 30, 77) 27.5%, rgb(227, 28, 95) 40%, rgb(215, 4, 102) 57.5%, rgb(189, 30, 89) 75%, rgb(189, 30, 89) 100%);
             border-radius: 12px;
             color: white;
             outline: none;
