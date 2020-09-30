@@ -30,14 +30,18 @@
         <p class="account-info__item">Trips</p>
         <p class="account-info__item">Messages</p>
       </div>
-      <img src="../assets/img/background.jpg" class="account-info__avatar"/>
+      <img @click="goToDashboard" src="../assets/img/background.jpg" class="account-info__avatar"/>
     </div>
   </header>
 </template>
 
 <script>
 export default {
-
+  methods: {
+    async goToDashboard() {
+      await this.$router.push({ name: "Dashboard" })
+    }
+  }
 }
 </script>
 
@@ -104,6 +108,7 @@ export default {
         height: 60px;
         border: 7px solid #fff;
         border-radius: 50%;
+        cursor: pointer;
       }
     }
   }

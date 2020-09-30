@@ -101,7 +101,7 @@ const router = new VueRouter({
 // eslint-disable-next-line
 router.beforeEach((to, from, next) => {
   // TODO removed 2 last from publicPages
-  const publicPages = ['Login', 'Registration', 'Home', 'ProductPage', 'Map', 'GetStarted', 'CreateHome']
+  const publicPages = ['Login', 'Registration', 'Home', 'ProductPage']
   const authRequired = !publicPages.includes(to.name);
   const loggedIn = Cookie.get('session_id')
 

@@ -1,13 +1,13 @@
 <template>
   <v-app id="app">
-<!--    <Header />-->
+    <Header />
     <router-view v-if="!loading"/>
     <Loading v-else/>
   </v-app>
 </template>
 
 <script>
-// import Header from './components/Header.vue'
+import Header from './components/Header.vue'
 import Loading from './views/Loading.vue'
 
 import { mapGetters } from 'vuex'
@@ -15,7 +15,7 @@ import { mapGetters } from 'vuex'
 export default {
   name: "App",
   components: {
-    // Header,
+    Header,
     Loading
   },
   computed: {
