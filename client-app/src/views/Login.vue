@@ -29,7 +29,8 @@ export default {
   },
   methods: {
     async doLogin(){
-      await this.$store.dispatch('auth/logIn', { email: this.email, password: this.password})
+      await this.$store.dispatch('user/logIn', { email: this.email, password: this.password})
+      await this.$store.dispatch('user/getUser')
       await router.push({ path: '/', name: "Home" })
     }
   },

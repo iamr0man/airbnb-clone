@@ -57,12 +57,13 @@ export default {
   },
   methods: {
     async registration(){
-      await this.$store.dispatch('auth/registration', {
+      await this.$store.dispatch('user/registration', {
         email: this.email,
         name: this.name,
         password: this.password,
         passwordConfirmation: this.passwordConfirmation
       })
+      await this.$store.dispatch('user/getUser')
       await router.push({ path: '/', name: "Home" })
     }
   }

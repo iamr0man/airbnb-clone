@@ -9,7 +9,7 @@
                 </div>
             </div>
             <div class="dashboard__total">
-                <h1 class="dashboard__price">$9230</h1>
+                <h1 class="dashboard__price">${{ user.earnedInAMonth }}</h1>
                 <p class="dashboard__month">for 12 nights in October</p>
             </div>
         </div>
@@ -30,7 +30,8 @@
             Request
         },
         computed: {
-            ...mapGetters('data', ['requests'])
+            ...mapGetters('user', ['user']),
+            ...mapGetters('data', ['requests']),
         },
         async mounted() {
             await this.$store.dispatch('data/getRequests')

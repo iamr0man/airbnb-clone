@@ -12,8 +12,6 @@ import ProductPage from "../views/ProductPage.vue";
 import Map from "../views/Map.vue";
 import Expe from "../components/Expe.vue";
 
-import Cookie from 'js-cookie'
-
 Vue.use(VueRouter);
 
 const routes = [
@@ -99,11 +97,10 @@ const router = new VueRouter({
 });
 
 // eslint-disable-next-line
-router.beforeEach((to, from, next) => {
-  // TODO removed 2 last from publicPages
+router.beforeEach(async (to, from, next) => {
   const publicPages = ['Login', 'Registration', 'Home', 'ProductPage']
   const authRequired = !publicPages.includes(to.name);
-  const loggedIn = Cookie.get('session_id')
+  const loggedIn = Object.entries(store.getters['user/user']).length
 
   if(authRequired && !loggedIn) {
     next('/login')

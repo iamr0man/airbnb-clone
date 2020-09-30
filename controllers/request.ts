@@ -3,9 +3,6 @@ import {BadRequest, Unauthorized} from "../errors";
 
 export const getRequest = async(req, res) => {
     // @ts-ignore
-    console.log(req.session)
-    console.log(await Request.find({ host_id: req.session!.userId}))
-    // @ts-ignore
     const allRequests = await Request.find({ host_id: req.session!.userId}).populate('guest_id').then((user: User) => {
         return user;
     })

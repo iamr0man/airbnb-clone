@@ -19,7 +19,6 @@ Vue.use(VueGoogleMaps, {
 Vue.config.productionTip = false;
 
 (async () => {
-  await store.dispatch('auth/getUser')
   new Vue({
     router,
     store,

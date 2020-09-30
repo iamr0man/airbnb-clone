@@ -3,7 +3,7 @@ import Vuex from "vuex";
 
 Vue.use(Vuex);
 
-import auth from './modules/auth'
+import user from './modules/user'
 import data from './modules/data'
 import home from './modules/home'
 import pick from './modules/pick'
@@ -11,7 +11,7 @@ import loading from './modules/loading'
 
 export default new Vuex.Store({
   modules: {
-    auth,
+    user,
     data,
     home,
     pick,

@@ -15,8 +15,16 @@ export default {
   actions: {
     async getUser({ commit}){
       const session_id = Cookie.get('session_id') || {}
-      const data = await UserApi.getUser(session_id)
+      const { data } = await UserApi.getUser(session_id)
 
+      if(data) {
+        commit('SET_USER', data)
+        return data
+      }
+      return false
+    },
+    async updateUser({ commit }, { newUser }) {
+      const { data } = await UserApi.updateUser(newUser)
       if(data) {
         commit('SET_USER', data)
       }
