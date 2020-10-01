@@ -10,13 +10,14 @@ export const getRequest = async(req, res) => {
 }
 
 export const createRequest = async(req, res) => {
-    const { host_id, home, date, guests, money } = req.body;
+    const { host_id, home, status, date, guests, money } = req.body;
 
     // @ts-ignore
     const newRequest = await Request.create({
         host_id,
         home,
         guest_id: req.session!.userId,
+        status,
         date,
         guests,
         money
@@ -24,35 +25,31 @@ export const createRequest = async(req, res) => {
     res.status(201).json(newRequest);
 }
 
-// export const updateRequest = async (req, res) => {
-//
-//     const { discover, city, museum } = req.body;
-//
-//     const pickFields: any = {};
-//
-//     pickFields.admin = req.session!.userId;
-//     if (discover) pickFields.discover = req.body.discover;
-//     if (city) pickFields.city = req.body.city;
-//     if (museum) pickFields.museum = req.body.museum;
-//
-//     let pick = await Request.findOne({ admin: req.session!.userId })
-//
-//     if (pick.admin.toString() !== req.session!.userId) {
-//         return new Unauthorized('You are not admin, sorry')
-//     }
-//
-//     if (!pick) {
-//         return new BadRequest('Request not found')
-//     }
-//
-//     pick = await Request.findOneAndUpdate(
-//         {admin: req.session!.userId},
-//         {$set: pickFields},
-//         {new: true}
-//     );
-//
-//     res.json(pick)
-// }
+export const updateRequest = async (req, res) => {
+
+    const { status, date, guests, money } = req.body;
+
+    const requestFields: any = {};
+
+    if(status) { requestFields.status = status}
+    if(date) { requestFields.date = date}
+    if(guests) { requestFields.guests = guests}
+    if(money) { requestFields.money = money}
+
+    let request = await Request.findById(req.params.id)
+
+    if (!request) {
+        return new BadRequest('Request not found')
+    }
+
+    request = await Request.findByIdAndUpdate(
+         req.params.id,
+        {$set: requestFields},
+        {new: true}
+    );
+
+    res.json(request)
+}
 
 // export const deletePick = async(req, res) =>{
 //

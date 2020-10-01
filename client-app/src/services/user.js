@@ -4,8 +4,8 @@ export default {
   async getUser () {
     return await axios.get('/me')
   },
-  async updateUser (newUser) {
-    return await axios.put('/me', { ...newUser });
+  async updateUser (userFields) {
+    return await axios.put('/me', { ...userFields });
   },
   async logIn (email, password){
     return await axios.post('/login', { email, password}, {

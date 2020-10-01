@@ -12,7 +12,7 @@
             <v-btn
                 dark
                 @click="confirm"
-                >Confirm</v-btn>
+                >{{ requestStatus }}</v-btn>
         </div>
     </div>
 </template>
@@ -29,11 +29,26 @@
         },
         methods: {
             async confirm() {
-                const newUser = {
+                const requestFields = {
+                    status: this.request.status
+                }
+                await this.$store.dispatch('data/updateRequest', {
+                    id: this.request._id,
+                    requestFields
+                })
+                await this.$store.dispatch('data/getRequests')
+
+                const userFields = {
                     earnedInAMonth: parseInt(this.request.money)
                 };
-                await this.$store.dispatch('user/updateUser', { newUser })
-            }
+
+                if(this.request.status)
+
+                await this.$store.dispatch('user/updateUser', {
+                    userFields
+                })
+            },
+
         },
         computed: {
             inNumbers() {
@@ -50,6 +65,17 @@
                     `${this.request.guests} guests`,
                     `$${this.request.money}`
                 ].join(' • ')
+            },
+            requestStatus() {
+                switch (this.request.status) {
+                    case "request":
+                        return "confirm"
+                    case "injuries":
+                        return "reply"
+                    case "confirmed":
+                        return "reject"
+                }
+                return 'confirm'
             }
         }
     }

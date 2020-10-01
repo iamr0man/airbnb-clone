@@ -19,7 +19,7 @@ export const createApp = (store: Store) => {
 
     app.use(cors({
         credentials: true,
-        origin: 'http://localhost:8080'
+        origin: 'http://localhost:8081'
     }))
 
     app.use(active)

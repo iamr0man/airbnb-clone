@@ -4,7 +4,10 @@ export default {
   async getRequests () {
     return await axios.get('/api/request')
   },
-  async createRequest (host_id, home, date, guests, money){
-    return await axios.post('/api/request', { host_id, home, date, guests, money})
+  async createRequest (requestFields){
+    return await axios.post('/api/request', { requestFields })
+  },
+  async updateRequest (id, requestFields){
+    return await axios.put(`/api/request/${id}`, { ...requestFields })
   },
 }

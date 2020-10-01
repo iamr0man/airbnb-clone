@@ -23,8 +23,8 @@ export default {
       }
       return false
     },
-    async updateUser({ commit }, { newUser }) {
-      const { data } = await UserApi.updateUser(newUser)
+    async updateUser({ commit }, { userFields }) {
+      const { data } = await UserApi.updateUser(userFields)
       if(data) {
         commit('SET_USER', data)
       }

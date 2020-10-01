@@ -17,11 +17,18 @@ export default {
         commit('SET_REQUESTS', data)
       }
     },
-    async createRequest({ commit }, {host_id, home, date, guests, money}) {
-      const { data } = await DataApi.createRequest(host_id, home, date, guests, money)
+    async createRequest({ commit }, {requestFields}) {
+      const { data } = await DataApi.createRequest(requestFields)
       if(data){
         commit('SET_REQUESTS', data)
       }
+    },
+    // eslint-disable-next-line
+    async updateRequest({ commit }, { id, requestFields }) {
+      return await DataApi.updateRequest(id, requestFields)
+      // if(data) {
+      //   commit('SET_REQUEST', data)
+      // }
     }
   },
   getters: {

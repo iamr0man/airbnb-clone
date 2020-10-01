@@ -3,7 +3,7 @@ import {auth, guest, catchAsync} from "../middleware";
 
 const router = Router()
 
-import { getRequest, createRequest } from '../controllers'
+import { getRequest, createRequest, updateRequest } from '../controllers'
 
 //@route    GET api/request/
 //@desc     Get request
@@ -20,10 +20,10 @@ router.post('/', [
 ], catchAsync(createRequest))
 
 //@route    PUT api/request/:id
-//@desc     Update pick
+//@desc     Update request
 //@access   Private
-// router.put('/:id', auth, [
-// ], catchAsync(updatePick))
+router.put('/:id', auth, [
+], catchAsync(updateRequest))
 
 //@route    DELETE api/request/:id
 //@desc     Delete pick
