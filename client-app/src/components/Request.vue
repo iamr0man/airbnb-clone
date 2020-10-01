@@ -10,9 +10,16 @@
         </div>
         <div class="request__action">
             <v-btn
+                class="mr-3"
+                :disabled="isConfirmed"
                 dark
-                @click="confirm"
-                >{{ requestStatus }}</v-btn>
+                @click="confirmOrRejectRequest"
+                >Confirm</v-btn>
+            <v-btn
+                :disabled="isDisapproved"
+                dark
+                @click="confirmOrRejectRequest"
+                >Reject</v-btn>
         </div>
     </div>
 </template>
@@ -24,35 +31,49 @@
             return {
                 monthNames: ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
                     "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-                ]
+                ],
+                newStatus: '',
+                isDisapproved: false
             }
         },
         methods: {
-            async confirm() {
+            async confirmOrRejectRequest() {
                 const requestFields = {
-                    status: this.request.status
-                }
+                    status: this.newStatus
+                };
                 await this.$store.dispatch('data/updateRequest', {
                     id: this.request._id,
                     requestFields
-                })
+                });
                 await this.$store.dispatch('data/getRequests')
-
-                const userFields = {
-                    earnedInAMonth: parseInt(this.request.money)
-                };
-
-                if(this.request.status)
-
-                await this.$store.dispatch('user/updateUser', {
-                    userFields
-                })
             },
-
+            requestStatus() {
+                if (this.request.status === "request") {
+                    this.newStatus = 'confirm';
+                    return "confirm";
+                } else if (this.request.status === "confirm") {
+                    this.newStatus = 'disapproved';
+                    this.$store.dispatch('user/updateUser', { userFields: {
+                            money: -Math.abs(this.request.money)
+                        }
+                    })
+                    return 'reject';
+                } else if (this.request.status === "disapproved") {
+                    this.$store.dispatch('user/updateUser', { userFields: {
+                            money: -Math.abs(this.request.money)
+                        }
+                    })
+                    this.isDisapproved = true
+                } else if (this.request.status === "injuries") {
+                    this.newStatus = 'reply';
+                    return "reply"
+                }
+                return 'confirm'
+            }
         },
         computed: {
             inNumbers() {
-                const [first, second ] = this.request.date.map(v => new Date(v))
+                const [first, second ] = this.request.date.map(v => new Date(v));
 
                 let parsedData = '';
                 if(first.getMonth() === second.getMonth()) {
@@ -66,16 +87,8 @@
                     `$${this.request.money}`
                 ].join(' • ')
             },
-            requestStatus() {
-                switch (this.request.status) {
-                    case "request":
-                        return "confirm"
-                    case "injuries":
-                        return "reply"
-                    case "confirmed":
-                        return "reject"
-                }
-                return 'confirm'
+            isConfirmed() {
+                return this.request.status === 'confirm'
             }
         }
     }

@@ -80,7 +80,7 @@
         }
 
         &__content {
-            width: 60%;
+            width: 75%;
             margin: 50px auto;
             display: flex;
             flex-direction: column;
