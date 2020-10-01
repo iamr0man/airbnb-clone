@@ -22,7 +22,7 @@
                     />
                 </div>
                 <v-btn class="get-started__action">
-                    <router-link to="/become-a-host">Get Started</router-link>
+                    <router-link :to="{ name: 'CreateHome' }">Get Started</router-link>
                 </v-btn>
             </div>
         </div>

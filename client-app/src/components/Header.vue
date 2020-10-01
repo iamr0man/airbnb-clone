@@ -1,6 +1,6 @@
 <template>
   <header class="header">
-    <div class="header__logo">
+    <div @click="goToHome" class="header__logo">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -38,6 +38,9 @@
 <script>
 export default {
   methods: {
+    async goToHome() {
+      await this.$router.push({ path: "/" })
+    },
     async goToDashboard() {
       await this.$router.push({ name: "Dashboard" })
     }

@@ -10,65 +10,48 @@
         </div>
         <div class="request__action">
             <v-btn
+                v-if="isConfirmed"
                 class="mr-3"
-                :disabled="isConfirmed"
                 dark
-                @click="confirmOrRejectRequest"
+                @click="setRequestStatus('confirm')"
                 >Confirm</v-btn>
             <v-btn
-                :disabled="isDisapproved"
+                v-if="isReject"
                 dark
-                @click="confirmOrRejectRequest"
+                @click="setRequestStatus('reject')"
                 >Reject</v-btn>
+            <v-btn
+                v-if="isDisapproved"
+                dark
+                @click="setRequestStatus('disapproved')"
+                >Disapprove</v-btn>
         </div>
     </div>
 </template>
 
 <script>
     export default {
-        props: ['request'],
-        data() {
-            return {
-                monthNames: ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-                    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-                ],
-                newStatus: '',
-                isDisapproved: false
-            }
-        },
+        props: ['request', 'monthNames', 'nights'],
         methods: {
-            async confirmOrRejectRequest() {
+            async setRequestStatus(status) {
                 const requestFields = {
-                    status: this.newStatus
+                    status
                 };
                 await this.$store.dispatch('data/updateRequest', {
                     id: this.request._id,
                     requestFields
                 });
                 await this.$store.dispatch('data/getRequests')
+                this.updateAccount()
             },
-            requestStatus() {
-                if (this.request.status === "request") {
-                    this.newStatus = 'confirm';
-                    return "confirm";
-                } else if (this.request.status === "confirm") {
-                    this.newStatus = 'disapproved';
-                    this.$store.dispatch('user/updateUser', { userFields: {
-                            money: -Math.abs(this.request.money)
-                        }
-                    })
-                    return 'reject';
-                } else if (this.request.status === "disapproved") {
-                    this.$store.dispatch('user/updateUser', { userFields: {
-                            money: -Math.abs(this.request.money)
-                        }
-                    })
-                    this.isDisapproved = true
-                } else if (this.request.status === "injuries") {
-                    this.newStatus = 'reply';
-                    return "reply"
-                }
-                return 'confirm'
+            async updateAccount() {
+                const rs = this.request.status
+                const expr = Math.abs(this.request.money)
+                await this.$store.dispatch('user/updateUser', {
+                    userFields: {
+                        earnedInAMonth: rs === "confirm" ? expr : rs === 'reject' ? 0 : -expr
+                    }
+                })
             }
         },
         computed: {
@@ -84,12 +67,19 @@
                 return [
                     parsedData,
                     `${this.request.guests} guests`,
-                    `$${this.request.money}`
+                    `$${this.request.money*this.nights}`
                 ].join(' • ')
             },
             isConfirmed() {
-                return this.request.status === 'confirm'
-            }
+                return this.request.status === 'request'
+            },
+            isReject() {
+                return this.request.status === 'request' ||  this.request.status === 'confirm'
+            },
+            isDisapproved() {
+                return this.request.status === 'reject'
+            },
+
         }
     }
 </script>

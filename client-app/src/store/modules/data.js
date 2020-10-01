@@ -4,6 +4,7 @@ export default {
   namespaced: true,
   state: {
     requests: [],
+    confirmedRequests: []
   },
   mutations: {
     SET_REQUESTS(state, payload) {
@@ -33,5 +34,6 @@ export default {
   },
   getters: {
     requests: state => state.requests,
+    confirmedRequests: state => state.requests.filter(v => v.status === 'confirm')
   }
 }

@@ -10,14 +10,14 @@
             </div>
             <div class="dashboard__total">
                 <h1 class="dashboard__price">${{ user.earnedInAMonth }}</h1>
-                <p class="dashboard__month">for 12 nights in October</p>
+                <p class="dashboard__month">for {{ nights }} nights in {{ monthName }}</p>
             </div>
         </div>
         <div class="dashboard__content">
             <h2 class="dashboard__title">Pending</h2>
             <h3 class="subtitle">Requests & Injuries</h3>
             <div class="dashboard__divider" />
-            <Request v-for="v in requests" :request="v" :key="v._id"/>
+            <Request :monthNames="monthNames" v-for="v in requests" :nights="nights" :request="v" :key="v._id"/>
         </div>
     </div>
 </template>
@@ -29,12 +29,43 @@
         components: {
             Request
         },
+        data() {
+            return {
+                month: new Date().getMonth(),
+                monthNames: ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+                ],
+                nights: 0,
+            }
+        },
+        methods: {
+          countBookedDate() {
+              if(this.requests.length) {
+                   this.requests.forEach(v => {
+                       const [first, second] = v.date.range
+
+                       const currentMonth = new Date().getMonth()
+                       const oneDay = 24 * 60 * 60 * 1000;
+                       for(let i = first; i < second; i+=oneDay) {
+                           console.log(new Date(i).getMonth())
+                           if(new Date(i).getMonth() === currentMonth) {
+                               this.nights++;
+                           }
+                       }
+                  })
+              }
+          }
+        },
         computed: {
             ...mapGetters('user', ['user']),
-            ...mapGetters('data', ['requests']),
+            ...mapGetters('data', ['requests', 'confirmedRequests']),
+            monthName() {
+                return this.monthNames[this.month]
+            }
         },
         async mounted() {
             await this.$store.dispatch('data/getRequests')
+            this.countBookedDate()
         }
     }
 </script>
