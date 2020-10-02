@@ -31,7 +31,14 @@
 
 <script>
     export default {
-        props: ['request', 'monthNames', 'nights'],
+        props: ['request'],
+        data() {
+          return {
+            monthNames: ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+              "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+            ],
+          }
+        },
         methods: {
             async setRequestStatus(status) {
                 const requestFields = {
@@ -42,14 +49,14 @@
                     requestFields
                 });
                 await this.$store.dispatch('data/getRequests')
-                this.updateAccount()
+                await this.updateAccount()
             },
             async updateAccount() {
                 const rs = this.request.status
                 const expr = Math.abs(this.request.money)
                 await this.$store.dispatch('user/updateUser', {
                     userFields: {
-                        earnedInAMonth: rs === "confirm" ? expr : rs === 'reject' ? 0 : -expr
+                      earnedAllTime: rs === "confirm" ? expr : rs === 'reject' ? 0 : -expr
                     }
                 })
             }
@@ -67,7 +74,7 @@
                 return [
                     parsedData,
                     `${this.request.guests} guests`,
-                    `$${this.request.money*this.nights}`
+                    `$${this.request.money}`
                 ].join(' • ')
             },
             isConfirmed() {

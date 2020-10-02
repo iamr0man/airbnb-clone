@@ -9,15 +9,18 @@
                 </div>
             </div>
             <div class="dashboard__total">
-                <h1 class="dashboard__price">${{ user.earnedInAMonth }}</h1>
-                <p class="dashboard__month">for {{ nights }} nights in {{ monthName }}</p>
+                <h1 class="dashboard__price">${{ user.earnedAllTime }}</h1>
+                <p class="dashboard__month">for {{ confirmedNights }} nights</p>
             </div>
         </div>
         <div class="dashboard__content">
             <h2 class="dashboard__title">Pending</h2>
             <h3 class="subtitle">Requests & Injuries</h3>
             <div class="dashboard__divider" />
-            <Request :monthNames="monthNames" v-for="v in requests" :nights="nights" :request="v" :key="v._id"/>
+            <Request
+                v-for="v in requests"
+                :request="v"
+                :key="v._id"/>
         </div>
     </div>
 </template>
@@ -30,42 +33,46 @@
             Request
         },
         data() {
-            return {
-                month: new Date().getMonth(),
-                monthNames: ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-                    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-                ],
-                nights: 0,
-            }
+          return {
+            confirmedNights: 0
+          }
         },
         methods: {
-          countBookedDate() {
-              if(this.requests.length) {
-                   this.requests.forEach(v => {
-                       const [first, second] = v.date.range
+          async countBookedDate() {
+            if(this.requests.length) {
+               for (const v of this.requests) {
+                 if(v.status === 'confirm') {
+                   const [first, second] = v.date
+                   let amountOfNights =  0;
+                   const oneDay = 24 * 60 * 60 * 1000;
 
-                       const currentMonth = new Date().getMonth()
-                       const oneDay = 24 * 60 * 60 * 1000;
-                       for(let i = first; i < second; i+=oneDay) {
-                           console.log(new Date(i).getMonth())
-                           if(new Date(i).getMonth() === currentMonth) {
-                               this.nights++;
-                           }
-                       }
-                  })
+                   for(let i = first; i < second; i+=oneDay) {
+                     amountOfNights++;
+                   }
+
+                   const rs = v.status
+                   const expr = Math.abs(v.money)
+                   await this.$store.dispatch('user/updateUser', {
+                      userFields: {
+                        earnedAllTime: rs === "confirm" ? expr : rs === 'reject' ? 0 : -expr
+                      }
+                   })
+
+                   this.confirmedNights += amountOfNights;
+                 }
               }
+            }
           }
         },
         computed: {
             ...mapGetters('user', ['user']),
-            ...mapGetters('data', ['requests', 'confirmedRequests']),
-            monthName() {
-                return this.monthNames[this.month]
-            }
+            ...mapGetters('data', ['requests']),
         },
         async mounted() {
             await this.$store.dispatch('data/getRequests')
-            this.countBookedDate()
+        },
+        async updated() {
+            await this.countBookedDate()
         }
     }
 </script>

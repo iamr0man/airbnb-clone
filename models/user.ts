@@ -17,7 +17,7 @@ export interface UserDocument extends Document {
         unique: true
     },
     information: String,
-    earnedInAMonth: Number,
+    earnedAllTime: Number,
     password: {
         type: String,
         required: true
@@ -75,7 +75,7 @@ const userSchema = new Schema(
             unique: true
         },
         information: String,
-        earnedInAMonth: Number,
+        earnedAllTime: Number,
         password: {
             type: String,
             required: true

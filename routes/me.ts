@@ -14,7 +14,7 @@ router.put('/', auth, catchAsync(async (req, res) => {
         avatar,
         email,
         information,
-        earnedInAMonth,
+        earnedAllTime,
         reviews
     } = req.body
 
@@ -24,9 +24,9 @@ router.put('/', auth, catchAsync(async (req, res) => {
     if(avatar) { userFields.avatar = avatar }
     if(email) { userFields.email = email }
     if(information) { userFields.information = information }
-    if(earnedInAMonth) {
+    if(earnedAllTime) {
         const user = await User.findById(req.session!.userId)
-        userFields.earnedInAMonth = user.earnedInAMonth + earnedInAMonth
+        userFields.earnedAllTime = user.earnedAllTime + earnedAllTime
     }
     if(reviews) { userFields.reviews = reviews }
 
