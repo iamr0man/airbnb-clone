@@ -38,9 +38,9 @@
                                 :adults="adults"
                                 :children="children"
                                 :babies="babies"
-                                @changeAdults="updateAdults"
-                                @changeChildren="updateChildren"
-                                @changeBabies="updateBabies"
+                                @changeAdults="updateGuests"
+                                @changeChildren="updateGuests"
+                                @changeBabies="updateGuests"
                                 buttonName="Select Guests"
                             />
                         </v-row>
@@ -88,9 +88,15 @@ export default {
     data() {
         return {
             date: null,
-            adults: 0,
-            children: 0,
-            babies: 0,
+            adults: {
+              name: 'adults', value: 0,
+            },
+            children: {
+              name: 'children', value: 0,
+            },
+            babies: {
+              name: 'babies', value: 0,
+            },
             nights: -1,
             cleaningFee: 0,
             serviceFee: 0, 
@@ -105,14 +111,8 @@ export default {
         }
     },
     methods: {
-        updateAdults(newValue) {
-            this.adults = newValue
-        },
-        updateChildren(newValue) {
-            this.children = newValue
-        },
-        updateBabies(newValue) {
-            this.babies = newValue
+        updateGuests(v) {
+            this[v.name].value = v.value
         },
         datePick(){
             if(this.date) {
@@ -150,9 +150,9 @@ export default {
           const data = {
               date: this.date,
               guests: {
-                  adults :this.adults,
-                  children :this.children,
-                  babies :this.babies
+                  adults: this.adults,
+                  children: this.children,
+                  babies: this.babies
               },
               prices: {
                   nights: this.nights,

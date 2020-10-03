@@ -24,7 +24,7 @@
                             </div>
                             <div class="counter">
                                 <v-icon @click="updateAdults(-1)" class="mdi mdi-minus-circle-outline" />
-                                <p>{{ adults }}</p>
+                                <p>{{ adults.value }}</p>
                                 <v-icon @click="updateAdults(1)" class="mdi mdi-plus-circle-outline" />
                             </div>
                         </v-col>
@@ -35,7 +35,7 @@
                             </div>
                             <div class="counter">
                                 <v-icon @click="updateChildren(-1)" class="mdi mdi-minus-circle-outline" />
-                                <p>{{ children }}</p>
+                                <p>{{ children.value }}</p>
                                 <v-icon @click="updateChildren(1)" class="mdi mdi-plus-circle-outline" />
                             </div>
                         </v-col>
@@ -46,7 +46,7 @@
                             </div>
                             <div class="counter">
                                 <v-icon @click="updateBabies(1)" class="mdi mdi-minus-circle-outline" />
-                                <p>{{ babies }}</p>
+                                <p>{{ babies.value }}</p>
                                 <v-icon @click="updateBabies(1)" class="mdi mdi-plus-circle-outline" />
                             </div>
                         </v-col>
@@ -71,13 +71,13 @@ export default {
     },
     methods: {
         updateAdults(v) {
-            this.$emit('changeAdults', this.adults+v)
+            this.$emit('changeAdults', { name: 'adults', value: this.adults.value+v })
         },
         updateChildren(v) {
-            this.$emit('changeChildren', this.children+v)
+            this.$emit('changeChildren', { name: 'children', value: this.children.value+v })
         },
         updateBabies(v) {
-            this.$emit('changeBabies', this.adults+v)
+            this.$emit('changeBabies', { name: 'babies', value: this.babies.value+v })
         },
     }
 }

@@ -10,7 +10,7 @@ export const getRequest = async(req, res) => {
 }
 
 export const createRequest = async(req, res) => {
-    const { host_id, home, status, date, guests, money } = req.body;
+    const { host_id, home, status, date, guests, money, isCounted } = req.body;
 
     // @ts-ignore
     const newRequest = await Request.create({
@@ -20,6 +20,7 @@ export const createRequest = async(req, res) => {
         status,
         date,
         guests,
+        isCounted,
         money
     })
     res.status(201).json(newRequest);
@@ -27,7 +28,7 @@ export const createRequest = async(req, res) => {
 
 export const updateRequest = async (req, res) => {
 
-    const { status, date, guests, money } = req.body;
+    const { status, date, guests, money, isCounted } = req.body;
 
     const requestFields: any = {};
 
@@ -35,6 +36,7 @@ export const updateRequest = async (req, res) => {
     if(date) { requestFields.date = date}
     if(guests) { requestFields.guests = guests}
     if(money) { requestFields.money = money}
+    if(isCounted) { requestFields.isCounted = isCounted}
 
     let request = await Request.findById(req.params.id)
 

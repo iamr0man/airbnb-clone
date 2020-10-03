@@ -18,6 +18,7 @@ export interface UserDocument extends Document {
     },
     information: String,
     earnedAllTime: Number,
+    confirmedNights: Number,
     password: {
         type: String,
         required: true
@@ -76,6 +77,7 @@ const userSchema = new Schema(
         },
         information: String,
         earnedAllTime: Number,
+        confirmedNights: Number,
         password: {
             type: String,
             required: true

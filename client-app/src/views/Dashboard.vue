@@ -10,7 +10,7 @@
             </div>
             <div class="dashboard__total">
                 <h1 class="dashboard__price">${{ user.earnedAllTime }}</h1>
-                <p class="dashboard__month">for {{ confirmedNights }} nights</p>
+                <p class="dashboard__month">for {{ user.confirmedNights }} nights</p>
             </div>
         </div>
         <div class="dashboard__content">
@@ -20,7 +20,8 @@
             <Request
                 v-for="v in requests"
                 :request="v"
-                :key="v._id"/>
+                :key="v._id"
+            />
         </div>
     </div>
 </template>
@@ -32,49 +33,15 @@
         components: {
             Request
         },
-        data() {
-          return {
-            confirmedNights: 0
-          }
-        },
-        methods: {
-          async countBookedDate() {
-            if(this.requests.length) {
-               for (const v of this.requests) {
-                 if(v.status === 'confirm') {
-                   const [first, second] = v.date
-                   let amountOfNights =  0;
-                   const oneDay = 24 * 60 * 60 * 1000;
-
-                   for(let i = first; i < second; i+=oneDay) {
-                     amountOfNights++;
-                   }
-
-                   const rs = v.status
-                   const expr = Math.abs(v.money)
-                   await this.$store.dispatch('user/updateUser', {
-                      userFields: {
-                        earnedAllTime: rs === "confirm" ? expr : rs === 'reject' ? 0 : -expr
-                      }
-                   })
-
-                   this.confirmedNights += amountOfNights;
-                 }
-              }
-            }
-          }
-        },
         computed: {
-            ...mapGetters('user', ['user']),
-            ...mapGetters('data', ['requests']),
+          ...mapGetters('user', ['user']),
+          ...mapGetters('data', ['requests']),
         },
         async mounted() {
-            await this.$store.dispatch('data/getRequests')
-        },
-        async updated() {
-            await this.countBookedDate()
+          // TODO update user
+          await this.$store.dispatch('data/getRequests')
         }
-    }
+      }
 </script>
 
 <style lang="scss" scoped>

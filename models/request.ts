@@ -17,6 +17,7 @@ export interface RequestDocument extends Document {
     date: Array<Number>,
     guests: String,
     money: Number,
+    isCounted: Boolean,
     regDate: Date
 }
 
@@ -39,6 +40,7 @@ const RequestSchema = new Schema({
     date: [Number],
     guests: String,
     money: Number,
+    isCounted: Boolean,
     regDate: {
         type: Date,
         default: Date.now

@@ -21,9 +21,9 @@
               :adults="bookingData.guests.adults"
               :children="bookingData.guests.children"
               :babies="bookingData.guests.babies"
-              @changeAdults="updateAdults"
-              @changeChildren="updateChildren"
-              @changeBabies="updateBabies"
+              @changeAdults="updateGuests"
+              @changeChildren="updateGuests"
+              @changeBabies="updateGuests"
               buttonName="Edit"
           />
         </div>
@@ -158,6 +158,9 @@ export default {
       cvv: '',
       postcode: '',
       country: 'Ukraine',
+      // adults: '',
+      // children: '',
+      // babies: ''
     }
   },
   methods: {
@@ -165,21 +168,9 @@ export default {
       const images = require.context('../assets/img/', false, /\.svg$/)
       return images('./' + pet + ".svg")
     },
-    updateAdults(newValue) {
+    updateGuests(v) {
       const data = Object.assign({}, this.bookingData)
-      data.guests.adults = newValue
-
-      this.$store.dispatch('home/setBookingData', { data })
-    },
-    updateChildren(newValue) {
-      const data = Object.assign({}, this.bookingData)
-      data.guests.children = newValue
-
-      this.$store.dispatch('home/setBookingData', { data })
-    },
-    updateBabies(newValue) {
-      const data = Object.assign({}, this.bookingData)
-      data.guests.babies = newValue
+      data.guests[v.name].value = v.value
 
       this.$store.dispatch('home/setBookingData', { data })
     },
@@ -201,7 +192,7 @@ export default {
     amountOfGuests() {
       let res = 0
       for(const key in this.bookingData.guests) {
-        res += this.bookingData.guests[key]
+        res += this.bookingData.guests[key].value
       }
       return res;
     },

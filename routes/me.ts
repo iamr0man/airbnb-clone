@@ -15,6 +15,7 @@ router.put('/', auth, catchAsync(async (req, res) => {
         email,
         information,
         earnedAllTime,
+        confirmedNights,
         reviews
     } = req.body
 
@@ -28,6 +29,11 @@ router.put('/', auth, catchAsync(async (req, res) => {
         const user = await User.findById(req.session!.userId)
         userFields.earnedAllTime = user.earnedAllTime + earnedAllTime
     }
+    if(confirmedNights) {
+        const user = await User.findById(req.session!.userId)
+        userFields.confirmedNights = user.confirmedNights + confirmedNights
+    }
+    if(reviews) { userFields.reviews = reviews }
     if(reviews) { userFields.reviews = reviews }
 
     const user = await User.findOneAndUpdate(

@@ -7,8 +7,7 @@ export const getHome = async(req, res) => {
 
 export const createHome = async(req, res) => {
   const { apartmentType, apartmentRoomsDetails, location, photos, textDetails, name, pricePerNight } = req.body;
-  // TODO req.session!.userId
-  const user = await User.findById(req.body.user).select('-password')
+  const user = await User.findById(req.session!.userId).select('-password')
   //@ts-ignore
   const newHome = await Home.create({
     user: user.id,

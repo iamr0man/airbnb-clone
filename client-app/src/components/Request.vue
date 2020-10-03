@@ -34,35 +34,91 @@
         props: ['request'],
         data() {
           return {
+            rs: '',
+            ic: '',
+            currentSign: '',
+            signOfNights: 0,
             monthNames: ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
               "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
             ],
           }
         },
-        methods: {
-            async setRequestStatus(status) {
-                const requestFields = {
-                    status
-                };
-                await this.$store.dispatch('data/updateRequest', {
-                    id: this.request._id,
-                    requestFields
-                });
-                await this.$store.dispatch('data/getRequests')
-                await this.updateAccount()
-            },
-            async updateAccount() {
-                const rs = this.request.status
-                const expr = Math.abs(this.request.money)
-                await this.$store.dispatch('user/updateUser', {
-                    userFields: {
-                      earnedAllTime: rs === "confirm" ? expr : rs === 'reject' ? 0 : -expr
-                    }
-                })
-            }
+        async mounted() {
+          this.rs = this.request.status
+          if(!this.request.isCounted && this.isNeedToCount()) {
+            this.chooseSign()
+            this.countNights()
+            await this.updateEarnedMoney()
+            await this.markAsCounted()
+          }
         },
-        computed: {
-            inNumbers() {
+        methods: {
+            isNeedToCount() {
+              return !(this.rs === 'request' || this.rs === 'reject')
+            },
+            chooseSign() {
+              if(this.rs === 'confirm') {
+                this.currentSign = '+'
+              } else if (this.rs === 'disapproved') {
+                this.currentSign = '-'
+              }
+              console.log(this.currentSign)
+              return false
+            },
+            countNights() {
+              let amountOfNights = 0
+              const [first, second] = this.request.date
+              const oneDay = 24 * 60 * 60 * 1000;
+
+              for (let i = first; i < second; i += oneDay) {
+                amountOfNights++;
+              }
+              this.signOfNights = parseInt(this.currentSign + amountOfNights)
+              debugger
+            },
+            async updateEarnedMoney() {
+              const expr = Math.abs(this.request.money)
+              await this.$store.dispatch('user/updateUser', {
+                userFields: {
+                  earnedAllTime: parseInt(this.currentSign + expr),
+                  confirmedNights: parseInt(this.signOfNights)
+                }
+              })
+            },
+            async markAsCounted() {
+              await this.$store.dispatch('data/updateRequest', {
+                id: this.request._id,
+                requestFields: {
+                  isCounted: true
+                }
+              })
+              await this.$store.dispatch('data/getRequests')
+            },
+            async setRequestStatus(status) {
+              const requestFields = {
+                  status,
+                  isCounted: false
+              };
+              await this.$store.dispatch('data/updateRequest', {
+                  id: this.request._id,
+                  requestFields
+              });
+              await this.$store.dispatch('data/getRequests')
+
+              this.rs = this.request.status
+              console.log(!this.request.isCounted)
+              console.log(this.isNeedToCount())
+              debugger
+              if(this.request.isCounted && this.isNeedToCount()) {
+                this.chooseSign()
+                this.countNights()
+                await this.updateEarnedMoney()
+                await this.markAsCounted()
+              }
+            },
+          },
+          computed: {
+              inNumbers() {
                 const [first, second ] = this.request.date.map(v => new Date(v));
 
                 let parsedData = '';
@@ -76,18 +132,18 @@
                     `${this.request.guests} guests`,
                     `$${this.request.money}`
                 ].join(' • ')
-            },
-            isConfirmed() {
+              },
+              isConfirmed() {
                 return this.request.status === 'request'
-            },
-            isReject() {
+              },
+              isReject() {
                 return this.request.status === 'request' ||  this.request.status === 'confirm'
-            },
-            isDisapproved() {
+              },
+              isDisapproved() {
                 return this.request.status === 'reject'
-            },
+              },
 
-        }
+          }
     }
 </script>
 
