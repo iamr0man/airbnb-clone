@@ -8,7 +8,7 @@ import { ConnectionOptions } from 'mongoose'
 //   MONGO_DATABASE = 'auth'
 // } = process.env
 
-export const MONGO_URI = `mongodb+srv://iamr0man:danit0@cluster0-51kl1.mongodb.net/airbnb-plus?retryWrites=true&w=majority`
+export const MONGO_URI = `` // your link
 
 export const MONGO_OPTIONS: ConnectionOptions = {
     useNewUrlParser: true,
