@@ -4,8 +4,8 @@ import { IN_PROD, APP_HOSTNAME } from './app'
 const {
   SMTP_HOST = 'smtp.mailtrap.io',
   SMTP_PORT = 2525,
-  SMTP_USERNAME = 'c132f9a4948fb9',
-  SMTP_PASSWORD = '19ed1bafe9a14f'
+  SMTP_USERNAME = '', // your username
+  SMTP_PASSWORD = '' // your password
 } = process.env
 
 export const SMTP_OPTIONS: Options = {
