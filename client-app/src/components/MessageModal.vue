@@ -24,8 +24,8 @@
                     <div class="message-modal__info">
                         <img src="../assets/img/original.jpg" alt="" class="message-model__img">
                         <div class="message_model__host">
-                            <p class="message-model__name">Маріанна</p>
-                            <p class="message-model__joined">Joined in 2019</p>
+                            <p class="message-model__name">[this.host_id.name]</p>
+                            <p class="message-model__joined">Joined in [this.host_id.regDate]</p>
                         </div>
                     </div>
                     <v-textarea

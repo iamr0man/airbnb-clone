@@ -73,7 +73,7 @@
       <v-stepper-content step="8">
         <TitleStep class="container"/>
         <v-btn color="primary" @click="e6 = 1">Continue</v-btn>
-        <v-btn @click="e6 = 7" text>Cancel</v-btn>
+        <v-btn @click="goToSuccessPage" text>Cancel</v-btn>
       </v-stepper-content>
     </v-stepper>
   </div>
@@ -103,6 +103,11 @@ export default {
   data () {
     return {
       e6: 7,
+    }
+  },
+  methods: {
+    async goToSuccessPage() {
+
     }
   },
   created() {

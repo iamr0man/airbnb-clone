@@ -14,7 +14,7 @@
         <div class="booking__input-row input-row">
           <div class="booking__field-label field-label">
             <p class="booking__label">Guests</p>
-            <span class="booking__dates">{{ amountOfGuests }}</span>
+            <span class="booking__dates">{{ amountOfGuests() }}</span>
           </div>
           <GuestsPicker
               class="rooms-date__guests my-2"
@@ -54,6 +54,7 @@
             <div class="booking__input-row input-row">
               <v-text-field
                   v-model="cardNumber"
+                  v-mask="'XXXX XXXX XXXX XXXX'"
                   solo
                   label="Card number"
               />
@@ -62,11 +63,13 @@
               <v-text-field
                   class="mr-1"
                   v-model="expiration"
+                  v-mask="'XX/XX'"
                   solo
                   label="Expiration"
               />
               <v-text-field
                   v-model="cvv"
+                  v-mask="'###'"
                   solo
                   label="CVV"
               />
@@ -74,16 +77,16 @@
             <div class="booking__input-row input-row">
               <v-text-field
                   v-model="postcode"
+                  v-mask="'XXXXX'"
                   solo
                   label="Postcode"
               />
             </div>
             <div class="booking__input-row input-row">
-              <v-select
+              <v-text-field
                   v-model="country"
                   label="Country/Region"
                   solo
-                  :items="[]"
               />
             </div>
           </div>
@@ -111,7 +114,7 @@
           <p class="booking__condition">By selecting the button below, I agree to the House Rules, Safety Disclosures, Cancellation Policy, and the Guest Refund Policy. I also agree to pay the total amount shown, which includes Service Fees. Payment Terms between you and Airbnb Payments UK Ltd.</p>
           <button
             class="booking__submit"
-            @submit.prevent="confirmAndPay"
+            @click.prevent="confirmAndPay"
           >Confirm and pay</button>
         </form>
       </div>
@@ -122,6 +125,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import { mask } from 'vue-the-mask'
 import GuestsPicker from '../components/GuestsPicker'
 import HomeDetailsCard from '../components/HomeDetailsCard'
 import ModelDataPicker from "../components/ModelDataPicker";
@@ -134,6 +138,9 @@ export default {
     GuestsPicker,
     PhoneCodesModal,
     MessageModal,
+  },
+  directives: {
+    mask
   },
   data() {
     return {
@@ -172,7 +179,7 @@ export default {
       const data = Object.assign({}, this.bookingData)
       data.guests[v.name].value = v.value
 
-      this.$store.dispatch('home/setBookingData', { data })
+      this.$store.commit('home/SET_BOOKING_DATA', { data })
     },
     formatDate(v) {
       const mm = new Date(v).getMonth() + 1;
@@ -183,12 +190,6 @@ export default {
         (dd>9 ? '' : '0') + dd
       ].join('-');
     },
-    confirmAndPay() {
-
-    }
-  },
-  computed: {
-    ...mapGetters('home', ['home', 'bookingData']),
     amountOfGuests() {
       let res = 0
       for(const key in this.bookingData.guests) {
@@ -196,7 +197,39 @@ export default {
       }
       return res;
     },
+    async confirmAndPay() {
+      const bookedDate = this.bookingData.date.map(v => v.getTime())
+      const requestFields = {
+        date: bookedDate,
+        host_id: this.home.user,
+        home: {
+          city: this.home.location.city,
+          name: this.home.name
+        },
+        guest_id: this.user._id,
+        status: 'request',
+        guests: this.amountOfGuests(),
+        money: this.home.pricePerNight * this.bookingData.prices.nights,
+        isCounted: false
+      }
+      await this.$store.dispatch('data/createRequest', { requestFields })
 
+      const arrayOfBookedDate = []
+      for(let i = bookedDate[0]; i < bookedDate[1]; i+= 86400000) {
+        arrayOfBookedDate.push(i)
+      }
+
+      const bookedData = {
+        id: this.home._id,
+        bookedDate: arrayOfBookedDate
+      }
+      await this.$store.dispatch('home/setBookedData', { bookedData })
+      await this.$router.push({ name: 'Success' })
+    }
+  },
+  computed: {
+    ...mapGetters('home', ['home', 'bookingData']),
+    ...mapGetters('user', ['user']),
   },
 }
 </script>

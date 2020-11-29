@@ -3,7 +3,7 @@
         <div class="request__text">
             <img class="request__img" src="../assets/img/original.jpg" alt="">
             <p class="request__status">{{ request.status }}</p>
-            <p class="request__details"><span class="decoration">•</span><span class="name">{{ request.guest_id.name }}</span> at {{ request.home.name }} in the {{ request.home.city }}</p>
+            <p v-if="request" class="request__details"><span class="decoration">•</span><span class="name">{{ request.guest_id.name }}</span> at {{ request.home.name }} in the {{ request.home.city }}</p>
         </div>
         <div class="request__numbers">
             <p class="request__details">{{ inNumbers }}</p>
@@ -62,7 +62,6 @@
               } else if (this.rs === 'disapproved') {
                 this.currentSign = '-'
               }
-              console.log(this.currentSign)
               return false
             },
             countNights() {
@@ -74,11 +73,10 @@
                 amountOfNights++;
               }
               this.signOfNights = parseInt(this.currentSign + amountOfNights)
-              debugger
             },
             async updateEarnedMoney() {
               const expr = Math.abs(this.request.money)
-              await this.$store.dispatch('user/updateUser', {
+              return await this.$store.dispatch('user/updateUser', {
                 userFields: {
                   earnedAllTime: parseInt(this.currentSign + expr),
                   confirmedNights: parseInt(this.signOfNights)
@@ -106,20 +104,18 @@
               await this.$store.dispatch('data/getRequests')
 
               this.rs = this.request.status
-              console.log(!this.request.isCounted)
-              console.log(this.isNeedToCount())
-              debugger
               if(this.request.isCounted && this.isNeedToCount()) {
                 this.chooseSign()
                 this.countNights()
-                await this.updateEarnedMoney()
+                const user = await this.updateEarnedMoney()
+                this.$emit('setMoney', user)
                 await this.markAsCounted()
               }
             },
           },
           computed: {
               inNumbers() {
-                const [first, second ] = this.request.date.map(v => new Date(v));
+                const [first, second] = this.request.date.map(v => new Date(v));
 
                 let parsedData = '';
                 if(first.getMonth() === second.getMonth()) {

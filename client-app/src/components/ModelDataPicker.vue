@@ -80,7 +80,7 @@ export default {
 
             const data = Object.assign({}, this.bookingData)
             data.prices = { nights, cleaningFee, serviceFee, total}
-            this.$store.dispatch('home/setBookingData', { data })
+            this.$store.commit('home/SET_BOOKING_DATA', { data })
         },
         disabledBeforeTodayAndAfterAWeek(date) {
             const today = new Date()

@@ -74,11 +74,7 @@ interface HomeDocument extends Document {
     },
     bookedDate: [
         {
-            user: {
-                type: Schema.Types.ObjectId,
-                ref: 'user'
-            },
-            value: Array<string>
+            type: Array<number>
         }
     ],
     createdDate:Date,
@@ -159,18 +155,10 @@ const HomeSchema = new Schema({
     pricePerNight: {
         type: Number
     },
-    bookedDate: [
-        {
-            user: {
-                type: Schema.Types.ObjectId,
-                ref: 'user'
-            },
-            value: {
-                type: Array,
-                required: true
-            }
-        }
-    ],
+    bookedDate: {
+        type: [Number]
+    }
+    ,
     createdDate: {
         type: Date,
         default: Date.now

@@ -25,7 +25,7 @@
     </div>
     <div class="header__account-info">
       <div class="account-info__buttons">
-        <router-link tag="p" to="{ name: 'CreateHome' }" class="account-info__item">Become a host <v-icon color="white" class="mdi mdi-account-multiple-outline "/></router-link>
+        <router-link tag="p" :to="{ name: 'CreateHome' }" class="account-info__item">Become a host <v-icon color="white" class="mdi mdi-account-multiple-outline "/></router-link>
         <p class="account-info__item">Saved</p>
         <p class="account-info__item">Trips</p>
         <p class="account-info__item">Messages</p>
@@ -74,9 +74,26 @@ export default {
       margin-bottom: 25px;
 
         .navigation__item {
+          position: relative;
           margin: 0 20px;
           font-size: 17px;
           cursor: pointer;
+          overflow: hidden;
+
+          &::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 100%;
+            width: 100%;
+            height: 2px;
+            background-color: white;
+            transition: all .5s ease-in;
+          }
+
+          &:hover:after {
+            left: 0;
+          }
         }
     }
 

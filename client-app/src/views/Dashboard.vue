@@ -18,6 +18,7 @@
             <h3 class="subtitle">Requests & Injuries</h3>
             <div class="dashboard__divider" />
             <Request
+                @setMoney="updateMoney"
                 v-for="v in requests"
                 :request="v"
                 :key="v._id"
@@ -27,21 +28,33 @@
 </template>
 
 <script>
-    import { mapGetters } from 'vuex'
-    import Request from '../components/Request'
-    export default {
-        components: {
-            Request
-        },
-        computed: {
-          ...mapGetters('user', ['user']),
-          ...mapGetters('data', ['requests']),
-        },
-        async mounted() {
-          // TODO update user
-          await this.$store.dispatch('data/getRequests')
-        }
+import { mapGetters } from 'vuex'
+import Request from '../components/Request'
+export default {
+    components: {
+        Request
+    },
+    data() {
+      return {
+        earnedAllTime: 0,
+        confirmedNights: 0
       }
+    },
+    computed: {
+      ...mapGetters('user', ['user']),
+      ...mapGetters('data', ['requests']),
+    },
+    methods: {
+      updateMoney(newUser) {
+        this.earnedAllTime = newUser.earnedAllTime
+        this.confirmedNights = newUser.confirmedNights
+      }
+    },
+    async mounted() {
+      // TODO update user
+      await this.$store.dispatch('data/getRequests')
+    }
+  }
 </script>
 
 <style lang="scss" scoped>

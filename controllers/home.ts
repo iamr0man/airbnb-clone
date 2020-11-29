@@ -23,8 +23,8 @@ export const createHome = async(req, res) => {
 }
 
 export const updateHome = async (req, res) => {
-  const { apartmentType, apartmentRoomsDetails, location, photos, textDetails, name, pricePerNight } = req.body;
-
+  const { apartmentType, apartmentRoomsDetails, location, photos, textDetails, name, pricePerNight, bookedDate } = req.body;
+  console.log(req.body)
   const homeFields: any = {};
   // homeFields.user = req.user.id;
   if (name) homeFields.name = req.body.name;
@@ -34,15 +34,16 @@ export const updateHome = async (req, res) => {
   if (apartmentRoomsDetails) homeFields.apartmentRoomsDetails = req.body.apartmentRoomsDetails;
   if (textDetails) homeFields.textDetails = req.body.textDetails;
   if (pricePerNight) homeFields.pricePerNight = req.body.pricePerNight;
+  if (bookedDate) homeFields.bookedDate = req.body.bookedDate;
 
   let home = await Home.findOne({ user: req.session!.userId })
 
   if (!home) {
     return res.status(404).json({ msg: 'Home not found' })
   }
-
+  console.log(homeFields)
   home = await Home.findOneAndUpdate(
-    {user: req.session.userId},
+    {_id: req.params.id },
     {$set: homeFields},
     {new: true}
   );

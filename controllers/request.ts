@@ -11,17 +11,16 @@ export const getRequest = async(req, res) => {
 
 export const createRequest = async(req, res) => {
     const { host_id, home, status, date, guests, money, isCounted } = req.body;
-
     // @ts-ignore
     const newRequest = await Request.create({
+        date,
         host_id,
         home,
         guest_id: req.session!.userId,
         status,
-        date,
         guests,
-        isCounted,
-        money
+        money,
+        isCounted
     })
     res.status(201).json(newRequest);
 }

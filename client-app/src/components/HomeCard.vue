@@ -44,7 +44,7 @@ export default {
     },
     methods: {
         showHome: async function() {
-            await this.$store.dispatch('home/setHome', { home: this.home })
+            await this.$store.commit('home/SET_HOME', { home: this.home })
             await this.$router.push({ name: 'ProductPage', params: { id: this.pageId } })
         }
     },

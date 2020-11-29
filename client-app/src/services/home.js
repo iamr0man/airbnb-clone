@@ -13,11 +13,7 @@ export default {
     const { secure_url } = await res.json();
     return secure_url;
   },
-  async createPost (title, description, shortDescription, preview){
-    return await axios.post('/post', { title, shortDescription, description, preview })
-  },
-  // eslint-disable-next-line
-  async deletePost (id) {
-    return await axios.delete(`/post/${id}`)
-  },
+  async updateHome ({ id, bookedDate }){
+    return await axios.put(`/home/${id}`, { bookedDate })
+  }
 }

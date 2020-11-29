@@ -8,10 +8,10 @@ export default {
   },
   mutations: {
     SET_HOME(state, payload) {
-      state.home = payload
+      state.home = payload.home
     },
     SET_BOOKING_DATA(state, payload) {
-      state.bookingData = payload
+      state.bookingData = payload.data
     },
   },
   actions:{
@@ -20,16 +20,11 @@ export default {
       const { data } = await HomeApi.getHome(id);
       return data;
     },
-    setHome({ commit }, { home }) {
-      if(home) {
-        commit('SET_HOME', home)
-      }
-    },
-    setBookingData({ commit }, { data }) {
-      if(data) {
-        commit('SET_BOOKING_DATA', { ...data })
-      }
-    },
+    // eslint-disable-next-line
+    async setBookedData({ commit }, { bookedData }) {
+      const { data } = await HomeApi.updateHome(bookedData);
+      return data
+    }
     // eslint-disable-next-line
     // async getPhoto({ commit }, {formData}) {
     //   return await HomeApi.getPhoto(formData);

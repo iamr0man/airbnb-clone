@@ -89,7 +89,7 @@ export default {
         return {
             date: null,
             adults: {
-              name: 'adults', value: 0,
+              name: 'adults', value: 1,
             },
             children: {
               name: 'children', value: 0,
@@ -101,13 +101,6 @@ export default {
             cleaningFee: 0,
             serviceFee: 0, 
             total: 0,
-            bookedDate: [
-                // new Date('2020-10-16').setHours(0, 0, 0),
-                // new Date('2020-10-17').setHours(0, 0, 0),
-                // new Date('2020-10-18').setHours(0, 0, 0),
-                // new Date('2020-10-19').setHours(0, 0, 0),
-                // new Date('2020-10-20').setHours(0, 0, 0),
-            ],
         }
     },
     methods: {
@@ -123,7 +116,7 @@ export default {
         checkDateRange() {
             for(let i = 1; i <= 3; i++) {
             const current = new Date(this.date[0].getTime() + i * 24 * 3600 * 1000).getTime();
-                if(this.bookedDate.includes(current)) {
+                if(this.home.bookedDate.includes(current)) {
                     alert("Please choose minimum 3 days!");
                     this.date = null
                     return;
@@ -140,31 +133,35 @@ export default {
         disabledBeforeTodayAndAfterAWeek(date) {
             const today = new Date()
 
-            if(this.bookedDate.includes(date.getTime())) {
+            if(this.home.bookedDate.includes(date.getTime())) {
                 return true
             }
 
             return date < today || date > new Date(today.getTime() + 365 * 24 * 3600 * 1000)
         },
         async booking() {
-          const data = {
+          if(this.date) {
+            const data = {
               date: this.date,
               guests: {
-                  adults: this.adults,
-                  children: this.children,
-                  babies: this.babies
+                adults: this.adults,
+                children: this.children,
+                babies: this.babies
               },
               prices: {
-                  nights: this.nights,
-                  priceOfPickedDate: this.priceOfPickedDate,
-                  cleaningFee: this.cleaningFee,
-                  serviceFee: this.serviceFee,
-                  total: this.total
+                nights: this.nights,
+                priceOfPickedDate: this.priceOfPickedDate,
+                cleaningFee: this.cleaningFee,
+                serviceFee: this.serviceFee,
+                total: this.total
 
               }
+            }
+            await this.$store.commit('home/SET_BOOKING_DATA', { data })
+            await this.$router.push({ name: 'Booking', params: { id: this.home._id } })
+          } else {
+            alert('Please select date :)')
           }
-          await this.$store.dispatch('home/setBookingData', { data })
-          await this.$router.push({ name: 'Booking', params: { id: this.home._id } })
         }
     },
     computed: {

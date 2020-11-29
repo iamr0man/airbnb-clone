@@ -5,6 +5,7 @@ import Home from "../views/Home.vue";
 import Booking from "../views/Booking.vue";
 import GetStarted from "../views/GetStarted.vue";
 import Dashboard from "../views/Dashboard";
+import Success from "../views/Success";
 import CreateHome from "../views/CreateHome.vue";
 import Login from "../views/Login.vue";
 import Registration from "../views/Registration.vue";
@@ -42,7 +43,7 @@ const routes = [
       const storeHome = store.getters['home/home']
       if(storeHome._id !== to.params.id) {
         const home = await store.dispatch('home/getHome', { id: to.params.id})
-        await store.dispatch('home/setHome', { home })
+        await store.commit('home/SET_HOME', { home })
         // to.params.home = home
       }
       next()
@@ -66,7 +67,7 @@ const routes = [
       const storeHome = store.getters['home/home']
       if(storeHome._id !== to.params.id) {
         const home = await store.dispatch('home/getHome', { id: to.params.id})
-        await store.dispatch('home/setHome', { home })
+        await store.commit('home/SET_HOME', { home })
       }
       next()
     }
@@ -75,6 +76,11 @@ const routes = [
     path: "/dashboard",
     name: "Dashboard",
     component: Dashboard
+  },
+  {
+    path: "/success",
+    name: "Success",
+    component: Success
   },
   {
     path: "/map",
