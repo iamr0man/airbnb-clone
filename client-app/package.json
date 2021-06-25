@@ -12,7 +12,7 @@
     "axios": "^0.19.2",
     "core-js": "^3.6.4",
     "js-cookie": "^2.2.1",
-    "react-map-gl": "^5.2.3",
+    "react-map-gl": "^5.3.15",
     "swiper": "5.4.5",
     "vue": "^2.6.11",
     "vue-router": "^3.1.5",
