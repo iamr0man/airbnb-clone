@@ -16,7 +16,7 @@
     "joi": "^17.2.1",
     "js-cookie": "^2.2.1",
     "mongoose": "^5.9.4",
-    "nodemailer": "^6.4.11",
+    "nodemailer": "^6.6.1",
     "vue2-datepicker": "^3.6.2"
   },
   "devDependencies": {
